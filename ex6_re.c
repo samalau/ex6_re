@@ -251,49 +251,51 @@ void printPokemonNode(PokemonNode *node)
 // --------------------------------------------------------------
 void enterExistingPokedexMenu()
 {
-	// // list owners
-	// printf("\nExisting Pokedexes:\n");
-	// // you need to implement a few things here :)
+	// list owners
+	printf("\nExisting Pokedexes:\n");
+	// you need to implement a few things here :)
+	OwnerNode* cur = ownerHead;  // placeholder
+	if (!cur) {
+		return;
+	}
+	printf("\nEntering %s's Pokedex...\n", cur->ownerName);
+	int subChoice;
+	do
+	{
+	    printf("\n-- %s's Pokedex Menu --\n", cur->ownerName);
+	    printf("1. Add Pokemon\n");
+	    printf("2. Display Pokedex\n");
+	    printf("3. Release Pokemon (by ID)\n");
+	    printf("4. Pokemon Fight!\n");
+	    printf("5. Evolve Pokemon\n");
+	    printf("6. Back to Main\n");
 
-	// printf("\nEntering %s's Pokedex...\n", cur->ownerName);
+	    subChoice = readIntSafe("Your choice: ");
 
-	// int subChoice;
-	// do
-	// {
-	//     printf("\n-- %s's Pokedex Menu --\n", cur->ownerName);
-	//     printf("1. Add Pokemon\n");
-	//     printf("2. Display Pokedex\n");
-	//     printf("3. Release Pokemon (by ID)\n");
-	//     printf("4. Pokemon Fight!\n");
-	//     printf("5. Evolve Pokemon\n");
-	//     printf("6. Back to Main\n");
-
-	//     subChoice = readIntSafe("Your choice: ");
-
-	//     switch (subChoice)
-	//     {
-	//     case 1:
-	//         addPokemon(cur);
-	//         break;
-	//     case 2:
-	//         displayMenu(cur);
-	//         break;
-	//     case 3:
-	//         freePokemon(cur);
-	//         break;
-	//     case 4:
-	//         pokemonFight(cur);
-	//         break;
-	//     case 5:
-	//         evolvePokemon(cur);
-	//         break;
-	//     case 6:
-	//         printf("Back to Main Menu.\n");
-	//         break;
-	//     default:
-	//         printf("Invalid choice.\n");
-	//     }
-	// } while (subChoice != 6);
+	    switch (subChoice)
+	    {
+	    case 1:
+	        addPokemon(cur);
+	        break;
+	    case 2:
+	        displayMenu(cur);
+	        break;
+	    case 3:
+	        freePokemon(cur);
+	        break;
+	    case 4:
+	        pokemonFight(cur);
+	        break;
+	    case 5:
+	        evolvePokemon(cur);
+	        break;
+	    case 6:
+	        printf("Back to Main Menu.\n");
+	        break;
+	    default:
+	        printf("Invalid choice.\n");
+	    }
+	} while (subChoice != 6);
 }
 
 // --------------------------------------------------------------
