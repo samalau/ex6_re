@@ -251,7 +251,6 @@ void printPokemonNode(PokemonNode *node)
 // --------------------------------------------------------------
 void enterExistingPokedexMenu()
 {
-	printf("DB: enterExistingPokedexMenu()\n");
 	// // list owners
 	// printf("\nExisting Pokedexes:\n");
 	// // you need to implement a few things here :)
@@ -310,7 +309,7 @@ void openPokedexMenu(void) {
 		yourName = NULL;
 	} else {
 		int pokemon = readIntSafe("Choose Starter:\n1. Bulbasaur\n2. Charmander\n3. Squirtle\nYour choice: ");
-		if (1 > pokemon > 3) {
+		if (pokemon < 1 || 3 < pokemon) {
 			free(yourName);
 			yourName = NULL;
 			return;
@@ -368,7 +367,7 @@ void mainMenu()
 			openPokedexMenu();
 			break;
 		case 2:
-			// enterExistingPokedexMenu();
+			enterExistingPokedexMenu();
 			break;
 		case 3:
 			// deletePokedex();
