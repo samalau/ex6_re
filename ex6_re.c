@@ -333,6 +333,7 @@ void openPokedexMenu(void) {
 void linkOwnerInCircularList(OwnerNode *newOwner) {
 	newOwner->prev = ownerHead->prev;
 	newOwner->next = ownerHead;
+	ownerHead->prev->next = ownerHead->prev = newOwner;
 }
 
 OwnerNode *findOwnerByName(const char *name) {
