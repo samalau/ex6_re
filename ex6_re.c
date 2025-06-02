@@ -275,19 +275,19 @@ void enterExistingPokedexMenu()
 	    switch (subChoice)
 	    {
 	    case 1:
-	        addPokemon(cur);
+	        // addPokemon(cur);
 	        break;
 	    case 2:
-	        displayMenu(cur);
+	        // displayMenu(cur);
 	        break;
 	    case 3:
-	        freePokemon(cur);
+	        // freePokemon(cur);
 	        break;
 	    case 4:
-	        pokemonFight(cur);
+	        // pokemonFight(cur);
 	        break;
 	    case 5:
-	        evolvePokemon(cur);
+	        // evolvePokemon(cur);
 	        break;
 	    case 6:
 	        printf("Back to Main Menu.\n");
