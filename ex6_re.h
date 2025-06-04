@@ -417,10 +417,15 @@ void enterExistingPokedexMenu(void);
 void openPokedexMenu(void);
 
 /**
+ * @brief Select a Pokedex (owner) from the list by number.
+ */
+void choosePokedexByNumber(OwnerNode **cur, char del)
+
+/**
  * @brief Delete an entire Pokedex (owner) from the list.
  * Why we made it: Let user pick which Pokedex to remove and free everything.
  */
-// void deletePokedex(void);
+void deletePokedex(void);
 
 // /**
 //  * @brief Merge the second owner's Pokedex into the first, then remove the second owner.

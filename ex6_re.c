@@ -252,6 +252,7 @@ void printPokemonNode(PokemonNode *node)
 void enterExistingPokedexMenu()
 {
 	printf("\nExisting Pokedexes:\n");
+	// choosePokedexByNumber(&cur, char(0));
 	if (!ownerHead) {
 		return;
 	}
@@ -329,7 +330,7 @@ void openPokedexMenu(void) {
 		if (pokemon < 1 || 3 < pokemon) {
 			free(yourName);
 			yourName = NULL;
-			return;
+			return;  // placeholder
 		}
 		pokemon = (pokemon * 3) - 3;
 		OwnerNode *ownerNode = (OwnerNode *)malloc(sizeof(OwnerNode));
@@ -351,6 +352,32 @@ void linkOwnerInCircularList(OwnerNode *newOwner) {
 	newOwner->next = ownerHead;
 	ownerHead->prev->next = newOwner;
 	ownerHead->prev = newOwner;
+}
+
+void choosePokedexByNumber(OwnerNode **cur, char del) {
+	if (!ownerHead) {
+		return;
+	}
+	*cur = ownerHead;
+	int ind = 0;
+	do {
+		printf("%d. %s\n", ++ind, (*cur)->ownerName);
+		*cur = (*cur)->next;
+	} while (*cur != ownerHead);
+	int sel = readIntSafe(del ? "Choose a Pokedex to delete by number: " : "Choose a Pokedex by number: ");
+	if (sel < 1 || sel > ind) {
+		return; // placeholder
+	}
+	ind = 0;
+	while (++ind != sel) {
+		*cur = (*cur)->next;
+	}
+}
+
+void deletePokedex(void) {
+	OwnerNode *cur = NULL;
+	choosePokedexByNumber(&cur, (char)1);
+	OwnerNode *temp = NULL;
 }
 
 OwnerNode *findOwnerByName(const char *name) {
@@ -390,7 +417,7 @@ void mainMenu()
 			enterExistingPokedexMenu();
 			break;
 		case 3:
-			// deletePokedex();
+			deletePokedex();
 			break;
 		case 4:
 			// mergePokedexMenu();
