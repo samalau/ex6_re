@@ -252,25 +252,11 @@ void printPokemonNode(PokemonNode *node)
 void enterExistingPokedexMenu()
 {
 	printf("\nExisting Pokedexes:\n");
-	// choosePokedexByNumber(&cur, char(0));
 	if (!ownerHead) {
 		return;
 	}
 	OwnerNode* cur = ownerHead;
-	int ind = 0;
-	do {
-		printf("%d. %s\n", ++ind, cur->ownerName);
-		cur = cur->next;
-	} while (cur != ownerHead);
-	int sel = readIntSafe("Choose a Pokedex by number: ");
-	if (sel < 1 || sel > ind) {
-		return; // placeholder
-	}
-	cur = ownerHead;
-	ind = 0;
-	while (++ind != sel) {
-		cur = cur->next;
-	}
+	choosePokedexByNumber(&cur, (char)0);
 	printf("\nEntering %s's Pokedex...\n", cur->ownerName);
 	int subChoice;
 	do
@@ -377,6 +363,7 @@ void choosePokedexByNumber(OwnerNode **cur, char del) {
 void deletePokedex(void) {
 	OwnerNode *cur = NULL;
 	choosePokedexByNumber(&cur, (char)1);
+
 	OwnerNode *temp = NULL;
 }
 
