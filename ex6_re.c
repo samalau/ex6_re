@@ -256,15 +256,18 @@ void enterExistingPokedexMenu()
 		return;
 	}
 	OwnerNode* cur = ownerHead;
-	int ind = 1;
+	int ind = 0;
 	do {
-		printf("%d. %s\n", ind++, cur->ownerName);
+		printf("%d. %s\n", ++ind, cur->ownerName);
 		cur = cur->next;
 	} while (cur != ownerHead);
-	cur = ownerHead;
 	int sel = readIntSafe("Choose a Pokedex by number: ");
-	ind = 1;
-	while (ind++ != sel) {
+	if (sel < 1 || sel > ind) {
+		return; // placeholder
+	}
+	cur = ownerHead;
+	ind = 0;
+	while (++ind != sel) {
 		cur = cur->next;
 	}
 	printf("\nEntering %s's Pokedex...\n", cur->ownerName);
