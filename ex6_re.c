@@ -265,7 +265,7 @@ void enterExistingPokedexMenu()
 		ind += 1;
 	} while (cur->next != ownerHead);
 	if (cur != ownerHead) {
-		printf("%d. %s\n", cur->ownerName);
+		printf("%d. %s\n", ind, cur->ownerName);
 	}
 	cur = ownerHead;
 	int sel = readIntSafe("Choose a Pokedex by number: ");
