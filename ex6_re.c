@@ -255,8 +255,11 @@ void enterExistingPokedexMenu()
 	if (!ownerHead) {
 		return;
 	}
-	OwnerNode* cur = ownerHead;
+	OwnerNode* cur = NULL;
 	choosePokedexByNumber(&cur, (char)0);
+	if (!cur) {
+		return;
+	}
 	printf("\nEntering %s's Pokedex...\n", cur->ownerName);
 	int subChoice;
 	do
@@ -352,6 +355,7 @@ void choosePokedexByNumber(OwnerNode **cur, char del) {
 	} while (*cur != ownerHead);
 	int sel = readIntSafe(del ? "Choose a Pokedex to delete by number: " : "Choose a Pokedex by number: ");
 	if (sel < 1 || sel > ind) {
+		*cur = NULL;
 		return; // placeholder
 	}
 	ind = 0;
@@ -361,10 +365,20 @@ void choosePokedexByNumber(OwnerNode **cur, char del) {
 }
 
 void deletePokedex(void) {
+	if (!ownerHead) {
+		return;
+	}
 	OwnerNode *cur = NULL;
 	choosePokedexByNumber(&cur, (char)1);
-	printf("debug: %s\n", cur->ownerName);
-	// OwnerNode *temp = NULL;
+	if (!cur) {
+		return;
+	}
+	// printf("debug: %s\n", cur->ownerName);
+	cur->next->prev = cur->prev;
+	cur->prev->next = cur->next;
+	if (ownerHead == cur) {
+		ownerHead = (ownerHead->next == ownerHead) ? NULL : ownerHead->next;
+	}
 }
 
 OwnerNode *findOwnerByName(const char *name) {
