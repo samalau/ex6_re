@@ -373,12 +373,13 @@ void deletePokedex(void) {
 	if (!cur) {
 		return;
 	}
-	// printf("debug: %s\n", cur->ownerName);
 	cur->next->prev = cur->prev;
 	cur->prev->next = cur->next;
-	if (ownerHead == cur) {
-		ownerHead = (ownerHead->next == ownerHead) ? NULL : ownerHead->next;
+	if (cur = ownerHead) {
+		cur = NULL;
+		ownerHead = ownerHead->next == ownerHead ? NULL : ownerHead->next;
 	}
+	// TODO: FREE & NULL
 }
 
 OwnerNode *findOwnerByName(const char *name) {
