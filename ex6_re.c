@@ -363,8 +363,8 @@ void choosePokedexByNumber(OwnerNode **cur, char del) {
 void deletePokedex(void) {
 	OwnerNode *cur = NULL;
 	choosePokedexByNumber(&cur, (char)1);
-
-	OwnerNode *temp = NULL;
+	printf("debug: %s\n", cur->ownerName);
+	// OwnerNode *temp = NULL;
 }
 
 OwnerNode *findOwnerByName(const char *name) {
