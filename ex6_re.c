@@ -251,12 +251,24 @@ void printPokemonNode(PokemonNode *node)
 // --------------------------------------------------------------
 void enterExistingPokedexMenu()
 {
-	// list owners
 	printf("\nExisting Pokedexes:\n");
-	// you need to implement a few things here :)
-	OwnerNode* cur = ownerHead;  // placeholder
-	if (!cur) {
+	if (!ownerHead) {
 		return;
+	}
+	OwnerNode* cur = ownerHead;
+	int ind = 1;
+	do {
+		printf("%d. %s\n", ind, cur->ownerName);
+		cur = cur->next;
+		ind += 1;
+	} while (cur->next != ownerHead);
+	int sel = readIntSafe("Choose a Pokedex by number: ");
+	cur = ownerHead;
+	ind = 0;
+	while (ind != sel) {
+		ind += 1;
+		cur = cur->next;
+		printf("DEBUG: cur: %s\n", cur->ownerName);
 	}
 	printf("\nEntering %s's Pokedex...\n", cur->ownerName);
 	int subChoice;
@@ -304,23 +316,18 @@ void enterExistingPokedexMenu()
 void openPokedexMenu(void) {
 	printf("Your name: ");
 	char *yourName = getDynamicInput();
-	printf("\nDEBUG\n%s\n\n", yourName);
 	trimWhitespace(yourName);
-	printf("\nDEBUG\n%s\n\n", yourName);
 	if (findOwnerByName(yourName)) {
-		printf("\nDEBUG\n%s\n\n", yourName);
 		printf("Owner '%s' already exists. Not creating a new Pokedex.\n", yourName);
 		free(yourName);
 		yourName = NULL;
 	} else {
-		printf("\nDEBUG\n%s\n\n", yourName);
 		int pokemon = readIntSafe("Choose Starter:\n1. Bulbasaur\n2. Charmander\n3. Squirtle\nYour choice: ");
 		if (pokemon < 1 || 3 < pokemon) {
 			free(yourName);
 			yourName = NULL;
 			return;
 		}
-		printf("\nDEBUG\n%s\n\n", yourName);
 		pokemon = (pokemon * 3) - 3;
 		OwnerNode *ownerNode = (OwnerNode *)malloc(sizeof(OwnerNode));
 		PokemonData *starterData = (PokemonData *)malloc(sizeof(PokemonData));
@@ -332,7 +339,6 @@ void openPokedexMenu(void) {
 		if (ownerHead) {linkOwnerInCircularList(ownerNode);}
 		else {ownerNode->next = ownerNode->prev = ownerHead = ownerNode;}
 	}
-	printf("\nDEBUG\n%s\n\n", yourName);
 	return;
 }
 
@@ -346,11 +352,9 @@ OwnerNode *findOwnerByName(const char *name) {
 	if (!ownerHead) {return NULL;}
 	OwnerNode *node = ownerHead;
 	while(strcmp(node->ownerName, name) != 0) {
-		printf("\nDEBUG\n%s\n\n", name);
 		if (node->next == ownerHead) {return NULL;}
 		node = node->next;
 	}
-	printf("\nDEBUG\n%s\n\n", name);
 	return node;
 }
 
