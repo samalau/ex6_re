@@ -419,7 +419,7 @@ void openPokedexMenu(void);
 /**
  * @brief Select a Pokedex (owner) from the list by number.
  */
-void choosePokedexByNumber(OwnerNode **cur, char del)
+void choosePokedexByNumber(OwnerNode **cur, char del);
 
 /**
  * @brief Delete an entire Pokedex (owner) from the list.
