@@ -340,7 +340,8 @@ void openPokedexMenu(void) {
 		ownerNode->ownerName = yourName;
 		*starterData = pokedex[pokemon];
 		starterNode->data = starterData;
-		ownerNode->pokedexRoot = starterNode->left = starterNode->right = starterNode;
+		starterNode->left = starterNode->right = starterNode;
+		ownerNode->pokedexRoot = starterNode;
 		if (ownerHead) {linkOwnerInCircularList(ownerNode);}
 		else {ownerNode->next = ownerNode->prev = ownerHead = ownerNode;}
 	}
@@ -350,7 +351,8 @@ void openPokedexMenu(void) {
 void linkOwnerInCircularList(OwnerNode *newOwner) {
 	newOwner->prev = ownerHead->prev;
 	newOwner->next = ownerHead;
-	ownerHead->prev->next = ownerHead->prev = newOwner;
+	ownerHead->prev->next = newOwner;
+	ownerHead->prev = newOwner;
 }
 
 OwnerNode *findOwnerByName(const char *name) {
