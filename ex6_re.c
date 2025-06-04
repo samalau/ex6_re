@@ -258,6 +258,8 @@ void enterExistingPokedexMenu()
 	OwnerNode* cur = ownerHead;
 	int ind = 1;
 	do {
+		printf("DEBUG: cur: %s\n", cur->ownerName);
+		printf("DEBUG: cur->next: %s\n", cur->next->ownerName);
 		printf("%d. %s\n", ind, cur->ownerName);
 		cur = cur->next;
 		ind += 1;
@@ -316,7 +318,10 @@ void enterExistingPokedexMenu()
 void openPokedexMenu(void) {
 	printf("Your name: ");
 	char *yourName = getDynamicInput();
-	trimWhitespace(yourName);
+	if (!yourName) {  // placeholder
+		return;
+	}
+	// trimWhitespace(yourName);
 	if (findOwnerByName(yourName)) {
 		printf("Owner '%s' already exists. Not creating a new Pokedex.\n", yourName);
 		free(yourName);
