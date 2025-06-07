@@ -264,41 +264,51 @@ void enterExistingPokedexMenu()
 	int subChoice;
 	do
 	{
-	    printf("\n-- %s's Pokedex Menu --\n", cur->ownerName);
-	    printf("1. Add Pokemon\n");
-	    printf("2. Display Pokedex\n");
-	    printf("3. Release Pokemon (by ID)\n");
-	    printf("4. Pokemon Fight!\n");
-	    printf("5. Evolve Pokemon\n");
-	    printf("6. Back to Main\n");
+		printf("\n-- %s's Pokedex Menu --\n", cur->ownerName);
+		printf("1. Add Pokemon\n");
+		printf("2. Display Pokedex\n");
+		printf("3. Release Pokemon (by ID)\n");
+		printf("4. Pokemon Fight!\n");
+		printf("5. Evolve Pokemon\n");
+		printf("6. Back to Main\n");
 
-	    subChoice = readIntSafe("Your choice: ");
+		subChoice = readIntSafe("Your choice: ");
 
-	    switch (subChoice)
-	    {
-	    case 1:
-	        // addPokemon(cur);
-	        break;
-	    case 2:
-	        // displayMenu(cur);
-	        break;
-	    case 3:
-	        // freePokemon(cur);
-	        break;
-	    case 4:
-	        // pokemonFight(cur);
-	        break;
-	    case 5:
-	        // evolvePokemon(cur);
-	        break;
-	    case 6:
-	        printf("Back to Main Menu.\n");
-	        break;
-	    default:
-	        printf("Invalid choice.\n");
-	    }
+		switch (subChoice)
+		{
+		case 1:
+			// addPokemon(cur);
+			break;
+		case 2:
+			// displayMenu(cur);
+			break;
+		case 3:
+			// freePokemon(cur);
+			break;
+		case 4:
+			// pokemonFight(cur);
+			break;
+		case 5:
+			// evolvePokemon(cur);
+			break;
+		case 6:
+			printf("Back to Main Menu.\n");
+			break;
+		default:
+			printf("Invalid choice.\n");
+		}
 	} while (subChoice != 6);
 }
+
+void freePokemonNode(PokemonNode *node) {
+	node->data = NULL;
+	node->left = NULL;
+	node->right = NULL;
+}
+
+// OwnerNode *ownerNode;
+// PokemonData *starterData;
+// PokemonNode *starterNode;
 
 // --------------------------------------------------------------
 // New Pokedex
@@ -343,6 +353,16 @@ void linkOwnerInCircularList(OwnerNode *newOwner) {
 	ownerHead->prev = newOwner;
 }
 
+OwnerNode *findOwnerByName(const char *name) {
+	if (!ownerHead) {return NULL;}
+	OwnerNode *node = ownerHead;
+	while(strcmp(node->ownerName, name) != 0) {
+		if (node->next == ownerHead) {return NULL;}
+		node = node->next;
+	}
+	return node;
+}
+
 void choosePokedexByNumber(OwnerNode **cur, char del) {
 	if (!ownerHead) {
 		return;
@@ -380,16 +400,6 @@ void deletePokedex(void) {
 		ownerHead = ownerHead->next == ownerHead ? NULL : ownerHead->next;
 	}
 	// TODO: FREE & NULL
-}
-
-OwnerNode *findOwnerByName(const char *name) {
-	if (!ownerHead) {return NULL;}
-	OwnerNode *node = ownerHead;
-	while(strcmp(node->ownerName, name) != 0) {
-		if (node->next == ownerHead) {return NULL;}
-		node = node->next;
-	}
-	return node;
 }
 
 // --------------------------------------------------------------
@@ -445,3 +455,43 @@ int main()
 	// freeAllOwners();
 	return 0;
 }
+
+/***** ISTO: H *****/
+#define PRE_ORDER 1
+#define IN_ORDER 2
+#define POST_ORDER 3
+void traverseDFS(PokemonNode *root, int order);
+/***** ENDTO: H *****/
+
+void traverseDFS(PokemonNode *root, int order) {
+	if (!root) {
+		printf("Pokedex is empty.\n");
+		return;
+   	}
+	switch(order) {
+		case PRE_ORDER: {
+			printPokemonNode(root);
+			traverseDFS(root->left, PRE_ORDER);
+			traverseDFS(root->right, PRE_ORDER);
+			return;
+		}
+		case IN_ORDER: {
+			traverseDFS(root->left, IN_ORDER);
+			printPokemonNode(root);
+			traverseDFS(root->right, IN_ORDER);
+			return;
+		}
+		case POST_ORDER: {
+			traverseDFS(root->left, POST_ORDER);
+			traverseDFS(root->right, POST_ORDER);
+			printPokemonNode(root);
+			return;
+		}
+		default: return;
+	}
+}
+
+/***************************************************************
+
+
+***************************************************************/

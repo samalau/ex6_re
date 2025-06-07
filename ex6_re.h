@@ -125,12 +125,12 @@ const char *getTypeName(PokemonType type);
 //  */
 // OwnerNode *createOwner(char *ownerName, PokemonNode *starter);
 
-// /**
-//  * @brief Free one PokemonNode (including name).
-//  * @param node pointer to node
-//  * Why we made it: Avoid memory leaks for single nodes.
-//  */
-// void freePokemonNode(PokemonNode *node);
+/**
+ * @brief Free one PokemonNode (including name).
+ * @param node pointer to node
+ * Why we made it: Avoid memory leaks for single nodes.
+ */
+void freePokemonNode(PokemonNode *node);
 
 // /**
 //  * @brief Recursively free a BST of PokemonNodes.
