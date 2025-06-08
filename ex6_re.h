@@ -108,22 +108,22 @@ const char *getTypeName(PokemonType type);
    2) Creating & Freeing Nodes
    ------------------------------------------------------------ */
 
-// /**
-//  * @brief Create a BST node with a copy of the given PokemonData.
-//  * @param data pointer to PokemonData (like from the global pokedex)
-//  * @return newly allocated PokemonNode*
-//  * Why we made it: We need a standard way to allocate BST nodes.
-//  */
-// PokemonNode *createPokemonNode(const PokemonData *data);
+/**
+ * @brief Create a BST node with a copy of the given PokemonData.
+ * @param data pointer to PokemonData (like from the global pokedex)
+ * @return newly allocated PokemonNode*
+ * Why we made it: We need a standard way to allocate BST nodes.
+ */
+PokemonNode *createPokemonNode(const PokemonData *data);
 
-// /**
-//  * @brief Create an OwnerNode for the circular owners list.
-//  * @param ownerName the dynamically allocated name
-//  * @param starter BST root for the starter Pokemon
-//  * @return newly allocated OwnerNode*
-//  * Why we made it: Each user is represented as an OwnerNode.
-//  */
-// OwnerNode *createOwner(char *ownerName, PokemonNode *starter);
+/**
+ * @brief Create an OwnerNode for the circular owners list.
+ * @param ownerName the dynamically allocated name
+ * @param starter BST root for the starter Pokemon
+ * @return newly allocated OwnerNode*
+ * Why we made it: Each user is represented as an OwnerNode.
+ */
+OwnerNode *createOwner(char *ownerName, PokemonNode *starter);
 
 /**
  * @brief Free one PokemonNode (including name).
@@ -132,32 +132,32 @@ const char *getTypeName(PokemonType type);
  */
 void freePokemonNode(PokemonNode *node);
 
-// /**
-//  * @brief Recursively free a BST of PokemonNodes.
-//  * @param root BST root
-//  * Why we made it: Clearing a user’s entire Pokedex means freeing a tree.
-//  */
-// void freePokemonTree(PokemonNode *root);
+/**
+ * @brief Recursively free a BST of PokemonNodes.
+ * @param root BST root
+ * Why we made it: Clearing a user’s entire Pokedex means freeing a tree.
+ */
+void freePokemonTree(PokemonNode *root);
 
-// /**
-//  * @brief Free an OwnerNode (including name and entire Pokedex BST).
-//  * @param owner pointer to the owner
-//  * Why we made it: Deleting an owner also frees their Pokedex & name.
-//  */
-// void freeOwnerNode(OwnerNode *owner);
+/**
+ * @brief Free an OwnerNode (including name and entire Pokedex BST).
+ * @param owner pointer to the owner
+ * Why we made it: Deleting an owner also frees their Pokedex & name.
+ */
+void freeOwnerNode(OwnerNode *owner);
 
-// /* ------------------------------------------------------------
-//    3) BST Insert, Search, Remove
-//    ------------------------------------------------------------ */
+/* ------------------------------------------------------------
+   3) BST Insert, Search, Remove
+   ------------------------------------------------------------ */
 
-// /**
-//  * @brief Insert a PokemonNode into BST by ID; duplicates freed.
-//  * @param root pointer to BST root
-//  * @param newNode node to insert
-//  * @return updated BST root
-//  * Why we made it: Standard BST insertion ignoring duplicates.
-//  */
-// PokemonNode *insertPokemonNode(PokemonNode *root, PokemonNode *newNode);
+/**
+ * @brief Insert a PokemonNode into BST by ID; duplicates freed.
+ * @param root pointer to BST root
+ * @param newNode node to insert
+ * @return updated BST root
+ * Why we made it: Standard BST insertion ignoring duplicates.
+ */
+PokemonNode *insertPokemonNode(PokemonNode *root, PokemonNode *newNode);
 
 // /**
 //  * @brief BFS search for a Pokemon by ID in the BST.
@@ -168,30 +168,30 @@ void freePokemonNode(PokemonNode *node);
 //  */
 // PokemonNode *searchPokemonBFS(PokemonNode *root, int id);
 
-// /**
-//  * @brief Remove node from BST by ID if found (BST removal logic).
-//  * @param root BST root
-//  * @param id ID to remove
-//  * @return updated BST root
-//  * Why we made it: We handle special cases of a BST remove (0,1,2 children).
-//  */
-// PokemonNode *removeNodeBST(PokemonNode *root, int id);
+/**
+ * @brief Remove node from BST by ID if found (BST removal logic).
+ * @param root BST root
+ * @param id ID to remove
+ * @return updated BST root
+ * Why we made it: We handle special cases of a BST remove (0,1,2 children).
+ */
+PokemonNode *removeNodeBST(PokemonNode *root, int id);
 
-// /**
-//  * @brief Combine BFS search + BST removal to remove Pokemon by ID.
-//  * @param root BST root
-//  * @param id the ID to remove
-//  * @return updated BST root
-//  * Why we made it: BFS confirms existence, then removeNodeBST does the removal.
-//  */
-// PokemonNode *removePokemonByID(PokemonNode *root, int id);
+/**
+ * @brief Combine BFS search + BST removal to remove Pokemon by ID.
+ * @param root BST root
+ * @param id the ID to remove
+ * @return updated BST root
+ * Why we made it: BFS confirms existence, then removeNodeBST does the removal.
+ */
+PokemonNode *removePokemonByID(PokemonNode *root, int id);
 
-// /* ------------------------------------------------------------
-//    4) Generic BST Traversals (Function Pointers)
-//    ------------------------------------------------------------ */
+/* ------------------------------------------------------------
+   4) Generic BST Traversals (Function Pointers)
+   ------------------------------------------------------------ */
 
-// // Please notice, it's not really generic, it's just a demonstration of function pointers.
-// // so don't be confused by the name, but please remember that you must use it.
+// Please notice, it's not really generic, it's just a demonstration of function pointers.
+// so don't be confused by the name, but please remember that you must use it.
 
 // typedef void (*VisitNodeFunc)(PokemonNode *);
 
@@ -227,16 +227,21 @@ void freePokemonNode(PokemonNode *node);
 //  */
 // void postOrderGeneric(PokemonNode *root, VisitNodeFunc visit);
 
-// /**
-//  * @brief Print one PokemonNode’s data: ID, Name, Type, HP, Attack, Evolve?
-//  * @param node pointer to the node
-//  * Why we made it: We can pass this to BFSGeneric or others to quickly print.
-//  */
-// void printPokemonNode(PokemonNode *node);
+#define PRE_ORDER 1
+#define IN_ORDER 2
+#define POST_ORDER 3
+void traverseDFS(PokemonNode *root, int order);
 
-// /* ------------------------------------------------------------
-//    5) Display Methods (BFS, Pre, In, Post, Alphabetical)
-   // ------------------------------------------------------------ */
+/**
+ * @brief Print one PokemonNode’s data: ID, Name, Type, HP, Attack, Evolve?
+ * @param node pointer to the node
+ * Why we made it: We can pass this to BFSGeneric or others to quickly print.
+ */
+void printPokemonNode(PokemonNode *node);
+
+/* ------------------------------------------------------------
+   5) Display Methods (BFS, Pre, In, Post, Alphabetical)
+   ------------------------------------------------------------ */
 
 typedef struct
 {
@@ -331,19 +336,19 @@ typedef struct
 //  */
 // void evolvePokemon(OwnerNode *owner);
 
-// /**
-//  * @brief Prompt for an ID, BFS-check duplicates, then insert into BST.
-//  * @param owner pointer to the Owner
-//  * Why we made it: Primary user function for adding new Pokemon to an owner’s Pokedex.
-//  */
-// void addPokemon(OwnerNode *owner);
+/**
+ * @brief Prompt for an ID, BFS-check duplicates, then insert into BST.
+ * @param owner pointer to the Owner
+ * Why we made it: Primary user function for adding new Pokemon to an owner’s Pokedex.
+ */
+void addPokemon(OwnerNode *owner);
 
-// /**
-//  * @brief Prompt for ID, remove that Pokemon from BST by ID.
-//  * @param owner pointer to the Owner
-//  * Why we made it: Another user function for releasing a Pokemon.
-//  */
-// void freePokemon(OwnerNode *owner);
+/**
+ * @brief Prompt for ID, remove that Pokemon from BST by ID.
+ * @param owner pointer to the Owner
+ * Why we made it: Another user function for releasing a Pokemon.
+ */
+void freePokemon(OwnerNode *owner);
 
 /* ------------------------------------------------------------
    7) Display Menu for a Pokedex
@@ -385,12 +390,12 @@ typedef struct
 //  */
 void linkOwnerInCircularList(OwnerNode *newOwner);
 
-// /**
-//  * @brief Remove a specific OwnerNode from the circular list, possibly updating head.
-//  * @param target pointer to the OwnerNode
-//  * Why we made it: Deleting or merging owners requires removing them from the ring.
-//  */
-// void removeOwnerFromCircularList(OwnerNode *target);
+/**
+ * @brief Remove a specific OwnerNode from the circular list, possibly updating head.
+ * @param target pointer to the OwnerNode
+ * Why we made it: Deleting or merging owners requires removing them from the ring.
+ */
+void removeOwnerFromCircularList(OwnerNode *target);
 
 /**
  * @brief Find an owner by name in the circular list.
@@ -427,11 +432,11 @@ void choosePokedexByNumber(OwnerNode **cur, char del);
  */
 void deletePokedex(void);
 
-// /**
-//  * @brief Merge the second owner's Pokedex into the first, then remove the second owner.
-//  * Why we made it: BFS copy demonstration plus removing an owner.
-//  */
-// void mergePokedexMenu(void);
+/**
+ * @brief Merge the second owner's Pokedex into the first, then remove the second owner.
+ * Why we made it: BFS copy demonstration plus removing an owner.
+ */
+void mergePokedexMenu(void);
 
 /* ------------------------------------------------------------
    11) Printing Owners in a Circle
@@ -441,7 +446,7 @@ void deletePokedex(void);
  * @brief Print owners left or right from head, repeating as many times as user wants.
  * Why we made it: Demonstrates stepping through a circular list in a chosen direction.
  */
-// void printOwnersCircular(void);
+void printOwnersCircular(void);
 
 /* ------------------------------------------------------------
    12) Cleanup All Owners at Program End
@@ -451,7 +456,7 @@ void deletePokedex(void);
  * @brief Frees every remaining owner in the circular list, setting ownerHead = NULL.
  * Why we made it: Ensures a squeaky-clean exit with no leftover memory.
  */
-// void freeAllOwners(void);
+void freeAllOwners(void);
 
 /* ------------------------------------------------------------
    13) The Main Menu

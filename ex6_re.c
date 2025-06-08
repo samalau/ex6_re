@@ -353,6 +353,14 @@ void linkOwnerInCircularList(OwnerNode *newOwner) {
 	ownerHead->prev = newOwner;
 }
 
+void removeOwnerFromCircularList(OwnerNode *target) {
+
+}
+
+void printOwnersCircular(void) {
+
+}
+
 OwnerNode *findOwnerByName(const char *name) {
 	if (!ownerHead) {return NULL;}
 	OwnerNode *node = ownerHead;
@@ -401,6 +409,57 @@ void deletePokedex(void) {
 	}
 	// TODO: FREE & NULL
 }
+
+void mergePokedexMenu(void) {
+
+}
+
+OwnerNode *createOwner(char *ownerName, PokemonNode *starter) {
+
+}
+
+void freeAllOwners(void) {
+
+}
+
+void freeOwnerNode(OwnerNode *owner) {
+
+}
+
+void addPokemon(OwnerNode *owner) {
+
+}
+
+PokemonNode *insertPokemonNode(PokemonNode *root, PokemonNode *newNode) {
+
+}
+
+PokemonNode *createPokemonNode(const PokemonData *data) {
+
+}
+
+PokemonNode *removeNodeBST(PokemonNode *root, int id) {
+
+}
+
+PokemonNode *removePokemonByID(PokemonNode *root, int id) {
+
+}
+
+
+
+void freePokemonTree(PokemonNode *root) {
+
+}
+
+void freePokemon(OwnerNode *owner) {
+
+}
+
+void freePokemonNode(PokemonNode *node) {
+
+}
+
 
 // --------------------------------------------------------------
 // Main Menu
@@ -455,13 +514,6 @@ int main()
 	// freeAllOwners();
 	return 0;
 }
-
-/***** ISTO: H *****/
-#define PRE_ORDER 1
-#define IN_ORDER 2
-#define POST_ORDER 3
-void traverseDFS(PokemonNode *root, int order);
-/***** ENDTO: H *****/
 
 void traverseDFS(PokemonNode *root, int order) {
 	if (!root) {
