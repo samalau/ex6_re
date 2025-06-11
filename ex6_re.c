@@ -204,6 +204,33 @@ void printPokemonNode(PokemonNode *node)
 		   (node->data->CAN_EVOLVE == CAN_EVOLVE) ? "Yes" : "No");
 }
 
+void traverseDFS(PokemonNode *root, int order) {
+	if (!root) {
+		printf("Pokedex is empty.\n"); return;
+   	}
+	switch(order) {
+		case PRE_ORDER: {
+			printPokemonNode(root);
+			if (root->left != root) traverseDFS(root->left, PRE_ORDER);
+			if (root->right != root) traverseDFS(root->right, PRE_ORDER);
+			return;
+		}
+		case IN_ORDER: {
+			if (root->left != root) traverseDFS(root->left, IN_ORDER);
+			printPokemonNode(root);
+			if (root->right != root) traverseDFS(root->right, IN_ORDER);
+			return;
+		}
+		case POST_ORDER: {
+			if (root->left != root) traverseDFS(root->left, POST_ORDER);
+			if (root->right != root) traverseDFS(root->right, POST_ORDER);
+			printPokemonNode(root);
+			return;
+		}
+		default: return;
+	}
+}
+
 // --------------------------------------------------------------
 // Display Menu
 // --------------------------------------------------------------
@@ -280,7 +307,7 @@ void enterExistingPokedexMenu()
 			// addPokemon(cur);
 			break;
 		case 2:
-			// displayMenu(cur);
+			displayMenu(cur);
 			break;
 		case 3:
 			// freePokemon(cur);
@@ -532,32 +559,4 @@ int main()
 	mainMenu();
 	// freeAllOwners();
 	return 0;
-}
-
-void traverseDFS(PokemonNode *root, int order) {
-	if (!root) {
-		printf("Pokedex is empty.\n");
-		return;
-   	}
-	switch(order) {
-		case PRE_ORDER: {
-			printPokemonNode(root);
-			traverseDFS(root->left, PRE_ORDER);
-			traverseDFS(root->right, PRE_ORDER);
-			return;
-		}
-		case IN_ORDER: {
-			traverseDFS(root->left, IN_ORDER);
-			printPokemonNode(root);
-			traverseDFS(root->right, IN_ORDER);
-			return;
-		}
-		case POST_ORDER: {
-			traverseDFS(root->left, POST_ORDER);
-			traverseDFS(root->right, POST_ORDER);
-			printPokemonNode(root);
-			return;
-		}
-		default: return;
-	}
 }
