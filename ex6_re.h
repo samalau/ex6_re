@@ -230,14 +230,14 @@ OwnerNode *createOwner(char *ownerName, PokemonNode *starter);
 #define PRE_ORDER 1
 #define IN_ORDER 2
 #define POST_ORDER 3
-// void traverseDFS(PokemonNode *root, int order);
+void traverseDFS(PokemonNode *root, int order);
 
 /**
  * @brief Print one PokemonNode’s data: ID, Name, Type, HP, Attack, Evolve?
  * @param node pointer to the node
  * Why we made it: We can pass this to BFSGeneric or others to quickly print.
  */
-// void printPokemonNode(PokemonNode *node);
+void printPokemonNode(PokemonNode *node);
 
 /* ------------------------------------------------------------
    5) Display Methods (BFS, Pre, In, Post, Alphabetical)
