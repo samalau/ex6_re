@@ -363,13 +363,13 @@ void linkOwnerInCircularList(OwnerNode *newOwner) {
 	ownerHead->prev = newOwner;
 }
 
-void removeOwnerFromCircularList(OwnerNode *target) {
+// void removeOwnerFromCircularList(OwnerNode *target) {
 
-}
+// }
 
-void printOwnersCircular(void) {
+// void printOwnersCircular(void) {
 
-}
+// }
 
 OwnerNode *findOwnerByName(const char *name) {
 	if (!ownerHead) {return NULL;}
@@ -413,16 +413,16 @@ void deletePokedex(void) {
 	}
 	cur->next->prev = cur->prev;
 	cur->prev->next = cur->next;
-	if (cur = ownerHead) {
+	if (cur == ownerHead) {
 		cur = NULL;
 		ownerHead = ownerHead->next == ownerHead ? NULL : ownerHead->next;
 	}
 	// TODO: FREE & NULL
 }
 
-void mergePokedexMenu(void) {
+// void mergePokedexMenu(void) {
 
-}
+// }
 
 OwnerNode *createOwner(char *ownerName, PokemonNode *starter) {
 	OwnerNode *owner = (OwnerNode *)malloc(sizeof(OwnerNode));
@@ -433,23 +433,24 @@ OwnerNode *createOwner(char *ownerName, PokemonNode *starter) {
 	owner->pokedexRoot = starter;
 	owner->prev = ownerHead ? ownerHead->prev : owner;
 	owner->next = ownerHead ? ownerHead : owner;
+	return owner;
 }
 
-void freeAllOwners(void) {
+// void freeAllOwners(void) {
 
-}
+// }
 
-void freeOwnerNode(OwnerNode *owner) {
+// void freeOwnerNode(OwnerNode *owner) {
 
-}
+// }
 
-void addPokemon(OwnerNode *owner) {
+// void addPokemon(OwnerNode *owner) {
 
-}
+// }
 
-PokemonNode *insertPokemonNode(PokemonNode *root, PokemonNode *newNode) {
+// PokemonNode *insertPokemonNode(PokemonNode *root, PokemonNode *newNode) {
 
-}
+// }
 
 PokemonNode *createPokemonNode(const PokemonData *data) {
 	PokemonNode *poke = (PokemonNode*)malloc(sizeof(PokemonNode));
@@ -459,44 +460,25 @@ PokemonNode *createPokemonNode(const PokemonData *data) {
 	return poke;
 }
 
-PokemonNode *removeNodeBST(PokemonNode *root, int id) {
+// PokemonNode *removeNodeBST(PokemonNode *root, int id) {
 
-}
+// }
 
-PokemonNode *removePokemonByID(PokemonNode *root, int id) {
+// PokemonNode *removePokemonByID(PokemonNode *root, int id) {
 
-}
+// }
 
+// void freePokemonTree(PokemonNode *root) {
 
+// }
 
-void freePokemonTree(PokemonNode *root) {
+// void freePokemon(OwnerNode *owner) {
 
-}
+// }
 
-void freePokemon(OwnerNode *owner) {
+// void freePokemonNode(PokemonNode *node) {
 
-}
-
-void freePokemonNode(PokemonNode *node) {
-
-}
-
-
-/*
-OwnerNode
-	char *ownerName;
-	PokemonNode *pokedexRoot : < PokemonNode >
-	OwnerNode *prev : ownerHead->prev
-	OwnerNode *next : ownerHead
-
-----------------------------------------------
-
-< PokemonNode >
-	PokemonData *data : pokedex[id-1]
-	PokemonNode *left : pokedexRoot->left
-	PokemonNode *right : pokedexRoot
-*/
-
+// }
 
 // --------------------------------------------------------------
 // Main Menu
@@ -552,33 +534,33 @@ int main()
 	return 0;
 }
 
-void traverseDFS(PokemonNode *root, int order) {
-	if (!root) {
-		printf("Pokedex is empty.\n");
-		return;
-   	}
-	switch(order) {
-		case PRE_ORDER: {
-			printPokemonNode(root);
-			traverseDFS(root->left, PRE_ORDER);
-			traverseDFS(root->right, PRE_ORDER);
-			return;
-		}
-		case IN_ORDER: {
-			traverseDFS(root->left, IN_ORDER);
-			printPokemonNode(root);
-			traverseDFS(root->right, IN_ORDER);
-			return;
-		}
-		case POST_ORDER: {
-			traverseDFS(root->left, POST_ORDER);
-			traverseDFS(root->right, POST_ORDER);
-			printPokemonNode(root);
-			return;
-		}
-		default: return;
-	}
-}
+// void traverseDFS(PokemonNode *root, int order) {
+// 	if (!root) {
+// 		printf("Pokedex is empty.\n");
+// 		return;
+//    	}
+// 	switch(order) {
+// 		case PRE_ORDER: {
+// 			printPokemonNode(root);
+// 			traverseDFS(root->left, PRE_ORDER);
+// 			traverseDFS(root->right, PRE_ORDER);
+// 			return;
+// 		}
+// 		case IN_ORDER: {
+// 			traverseDFS(root->left, IN_ORDER);
+// 			printPokemonNode(root);
+// 			traverseDFS(root->right, IN_ORDER);
+// 			return;
+// 		}
+// 		case POST_ORDER: {
+// 			traverseDFS(root->left, POST_ORDER);
+// 			traverseDFS(root->right, POST_ORDER);
+// 			printPokemonNode(root);
+// 			return;
+// 		}
+// 		default: return;
+// 	}
+// }
 
 /***************************************************************
 
