@@ -55,8 +55,8 @@ typedef struct OwnerNode
 {
 	char *ownerName;          // Owner's name
 	PokemonNode *pokedexRoot; // Pointer to the root of the owner's Pokédex
-	struct OwnerNode *next;   // Next owner in the linked list
 	struct OwnerNode *prev;   // Previous owner in the linked list
+	struct OwnerNode *next;   // Next owner in the linked list
 } OwnerNode;
 
 // Global head pointer for the linked list of owners

@@ -315,33 +315,43 @@ void freePokemonNode(PokemonNode *node) {
 // --------------------------------------------------------------
 void openPokedexMenu(void) {
 	printf("Your name: ");
-	char *yourName = getDynamicInput();
-	if (!yourName) {  // placeholder
+	char *ownerName = getDynamicInput();
+	if (!ownerName) {  // placeholder
 		return;
 	}
 	// trimWhitespace(yourName);
-	if (findOwnerByName(yourName)) {
-		printf("Owner '%s' already exists. Not creating a new Pokedex.\n", yourName);
-		free(yourName);
-		yourName = NULL;
+	if (findOwnerByName(ownerName)) {
+		printf("Owner '%s' already exists. Not creating a new Pokedex.\n", ownerName);
+		free(ownerName);
+		ownerName = NULL;
 	} else {
 		int pokemon = readIntSafe("Choose Starter:\n1. Bulbasaur\n2. Charmander\n3. Squirtle\nYour choice: ");
 		if (pokemon < 1 || 3 < pokemon) {
-			free(yourName);
-			yourName = NULL;
+			free(ownerName);
+			ownerName = NULL;
 			return;  // placeholder
 		}
 		pokemon = (pokemon * 3) - 3;
-		OwnerNode *ownerNode = (OwnerNode *)malloc(sizeof(OwnerNode));
 		PokemonData *starterData = (PokemonData *)malloc(sizeof(PokemonData));
-		PokemonNode *starterNode = (PokemonNode *)malloc(sizeof(PokemonNode));
-		ownerNode->ownerName = yourName;
-		*starterData = pokedex[pokemon];
-		starterNode->data = starterData;
-		starterNode->left = starterNode->right = starterNode;
-		ownerNode->pokedexRoot = starterNode;
-		if (ownerHead) {linkOwnerInCircularList(ownerNode);}
-		else {ownerNode->next = ownerNode->prev = ownerHead = ownerNode;}
+		if (!(starterData)) {
+			return;  // placeholder
+		}
+		PokemonNode *starter = (PokemonNode *)malloc(sizeof(PokemonNode));
+		if (!(starter)) {
+			return;  // placeholder
+		}
+		starter = createPokemonNode(&pokedex[pokemon]);
+		starter->left = starter->right = starter;
+		OwnerNode *ownerNode = createOwner(ownerName, starter);
+		if (!ownerNode) {
+			return;  // placeholder
+		}
+		if (ownerHead) {
+			linkOwnerInCircularList(ownerNode);
+		}
+		else {
+			ownerNode->next = ownerNode->prev = ownerHead = ownerNode;
+		}
 	}
 	return;
 }
@@ -415,7 +425,14 @@ void mergePokedexMenu(void) {
 }
 
 OwnerNode *createOwner(char *ownerName, PokemonNode *starter) {
-
+	OwnerNode *owner = (OwnerNode *)malloc(sizeof(OwnerNode));
+	if (!(ownerName || starter)) {
+		return NULL;  // placeholder
+	}
+	owner->ownerName = ownerName;
+	owner->pokedexRoot = starter;
+	owner->prev = ownerHead ? ownerHead->prev : owner;
+	owner->next = ownerHead ? ownerHead : owner;
 }
 
 void freeAllOwners(void) {
@@ -435,7 +452,11 @@ PokemonNode *insertPokemonNode(PokemonNode *root, PokemonNode *newNode) {
 }
 
 PokemonNode *createPokemonNode(const PokemonData *data) {
-
+	PokemonNode *poke = (PokemonNode*)malloc(sizeof(PokemonNode));
+	poke->data = data;
+	poke->left = NULL;  // assign in caller
+	poke->right = NULL;  // assign in caller
+	return poke;
 }
 
 PokemonNode *removeNodeBST(PokemonNode *root, int id) {
@@ -459,6 +480,22 @@ void freePokemon(OwnerNode *owner) {
 void freePokemonNode(PokemonNode *node) {
 
 }
+
+
+/*
+OwnerNode
+	char *ownerName;
+	PokemonNode *pokedexRoot : < PokemonNode >
+	OwnerNode *prev : ownerHead->prev
+	OwnerNode *next : ownerHead
+
+----------------------------------------------
+
+< PokemonNode >
+	PokemonData *data : pokedex[id-1]
+	PokemonNode *left : pokedexRoot->left
+	PokemonNode *right : pokedexRoot
+*/
 
 
 // --------------------------------------------------------------
