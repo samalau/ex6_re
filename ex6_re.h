@@ -45,7 +45,7 @@ typedef struct PokemonData
 // Binary Tree Node (for Pokédex)
 typedef struct PokemonNode
 {
-	PokemonData *data;
+	const PokemonData *data;
 	struct PokemonNode *left;
 	struct PokemonNode *right;
 } PokemonNode;
