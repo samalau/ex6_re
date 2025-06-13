@@ -193,44 +193,39 @@ PokemonNode *insertPokemonNode(PokemonNode *root, PokemonNode *newNode);
 // Please notice, it's not really generic, it's just a demonstration of function pointers.
 // so don't be confused by the name, but please remember that you must use it.
 
-// typedef void (*VisitNodeFunc)(PokemonNode *);
+typedef void (*VisitNodeFunc)(PokemonNode *);
 
-// /**
-//  * @brief Generic BFS traversal: call visit() on each node (level-order).
-//  * @param root BST root
-//  * @param visit function pointer for what to do with each node
-//  * Why we made it: BFS plus function pointers => flexible traversal.
-//  */
+/**
+ * @brief Generic BFS traversal: call visit() on each node (level-order).
+ * @param root BST root
+ * @param visit function pointer for what to do with each node
+ * Why we made it: BFS plus function pointers => flexible traversal.
+ */
 // void BFSGeneric(PokemonNode *root, VisitNodeFunc visit);
 
-// /**
-//  * @brief A generic pre-order traversal (Root-Left-Right).
-//  * @param root BST root
-//  * @param visit function pointer
-//  * Why we made it: Another demonstration of function-pointer-based traversal.
-//  */
-// void preOrderGeneric(PokemonNode *root, VisitNodeFunc visit);
+/**
+ * @brief A generic pre-order traversal (Root-Left-Right).
+ * @param root BST root
+ * @param visit function pointer
+ * Why we made it: Another demonstration of function-pointer-based traversal.
+ */
+void preOrderGeneric(PokemonNode *root, VisitNodeFunc visit);
 
-// /**
-//  * @brief A generic in-order traversal (Left-Root-Right).
-//  * @param root BST root
-//  * @param visit function pointer
-//  * Why we made it: Great for seeing sorted order if BST is sorted by ID.
-//  */
-// void inOrderGeneric(PokemonNode *root, VisitNodeFunc visit);
+/**
+ * @brief A generic in-order traversal (Left-Root-Right).
+ * @param root BST root
+ * @param visit function pointer
+ * Why we made it: Great for seeing sorted order if BST is sorted by ID.
+ */
+void inOrderGeneric(PokemonNode *root, VisitNodeFunc visit);
 
-// /**
-//  * @brief A generic post-order traversal (Left-Right-Root).
-//  * @param root BST root
-//  * @param visit function pointer
-//  * Why we made it: Another standard traversal pattern.
-//  */
-// void postOrderGeneric(PokemonNode *root, VisitNodeFunc visit);
-
-#define PRE_ORDER 1
-#define IN_ORDER 2
-#define POST_ORDER 3
-void traverseDFS(PokemonNode *root, int order);
+/**
+ * @brief A generic post-order traversal (Left-Right-Root).
+ * @param root BST root
+ * @param visit function pointer
+ * Why we made it: Another standard traversal pattern.
+ */
+void postOrderGeneric(PokemonNode *root, VisitNodeFunc visit);
 
 /**
  * @brief Print one PokemonNode’s data: ID, Name, Type, HP, Attack, Evolve?
@@ -297,26 +292,26 @@ typedef struct
 //  */
 // void displayBFS(PokemonNode *root);
 
-// /**
-//  * @brief Pre-order user-friendly display (Root->Left->Right).
-//  * @param root BST root
-//  * Why we made it: Another standard traversal for demonstration.
-//  */
-// void preOrderTraversal(PokemonNode *root);
+/**
+ * @brief Pre-order user-friendly display (Root->Left->Right).
+ * @param root BST root
+ * Why we made it: Another standard traversal for demonstration.
+ */
+void preOrderTraversal(PokemonNode *root);
 
-// /**
-//  * @brief In-order user-friendly display (Left->Root->Right).
-//  * @param root BST root
-//  * Why we made it: Good for sorted output by ID if the tree is a BST.
-//  */
-// void inOrderTraversal(PokemonNode *root);
+/**
+ * @brief In-order user-friendly display (Left->Root->Right).
+ * @param root BST root
+ * Why we made it: Good for sorted output by ID if the tree is a BST.
+ */
+void inOrderTraversal(PokemonNode *root);
 
-// /**
-//  * @brief Post-order user-friendly display (Left->Right->Root).
-//  * @param root BST root
-//  * Why we made it: Another standard traversal pattern.
-//  */
-// void postOrderTraversal(PokemonNode *root);
+/**
+ * @brief Post-order user-friendly display (Left->Right->Root).
+ * @param root BST root
+ * Why we made it: Another standard traversal pattern.
+ */
+void postOrderTraversal(PokemonNode *root);
 
 // /* ------------------------------------------------------------
 //    6) Pokemon-Specific

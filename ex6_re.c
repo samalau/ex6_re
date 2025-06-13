@@ -144,10 +144,7 @@ char *getDynamicInput() {
 
 // Function to print a single Pokemon node
 void printPokemonNode(PokemonNode *node) {
-	
-	// TODO: DEBUG: STACK OVERFLOW
-
-	if (!node) return;
+	if (!node || !node->data) return;
 	printf("ID: %d, Name: %s, Type: %s, HP: %d, Attack: %d, Can Evolve: %s\n",
 		node->data->id,
 		node->data->name,
@@ -157,22 +154,52 @@ void printPokemonNode(PokemonNode *node) {
 		(node->data->CAN_EVOLVE == CAN_EVOLVE) ? "Yes" : "No");
 }
 
-void preOrderPokeDisplay(PokemonNode *node){
-	printPokemonNode(node);
-	preOrderPokeDisplay(node->left);
-	preOrderPokeDisplay(node->right);
+void preOrderGeneric(PokemonNode *root, VisitNodeFunc visit) {
+    if (!root) return;
+    visit(root);
+    preOrderGeneric(root->left, visit);
+    preOrderGeneric(root->right, visit);
 }
 
-void inOrderPokeDisplay(PokemonNode *node){
-	preOrderPokeDisplay(node->left);
-	printPokemonNode(node);
-	preOrderPokeDisplay(node->right);
+void inOrderGeneric(PokemonNode *root, VisitNodeFunc visit) {
+    if (!root) return;
+    preOrderGeneric(root->left, visit);
+	visit(root);
+    preOrderGeneric(root->right, visit);
 }
 
-void postOrderPokeDisplay(PokemonNode *node){
-	preOrderPokeDisplay(node->left);
-	preOrderPokeDisplay(node->right);
-	printPokemonNode(node);
+void postOrderGeneric(PokemonNode *root, VisitNodeFunc visit) {
+    if (!root) return;
+    preOrderGeneric(root->left, visit);
+    preOrderGeneric(root->right, visit);
+	visit(root);
+}
+
+void preOrderTraversal(PokemonNode *root) {
+	if (root==NULL){
+	  printf("Pokedex is empty.\n");
+	  return;
+   }
+	preOrderGeneric(root, printPokemonNode);
+	return;
+}
+
+void inOrderTraversal(PokemonNode *root) {
+	if (root==NULL){
+	  printf("Pokedex is empty.\n");
+	  return;
+   }
+	inOrderGeneric(root, printPokemonNode);
+	return;
+}
+
+void postOrderTraversal(PokemonNode *root) {
+	if (root==NULL){
+	  printf("Pokedex is empty.\n");
+	  return;
+   }
+	postOrderGeneric(root, printPokemonNode);
+	return;
 }
 
 // --------------------------------------------------------------
@@ -195,13 +222,13 @@ void displayMenu(OwnerNode *owner) {
 		// displayBFS(owner->pokedexRoot);
 		break;
 	case 2:
-		traverseDFS(owner->pokedexRoot, PRE_ORDER);
+		preOrderTraversal(owner->pokedexRoot);
 		break;
 	case 3:
-		traverseDFS(owner->pokedexRoot, IN_ORDER);
+		inOrderTraversal(owner->pokedexRoot);
 		break;
 	case 4:
-		traverseDFS(owner->pokedexRoot, POST_ORDER);
+		postOrderTraversal(owner->pokedexRoot);
 		break;
 	case 5:
 		// displayAlphabetical(owner->pokedexRoot);
