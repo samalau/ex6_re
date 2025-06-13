@@ -177,8 +177,8 @@ void postOrderGeneric(PokemonNode *root, VisitNodeFunc visit) {
 
 void preOrderTraversal(PokemonNode *root) {
 	if (root==NULL){
-	  printf("Pokedex is empty.\n");
-	  return;
+		printf("Pokedex is empty.\n");
+		return;
    }
 	preOrderGeneric(root, printPokemonNode);
 	return;
@@ -186,8 +186,8 @@ void preOrderTraversal(PokemonNode *root) {
 
 void inOrderTraversal(PokemonNode *root) {
 	if (root==NULL){
-	  printf("Pokedex is empty.\n");
-	  return;
+		printf("Pokedex is empty.\n");
+		return;
    }
 	inOrderGeneric(root, printPokemonNode);
 	return;
@@ -195,8 +195,8 @@ void inOrderTraversal(PokemonNode *root) {
 
 void postOrderTraversal(PokemonNode *root) {
 	if (root==NULL){
-	  printf("Pokedex is empty.\n");
-	  return;
+		printf("Pokedex is empty.\n");
+		return;
    }
 	postOrderGeneric(root, printPokemonNode);
 	return;
