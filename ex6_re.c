@@ -144,6 +144,7 @@ char *getDynamicInput() {
 
 // Function to print a single Pokemon node
 void printPokemonNode(PokemonNode *node) {
+	// TODO: DEBUG: STACK OVERFLOW
 	if (!node) return;
 	printf("ID: %d, Name: %s, Type: %s, HP: %d, Attack: %d, Can Evolve: %s\n",
 		node->data->id,
@@ -321,9 +322,10 @@ void removeOwnerFromCircularList(OwnerNode *target) {
 
 void printOwnersCircular(OwnerNode *owner) {
 	if (!(ownerHead || owner)) return;
-	printf("FDBS: %s...\n", owner->ownerName);  // placeholder
-	if (owner->next != ownerHead)
-		printOwnersCircular(owner->next);
+
+	printf("ITW: %s...\n", owner->ownerName);  // placeholder
+
+	if (owner->next != ownerHead) printOwnersCircular(owner->next);
 }
 
 OwnerNode *findOwnerByName(const char *name) {

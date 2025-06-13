@@ -395,7 +395,7 @@ void linkOwnerInCircularList(OwnerNode *newOwner);
  * @param target pointer to the OwnerNode
  * Why we made it: Deleting or merging owners requires removing them from the ring.
  */
-// void removeOwnerFromCircularList(OwnerNode *target);
+void removeOwnerFromCircularList(OwnerNode *target);
 
 /**
  * @brief Find an owner by name in the circular list.
