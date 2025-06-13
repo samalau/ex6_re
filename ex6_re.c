@@ -223,13 +223,13 @@ void displayMenu(OwnerNode *owner) {
 void enterExistingPokedexMenu() {
 	printf("\nExisting Pokedexes:\n");
 	if (!ownerHead) return;
-	OwnerNode* cur = NULL;
-	choosePokedexByNumber(&cur, (char)0);
-	if (!cur) return;
-	printf("\nEntering %s's Pokedex...\n", cur->ownerName);
+	OwnerNode* owner = NULL;
+	choosePokedexByNumber(&owner, (char)0);
+	if (!owner) return;
+	printf("\nEntering %s's Pokedex...\n", owner->ownerName);
 	int subChoice;
 	do {
-		printf("\n-- %s's Pokedex Menu --\n", cur->ownerName);
+		printf("\n-- %s's Pokedex Menu --\n", owner->ownerName);
 		printf("1. Add Pokemon\n");
 		printf("2. Display Pokedex\n");
 		printf("3. Release Pokemon (by ID)\n");
@@ -239,19 +239,19 @@ void enterExistingPokedexMenu() {
 		subChoice = readIntSafe("Your choice: ");
 		switch (subChoice) {
 		case 1:
-			addPokemon(cur);
+			addPokemon(owner);
 			break;
 		case 2:
-			displayMenu(cur);
+			displayMenu(owner);
 			break;
 		case 3:
-			freePokemon(cur);
+			freePokemon(owner);
 			break;
 		case 4:
-			// pokemonFight(cur);
+			// pokemonFight(owner);
 			break;
 		case 5:
-			// evolvePokemon(cur);
+			// evolvePokemon(owner);
 			break;
 		case 6:
 			printf("Back to Main Menu.\n");
@@ -282,7 +282,10 @@ void openPokedexMenu(void) {
 		free(ownerName);
 		ownerName = NULL;
 	} else {
-		int pokemon = readIntSafe("Choose Starter:\n1. Bulbasaur\n2. Charmander\n3. Squirtle\nYour choice: ");
+		int pokemon = readIntSafe(
+			"Choose Starter:\n"
+			"1. Bulbasaur\n2. Charmander\n3. Squirtle\n"
+			"Your choice: ");
 		if (pokemon < 1 || 3 < pokemon) {
 			free(ownerName);
 			ownerName = NULL;
@@ -316,49 +319,51 @@ void linkOwnerInCircularList(OwnerNode *newOwner) {
 void printOwnersCircular(OwnerNode *owner) {
 	if (!(ownerHead || owner)) return;
 	printf("%s...\n", owner->ownerName);  // placeholder
-	if (owner->next == ownerHead) return;
-	printOwnersCircular(owner->next);
+	if (owner->next != ownerHead)
+		printOwnersCircular(owner->next);
 }
 
 OwnerNode *findOwnerByName(const char *name) {
 	if (!ownerHead) return NULL;
 	OwnerNode *node = ownerHead;
 	while(strcmp(node->ownerName, name) != 0) {
-		if (node->next == ownerHead) return NULL;
+		if (node->next == ownerHead)
+			return NULL;
 		node = node->next;
 	}
 	return node;
 }
 
-void choosePokedexByNumber(OwnerNode **cur, char del) {
+void choosePokedexByNumber(OwnerNode **owner, char ifDelete) {
 	if (!ownerHead) return;
-	*cur = ownerHead;
+	*owner = ownerHead;
 	int ind = 0;
 	do {
-		printf("%d. %s\n", ++ind, (*cur)->ownerName);
-		*cur = (*cur)->next;
-	} while (*cur != ownerHead);
-	int sel = readIntSafe(del ? "Choose a Pokedex to delete by number: " : "Choose a Pokedex by number: ");
-	if (sel < 1 || sel > ind) {
-		*cur = NULL;
+		printf("%d. %s\n", ++ind, (*owner)->ownerName);
+		*owner = (*owner)->next;
+	} while (*owner != ownerHead);
+	int select = readIntSafe(
+		ifDelete ? "Choose a Pokedex to delete by number: "
+			: "Choose a Pokedex by number: ");
+	if (select < 1 || select > ind) {
+		*owner = NULL;
 		return; // placeholder
 	}
 	ind = 0;
-	while (++ind != sel) *cur = (*cur)->next;
+	while (++ind != select) *owner = (*owner)->next;
 }
 
 void deletePokedex(void) {
 	if (!ownerHead) return;
-	OwnerNode *cur = NULL;
-	choosePokedexByNumber(&cur, (char)1);
-	if (!cur) return;
-	cur->next->prev = cur->prev;
-	cur->prev->next = cur->next;
-	if (cur == ownerHead) {
-		cur = NULL;
-		ownerHead = ownerHead->next == ownerHead ? NULL : ownerHead->next;
+	OwnerNode *owner = NULL;
+	choosePokedexByNumber(&owner, (char)1);
+	if (!owner) return;
+	if (ownerHead == owner) {
+		if (ownerHead->next != ownerHead)
+			ownerHead = ownerHead->next;
+		else ownerHead = NULL;
 	}
-	// TODO: FREE & NULL
+	freeOwnerNode(owner);
 }
 
 // void mergePokedexMenu(void) {
@@ -383,16 +388,12 @@ void freeAllOwners(void) {
 	} while (owner != ownerHead);
 	if (owner == ownerHead)
 		freeOwnerNode(owner);
-	if (owner->next) {
-		
-		return;
-	}
 	owner = ownerHead = NULL;
 }
 
 void freeOwnerNode(OwnerNode *owner) {
 	if (!owner) return;
-	owner->ownerName = '\0';
+	owner->ownerName = NULL;
 	owner->prev->next = owner->next;
 	owner->next->prev = owner->prev;
 	owner->prev = owner->next = NULL;
@@ -403,6 +404,7 @@ void freeOwnerNode(OwnerNode *owner) {
 	if (pokemon == owner->pokedexRoot)
 		freePokemonNode(pokemon);
 	pokemon = NULL;
+	// NULLIFY OWNER IN CALLER
 }
 
 void addPokemon(OwnerNode *owner) {
