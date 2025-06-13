@@ -245,7 +245,7 @@ void enterExistingPokedexMenu() {
 			displayMenu(owner);
 			break;
 		case 3:
-			freePokemon(owner);
+			// freePokemon(owner);
 			break;
 		case 4:
 			// pokemonFight(owner);
@@ -313,12 +313,15 @@ void linkOwnerInCircularList(OwnerNode *newOwner) {
 	ownerHead->prev = newOwner;
 }
 
-// void removeOwnerFromCircularList(OwnerNode *target) {
-// }
+void removeOwnerFromCircularList(OwnerNode *target) {
+	target->prev->next = target->next;
+	target->next->prev = target->prev;
+	target->prev = target->next = NULL;
+}
 
 void printOwnersCircular(OwnerNode *owner) {
 	if (!(ownerHead || owner)) return;
-	printf("%s...\n", owner->ownerName);  // placeholder
+	printf("FDBS: %s...\n", owner->ownerName);  // placeholder
 	if (owner->next != ownerHead)
 		printOwnersCircular(owner->next);
 }
@@ -394,9 +397,7 @@ void freeAllOwners(void) {
 void freeOwnerNode(OwnerNode *owner) {
 	if (!owner) return;
 	owner->ownerName = NULL;
-	owner->prev->next = owner->next;
-	owner->next->prev = owner->prev;
-	owner->prev = owner->next = NULL;
+	removeOwnerFromCircularList(owner);
 	PokemonNode* pokemon = owner->pokedexRoot->right;
 	do {
 		freePokemonNode(pokemon);
