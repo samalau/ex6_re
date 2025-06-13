@@ -144,7 +144,9 @@ char *getDynamicInput() {
 
 // Function to print a single Pokemon node
 void printPokemonNode(PokemonNode *node) {
+	
 	// TODO: DEBUG: STACK OVERFLOW
+
 	if (!node) return;
 	printf("ID: %d, Name: %s, Type: %s, HP: %d, Attack: %d, Can Evolve: %s\n",
 		node->data->id,
@@ -155,32 +157,22 @@ void printPokemonNode(PokemonNode *node) {
 		(node->data->CAN_EVOLVE == CAN_EVOLVE) ? "Yes" : "No");
 }
 
-void traverseDFS(PokemonNode *root, int order) {
-	if (!root) {
-		printf("Pokedex is empty.\n");
-		return;
-   	}
-	switch(order) {
-	case PRE_ORDER: {
-		printPokemonNode(root);
-		if (root->left != root) traverseDFS(root->left, PRE_ORDER);
-		if (root->right != root) traverseDFS(root->right, PRE_ORDER);
-		return;
-	}
-	case IN_ORDER: {
-		if (root->left != root) traverseDFS(root->left, IN_ORDER);
-		printPokemonNode(root);
-		if (root->right != root) traverseDFS(root->right, IN_ORDER);
-		return;
-	}
-	case POST_ORDER: {
-		if (root->left != root) traverseDFS(root->left, POST_ORDER);
-		if (root->right != root) traverseDFS(root->right, POST_ORDER);
-		printPokemonNode(root);
-		return;
-	}
-	default: return;
-	}
+void preOrderPokeDisplay(PokemonNode *node){
+	printPokemonNode(node);
+	preOrderPokeDisplay(node->left);
+	preOrderPokeDisplay(node->right);
+}
+
+void inOrderPokeDisplay(PokemonNode *node){
+	preOrderPokeDisplay(node->left);
+	printPokemonNode(node);
+	preOrderPokeDisplay(node->right);
+}
+
+void postOrderPokeDisplay(PokemonNode *node){
+	preOrderPokeDisplay(node->left);
+	preOrderPokeDisplay(node->right);
+	printPokemonNode(node);
 }
 
 // --------------------------------------------------------------
