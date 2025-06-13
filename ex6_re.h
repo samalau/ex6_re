@@ -130,7 +130,7 @@ OwnerNode *createOwner(char *ownerName, PokemonNode *starter);
  * @param node pointer to node
  * Why we made it: Avoid memory leaks for single nodes.
  */
-// void freePokemonNode(PokemonNode *node);
+void freePokemonNode(PokemonNode *node);
 
 /**
  * @brief Recursively free a BST of PokemonNodes.
@@ -144,7 +144,7 @@ OwnerNode *createOwner(char *ownerName, PokemonNode *starter);
 //  * @param owner pointer to the owner
 //  * Why we made it: Deleting an owner also frees their Pokedex & name.
 //  */
-// void freeOwnerNode(OwnerNode *owner);
+void freeOwnerNode(OwnerNode *owner);
 
 /* ------------------------------------------------------------
    3) BST Insert, Search, Remove
@@ -157,7 +157,7 @@ OwnerNode *createOwner(char *ownerName, PokemonNode *starter);
  * @return updated BST root
  * Why we made it: Standard BST insertion ignoring duplicates.
  */
-// PokemonNode *insertPokemonNode(PokemonNode *root, PokemonNode *newNode);
+PokemonNode *insertPokemonNode(PokemonNode *root, PokemonNode *newNode);
 
 // /**
 //  * @brief BFS search for a Pokemon by ID in the BST.
@@ -341,7 +341,7 @@ typedef struct
  * @param owner pointer to the Owner
  * Why we made it: Primary user function for adding new Pokemon to an owner’s Pokedex.
  */
-// void addPokemon(OwnerNode *owner);
+void addPokemon(OwnerNode *owner);
 
 // /**
 //  * @brief Prompt for ID, remove that Pokemon from BST by ID.
@@ -436,7 +436,7 @@ void deletePokedex(void);
  * @brief Merge the second owner's Pokedex into the first, then remove the second owner.
  * Why we made it: BFS copy demonstration plus removing an owner.
  */
-void mergePokedexMenu(void);
+// void mergePokedexMenu(void);
 
 /* ------------------------------------------------------------
    11) Printing Owners in a Circle
@@ -446,7 +446,7 @@ void mergePokedexMenu(void);
  * @brief Print owners left or right from head, repeating as many times as user wants.
  * Why we made it: Demonstrates stepping through a circular list in a chosen direction.
  */
-// void printOwnersCircular(void);
+void printOwnersCircular(OwnerNode *owner);
 
 /* ------------------------------------------------------------
    12) Cleanup All Owners at Program End
