@@ -163,15 +163,15 @@ void preOrderGeneric(PokemonNode *root, VisitNodeFunc visit) {
 
 void inOrderGeneric(PokemonNode *root, VisitNodeFunc visit) {
     if (!root) return;
-    preOrderGeneric(root->left, visit);
+    inOrderGeneric(root->left, visit);
 	visit(root);
-    preOrderGeneric(root->right, visit);
+    inOrderGeneric(root->right, visit);
 }
 
 void postOrderGeneric(PokemonNode *root, VisitNodeFunc visit) {
     if (!root) return;
-    preOrderGeneric(root->left, visit);
-    preOrderGeneric(root->right, visit);
+    postOrderGeneric(root->left, visit);
+    postOrderGeneric(root->right, visit);
 	visit(root);
 }
 
@@ -181,7 +181,6 @@ void preOrderTraversal(PokemonNode *root) {
 		return;
    }
 	preOrderGeneric(root, printPokemonNode);
-	return;
 }
 
 void inOrderTraversal(PokemonNode *root) {
@@ -190,7 +189,6 @@ void inOrderTraversal(PokemonNode *root) {
 		return;
    }
 	inOrderGeneric(root, printPokemonNode);
-	return;
 }
 
 void postOrderTraversal(PokemonNode *root) {
@@ -199,7 +197,6 @@ void postOrderTraversal(PokemonNode *root) {
 		return;
    }
 	postOrderGeneric(root, printPokemonNode);
-	return;
 }
 
 // --------------------------------------------------------------
