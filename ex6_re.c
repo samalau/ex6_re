@@ -167,7 +167,7 @@ void pokemonCircleToTree(PokemonNode *root) {
     if (!root) return;
     PokemonNode *t = root;
     do {
-        printPokemonNode(t->data);
+        printPokemonNode(t);
         t = t->right;
     } while (t != root);
 }
