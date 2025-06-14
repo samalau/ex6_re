@@ -312,11 +312,14 @@ void enterExistingPokedexMenu() {
 }
 
 void freePokemonNode(PokemonNode *node) {
-	node->data = NULL;
-	node->left->right = node->right;
-	node->right->left = node->left;
-	node->left = node->right = NULL;
-	free(node);
+    if (!node) return;
+    if (node->left && node->right) {
+        node->left->right = node->right;
+        node->right->left = node->left;
+    }
+    node->data = NULL;
+    node->left = node->right = NULL;
+    free(node);
 	// NULLIFY NODE IN CALLER
 }
 
