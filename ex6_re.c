@@ -142,11 +142,23 @@ char *getDynamicInput() {
 	return input;
 }
 
+// placeholder
+char readDirection(char* prompt) {
+    printf("%s", prompt);
+	char buffer[2];
+	if (fgets(buffer, sizeof(buffer), stdin) != NULL) {
+		if (buffer[0] == 'F' || buffer[0] == 'f' || buffer[0] == 'B' || buffer[0] == 'b') {
+			return buffer[0];
+		}
+	}
+    return "\0";
+}
+
+// PLACEHOLDER FOR SORT
 void ownerCircleToTree(void) {
     if (!ownerHead) return;
     OwnerNode *t = ownerHead;
     do {
-        printf("%s\n", t->ownerName);
         t = t->next;
     } while (t != ownerHead);
 }
@@ -155,7 +167,7 @@ void pokemonCircleToTree(PokemonNode *root) {
     if (!root) return;
     PokemonNode *t = root;
     do {
-        printf("%s\n", t->data->name);
+        printPokemonNode(t->data);
         t = t->right;
     } while (t != root);
 }
@@ -358,12 +370,46 @@ void removeOwnerFromCircularList(OwnerNode *target) {
 }
 
 void printOwnersCircular(OwnerNode *owner) {
+
 	if (!(ownerHead || owner)) return;
 
 	printf("ITW: %s...\n", owner->ownerName);  // placeholder
 
 	if (owner->next != ownerHead) printOwnersCircular(owner->next);
 }
+
+//-------------------------------
+
+
+
+
+void printOwnersCircular(OwnerNode *owner) {
+    if (!ownerHead) {
+        printf("DEBUG PRINT: No owners.\n");
+        return;
+    }
+	if (!owner) return;  // placeholder
+	char direction = toupper(readDirection("Enter direction (F or B): "));
+    if (!(direction || direction == 'F' || direction == 'B')) {
+        printf("DEBUG PRINT: Invalid input.\n");
+        return;
+	}
+    int repeatCount = 0;
+	// ?? EXPECT RE-PROMPT ??
+    if (repeatCount = readIntSafe("(CHECK REPROMPT EXPECTED:)\nHow many prints? "), repeatCount <= 0) {
+		printf("DEBUG PRINT: NONE. IS CONSIDERING NEG AS 0 BUT CHECK EXPECTED\n");
+        return;
+    }
+    OwnerNode *t = ownerHead;
+    for (int i = 0; i < repeatCount; i++) {
+        printf("[%d] %s\n", i + 1, t->ownerName);
+        t = (direction == 'F') ? t->next : t->prev;
+    }
+    printf("\n");
+    return;
+}
+
+//-------------------------------
 
 OwnerNode *findOwnerByName(const char *name) {
 	if (!ownerHead) return NULL;
