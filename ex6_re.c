@@ -376,12 +376,12 @@ void printOwnersCircular(OwnerNode *owner) {
     }
 	if (!owner) return;  // placeholder
 	char direction = toupper(readDirection("Enter direction (F or B): "));
-	scanf("%*[^\n]");
-	scanf("*c");
     if (!(direction || direction == 'F' || direction == 'B')) {
         printf("DEBUG PRINT: Invalid input.\n");
         return;
 	}
+	while (getchar() != '\n')
+	;
     int repeatCount = 0;
 	// ?? EXPECT RE-PROMPT ??
     if (repeatCount = readIntSafe("How many prints? "), repeatCount <= 0) {
@@ -393,7 +393,6 @@ void printOwnersCircular(OwnerNode *owner) {
         printf("[%d] %s\n", i + 1, t->ownerName);
         t = (direction == 'F') ? t->next : t->prev;
     }
-    printf("\n");
     return;
 }
 
