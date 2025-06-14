@@ -142,15 +142,23 @@ char *getDynamicInput() {
 	return input;
 }
 
-/*
-begin:
-	temp = head
-process:
-	temp = temp->next
-end:
-	temp = head->prev
+void ownerCircleToTree(void) {
+    if (!ownerHead) return;
+    OwnerNode *t = ownerHead;
+    do {
+        printf("%s\n", t->ownerName);
+        t = t->next;
+    } while (t != ownerHead);
+}
 
-*/
+void pokemonCircleToTree(PokemonNode *root) {
+    if (!root) return;
+    PokemonNode *t = root;
+    do {
+        printf("%s\n", t->data->name);
+        t = t->right;
+    } while (t != root);
+}
 
 // Function to print a single Pokemon node
 void printPokemonNode(PokemonNode *node) {
@@ -229,13 +237,16 @@ void displayMenu(OwnerNode *owner) {
 		// displayBFS(owner->pokedexRoot);
 		break;
 	case 2:
-		preOrderTraversal(owner->pokedexRoot);
+		pokemonCircleToTree(owner->pokedexRoot);
+		// preOrderTraversal(owner->pokedexRoot);
 		break;
 	case 3:
-		inOrderTraversal(owner->pokedexRoot);
+		pokemonCircleToTree(owner->pokedexRoot);
+		// inOrderTraversal(owner->pokedexRoot);
 		break;
 	case 4:
-		postOrderTraversal(owner->pokedexRoot);
+		pokemonCircleToTree(owner->pokedexRoot);
+		// postOrderTraversal(owner->pokedexRoot);
 		break;
 	case 5:
 		// displayAlphabetical(owner->pokedexRoot);
