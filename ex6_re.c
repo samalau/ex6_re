@@ -459,15 +459,19 @@ OwnerNode *createOwner(char *ownerName, PokemonNode *starter) {
 }
 
 void freeAllOwners(void) {
-	if (!ownerHead) return;
-	OwnerNode* owner = ownerHead->next;
-	do {
-		owner = owner->next;
-		freeOwnerNode(owner);
-	} while (owner != ownerHead);
-	if (owner == ownerHead)
-		freeOwnerNode(owner);
-	owner = ownerHead = NULL;
+    if (!ownerHead) return;
+    OwnerNode *head = ownerHead;
+    OwnerNode *curr = head->next;
+    OwnerNode *next;
+    while (curr != head) {
+        next = curr->next;
+        freeOwnerNode(curr);
+        free(curr);
+        curr = next;
+    }
+    freeOwnerNode(head);
+    free(head);
+    ownerHead = NULL;
 }
 
 void freeOwnerNode(OwnerNode *owner) {
