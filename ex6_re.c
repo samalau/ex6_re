@@ -362,10 +362,18 @@ void linkOwnerInCircularList(OwnerNode *newOwner) {
 	ownerHead->prev = newOwner;
 }
 
-void removeOwnerFromCircularList(OwnerNode *target) {
-	target->prev->next = target->next;
-	target->next->prev = target->prev;
-	target->prev = target->next = NULL;
+void removeOwnerFromCircularList(OwnerNode *owner) {
+    if (!owner || !ownerHead) return;
+    if (owner->next == owner && owner->prev == owner) {
+        ownerHead = NULL;
+        return;
+    }
+    if (owner->prev && owner->next) {
+        owner->prev->next = owner->next;
+        owner->next->prev = owner->prev;
+    }
+    if (ownerHead == owner)
+        ownerHead = owner->next;
 }
 
 void printOwnersCircular(OwnerNode *owner) {
