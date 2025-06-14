@@ -151,7 +151,7 @@ char readDirection(char* prompt) {
 			return buffer[0];
 		}
 	}
-    return "\0";
+    return '\0';
 }
 
 // PLACEHOLDER FOR SORT
