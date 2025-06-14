@@ -370,20 +370,6 @@ void removeOwnerFromCircularList(OwnerNode *target) {
 }
 
 void printOwnersCircular(OwnerNode *owner) {
-
-	if (!(ownerHead || owner)) return;
-
-	printf("ITW: %s...\n", owner->ownerName);  // placeholder
-
-	if (owner->next != ownerHead) printOwnersCircular(owner->next);
-}
-
-//-------------------------------
-
-
-
-
-void printOwnersCircular(OwnerNode *owner) {
     if (!ownerHead) {
         printf("DEBUG PRINT: No owners.\n");
         return;
@@ -408,8 +394,6 @@ void printOwnersCircular(OwnerNode *owner) {
     printf("\n");
     return;
 }
-
-//-------------------------------
 
 OwnerNode *findOwnerByName(const char *name) {
 	if (!ownerHead) return NULL;
