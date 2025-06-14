@@ -380,8 +380,7 @@ void printOwnersCircular(OwnerNode *owner) {
         printf("DEBUG PRINT: Invalid input.\n");
         return;
 	}
-	while (getchar() != '\n')
-	;
+	while (getchar() != '\n') {continue;}
     int repeatCount = 0;
 	// ?? EXPECT RE-PROMPT ??
     if (repeatCount = readIntSafe("How many prints? "), repeatCount <= 0) {
