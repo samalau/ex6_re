@@ -376,13 +376,14 @@ void printOwnersCircular(OwnerNode *owner) {
     }
 	if (!owner) return;  // placeholder
 	char direction = toupper(readDirection("Enter direction (F or B): "));
+	scanf("%*[^\n]");
     if (!(direction || direction == 'F' || direction == 'B')) {
         printf("DEBUG PRINT: Invalid input.\n");
         return;
 	}
     int repeatCount = 0;
 	// ?? EXPECT RE-PROMPT ??
-    if (repeatCount = readIntSafe("(CHECK REPROMPT EXPECTED:)\nHow many prints? "), repeatCount <= 0) {
+    if (repeatCount = readIntSafe("How many prints? "), repeatCount <= 0) {
 		printf("DEBUG PRINT: NONE. IS CONSIDERING NEG AS 0 BUT CHECK EXPECTED\n");
         return;
     }
