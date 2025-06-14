@@ -142,6 +142,16 @@ char *getDynamicInput() {
 	return input;
 }
 
+/*
+begin:
+	temp = head
+process:
+	temp = temp->next
+end:
+	temp = head->prev
+
+*/
+
 // Function to print a single Pokemon node
 void printPokemonNode(PokemonNode *node) {
 	if (!node || !node->data) return;
