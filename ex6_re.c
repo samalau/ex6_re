@@ -313,10 +313,6 @@ void enterExistingPokedexMenu() {
 
 void freePokemonNode(PokemonNode *node) {
     if (!node) return;
-    if (node->left && node->right) {
-        node->left->right = node->right;
-        node->right->left = node->left;
-    }
     node->data = NULL;
     node->left = node->right = NULL;
     free(node);
@@ -470,14 +466,17 @@ void freeOwnerNode(OwnerNode *owner) {
 	if (!owner) return;
 	owner->ownerName = NULL;
 	removeOwnerFromCircularList(owner);
-	PokemonNode* pokemon = owner->pokedexRoot->right;
-	PokemonNode* next;
-	do {
+	PokemonNode *root = owner->pokedexRoot;
+	PokemonNode *pokemon = root->right;
+	PokemonNode *next;
+	while (pokemon != root) {
+		pokemon->left->right = pokemon->right;
+		pokemon->right->left = pokemon->left;
 		next = pokemon->right;
 		freePokemonNode(pokemon);
 		pokemon = next;
-	} while (pokemon != owner->pokedexRoot);
-	freePokemonNode(pokemon);
+	}
+	freePokemonNode(root);
 	owner->pokedexRoot = NULL;
 	// NULLIFY OWNER IN CALLER
 }
