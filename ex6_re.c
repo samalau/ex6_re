@@ -471,12 +471,14 @@ void freeOwnerNode(OwnerNode *owner) {
 	owner->ownerName = NULL;
 	removeOwnerFromCircularList(owner);
 	PokemonNode* pokemon = owner->pokedexRoot->right;
+	PokemonNode* next;
 	do {
+		next = pokemon->right;
 		freePokemonNode(pokemon);
+		pokemon = next;
 	} while (pokemon != owner->pokedexRoot);
-	if (pokemon == owner->pokedexRoot)
-		freePokemonNode(pokemon);
-	pokemon = NULL;
+	freePokemonNode(pokemon);
+	owner->pokedexRoot = NULL;
 	// NULLIFY OWNER IN CALLER
 }
 
