@@ -377,6 +377,7 @@ void printOwnersCircular(OwnerNode *owner) {
 	if (!owner) return;  // placeholder
 	char direction = toupper(readDirection("Enter direction (F or B): "));
 	scanf("%*[^\n]");
+	scanf("*c");
     if (!(direction || direction == 'F' || direction == 'B')) {
         printf("DEBUG PRINT: Invalid input.\n");
         return;
