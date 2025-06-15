@@ -164,13 +164,13 @@ void freeOwnerNode(OwnerNode *owner);
  */
 PokemonNode *insertPokemonNode(PokemonNode *root, PokemonNode *newNode);
 
-// /**
-//  * @brief BFS search for a Pokemon by ID in the BST.
-//  * @param root BST root
-//  * @param id ID to find
-//  * @return pointer to found node or NULL
-//  * Why we made it: BFS ensures we find nodes even in an unbalanced tree.
-//  */
+/**
+ * @brief BFS search for a Pokemon by ID in the BST.
+ * @param root BST root
+ * @param id ID to find
+ * @return pointer to found node or NULL
+ * Why we made it: BFS ensures we find nodes even in an unbalanced tree.
+ */
 // PokemonNode *searchPokemonBFS(PokemonNode *root, int id);
 
 /**
