@@ -375,6 +375,45 @@ void enterExistingPokedexMenu(void) {
 	} while (subChoice != 6);
 }
 
+PokemonNode *removePokemonByID(PokemonNode *root, int id) {
+	searchPokemonBFS(root, id);
+	removeNodeBST(root, id);
+}
+
+
+// void removeOwnerFromCircularList(OwnerNode *owner) {
+//     if (!owner || !ownerHead) return;
+//     if (owner->next == owner && owner->prev == owner) {
+//         ownerHead = NULL;
+//         return;
+//     }
+//     if (node->left && node->right) {
+//         node->left->right = node->right;
+//         node->right->left = node->left;
+//     }
+//     if (node == owner->pokedex)
+//         owner->pokedex = NULL;
+// }
+
+
+PokemonNode *searchPokemonBFS(PokemonNode *root, int id) {
+	
+}
+
+PokemonNode *removeNodeBST(PokemonNode *root, int id) {
+	
+}
+// PokemonNode* pokemonCircleToTree(PokemonNode *root);
+
+void freePokemon(OwnerNode *owner) {
+	PokemonNode *node = NULL;
+	int id = readIntSafe("Enter Pokemon ID to release: ");
+	if (id < 1 || id > 151) return;
+
+	removePokemonByID(owner->pokedexRoot, id);
+	freePokemonNode(node);
+}
+
 void freePokemonNode(PokemonNode *node) {
     if (!node) return;
     node->data = NULL;
@@ -635,52 +674,3 @@ int main(void) {
 	freeAllOwners();
 	return 0;
 }
-
-
-/////////////////////////////////////////////////////////////
-//
-//  Free one PokemonNode (including name).
-//  node pointer to node
-//  Avoid memory leaks for single nodes.
-// 
-// void freePokemonNode(PokemonNode *node);
-
-/////////////////////////////////////////////////////////////
-//
-//  Prompt for ID, remove that Pokemon from BST by ID.
-//  owner pointer to the Owner
-//  Another user function for releasing a Pokemon.
-//
-// void freePokemon(OwnerNode *owner);
-
-/////////////////////////////////////////////////////////////
-//
-//  * @brief Remove node from BST by ID if found (BST removal logic).
-//  * @param root BST root
-//  * @param id ID to remove
-//  * @return updated BST root
-//  * Why we made it: We handle special cases of a BST remove (0,1,2 children).
-//
-// PokemonNode *removeNodeBST(PokemonNode *root, int id);
-
-/////////////////////////////////////////////////////////////
-//
-//  Combine BFS search + BST removal to remove Pokemon by ID.
-//  root BST root
-//  id the ID to remove
-//  updated BST root
-//  BFS confirms existence, then removeNodeBST does the removal.
-//
-// PokemonNode *removePokemonByID(PokemonNode *root, int id);
-
-/////////////////////////////////////////////////////////////
-//
-//   BFS search for a Pokemon by ID in the BST.
-//  root BST root
-//  id ID to find
-//  pointer to found node or NULL
-//  BFS ensures we find nodes even in an unbalanced tree.
-// 
-// PokemonNode *searchPokemonBFS(PokemonNode *root, int id);
-
-/////////////////////////////////////////////////////////////

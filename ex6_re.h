@@ -144,11 +144,11 @@ void freePokemonNode(PokemonNode *node);
  */
 void freePokemonTree(PokemonNode **root);
 
-// /**
-//  * @brief Free an OwnerNode (including name and entire Pokedex BST).
-//  * @param owner pointer to the owner
-//  * Why we made it: Deleting an owner also frees their Pokedex & name.
-//  */
+/**
+ * @brief Free an OwnerNode (including name and entire Pokedex BST).
+ * @param owner pointer to the owner
+ * Why we made it: Deleting an owner also frees their Pokedex & name.
+ */
 void freeOwnerNode(OwnerNode *owner);
 
 /* ------------------------------------------------------------
@@ -171,7 +171,7 @@ PokemonNode *insertPokemonNode(PokemonNode *root, PokemonNode *newNode);
  * @return pointer to found node or NULL
  * Why we made it: BFS ensures we find nodes even in an unbalanced tree.
  */
-// PokemonNode *searchPokemonBFS(PokemonNode *root, int id);
+PokemonNode *searchPokemonBFS(PokemonNode *root, int id);
 
 /**
  * @brief Remove node from BST by ID if found (BST removal logic).
@@ -180,7 +180,7 @@ PokemonNode *insertPokemonNode(PokemonNode *root, PokemonNode *newNode);
  * @return updated BST root
  * Why we made it: We handle special cases of a BST remove (0,1,2 children).
  */
-// PokemonNode *removeNodeBST(PokemonNode *root, int id);
+PokemonNode *removeNodeBST(PokemonNode *root, int id);
 
 /**
  * @brief Combine BFS search + BST removal to remove Pokemon by ID.
@@ -189,7 +189,7 @@ PokemonNode *insertPokemonNode(PokemonNode *root, PokemonNode *newNode);
  * @return updated BST root
  * Why we made it: BFS confirms existence, then removeNodeBST does the removal.
  */
-// PokemonNode *removePokemonByID(PokemonNode *root, int id);
+PokemonNode *removePokemonByID(PokemonNode *root, int id);
 
 /* ------------------------------------------------------------
    4) Generic BST Traversals (Function Pointers)
@@ -356,7 +356,7 @@ void addPokemon(OwnerNode *owner);
  * @param owner pointer to the Owner
  * Why we made it: Another user function for releasing a Pokemon.
  */
-// void freePokemon(OwnerNode *owner);
+void freePokemon(OwnerNode *owner);
 
 /* ------------------------------------------------------------
    7) Display Menu for a Pokedex
