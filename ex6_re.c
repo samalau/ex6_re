@@ -154,15 +154,6 @@ char readDirection(char* prompt) {
     return '\0';
 }
 
-// PLACEHOLDER FOR SORT
-void ownerCircleToTree(void) {
-    if (!ownerHead) return;
-    OwnerNode *t = ownerHead;
-    do {
-        t = t->next;
-    } while (t != ownerHead);
-}
-
 void swapOwnerData(OwnerNode *a, OwnerNode *b) {
     char *tmpName = a->ownerName;
     PokemonNode *tmpRoot = a->pokedexRoot;
