@@ -163,16 +163,46 @@ void ownerCircleToTree(void) {
     } while (t != ownerHead);
 }
 
-void pokemonCircleToTree(PokemonNode *root) {
-    if (!root) return;
+PokemonNode* pokemonCircleToTree(PokemonNode *root) {
+    if (!root) return NULL;
     PokemonNode *t = root;
+    PokemonNode *treeRoot = NULL;
+    PokemonNode *next;
     do {
-        printPokemonNode(t);
-        t = t->right;
+        next = t->right;
+        PokemonNode *clone = (PokemonNode *)malloc(sizeof(PokemonNode));
+        if (!clone) {
+            return treeRoot;
+        }
+        *clone = *t;
+        clone->left = clone->right = NULL;
+        if (!treeRoot) {
+            treeRoot = clone;
+        } else {
+            PokemonNode *p = treeRoot;
+            for (;;) {
+                if (clone->data->id < p->data->id) {
+                    if (!p->left) { p->left = clone; break; }
+                    p = p->left;
+                } else {
+                    if (!p->right) { p->right = clone; break; }
+                    p = p->right;
+                }
+            }
+        }
+        t = next;
     } while (t != root);
+    return treeRoot;
 }
 
-// Function to print a single Pokemon node
+void freeTree(PokemonNode **root) {
+    if (!*root) return;
+    freeTree(&(*root)->left);
+    freeTree(&(*root)->right);
+    free(*root);
+    *root = NULL;
+}
+
 void printPokemonNode(PokemonNode *node) {
 	if (!node || !node->data) return;
 	printf("ID: %d, Name: %s, Type: %s, HP: %d, Attack: %d, Can Evolve: %s\n",
@@ -244,21 +274,25 @@ void displayMenu(OwnerNode *owner) {
     printf("4. Post-Order\n");
     printf("5. Alphabetical (by name)\n");
     int choice = readIntSafe("Your choice: ");
+	PokemonNode *treeRoot;
     switch (choice) {
 	case 1:
 		// displayBFS(owner->pokedexRoot);
 		break;
 	case 2:
-		pokemonCircleToTree(owner->pokedexRoot);
-		// preOrderTraversal(owner->pokedexRoot);
+		treeRoot = pokemonCircleToTree(owner->pokedexRoot);
+		preOrderTraversal(treeRoot);
+		freeTree(&treeRoot);
 		break;
 	case 3:
-		pokemonCircleToTree(owner->pokedexRoot);
-		// inOrderTraversal(owner->pokedexRoot);
+		treeRoot = pokemonCircleToTree(owner->pokedexRoot);
+		inOrderTraversal(treeRoot);
+		freeTree(&treeRoot);
 		break;
 	case 4:
-		pokemonCircleToTree(owner->pokedexRoot);
-		// postOrderTraversal(owner->pokedexRoot);
+		treeRoot = pokemonCircleToTree(owner->pokedexRoot);
+		postOrderTraversal(treeRoot);
+		freeTree(&treeRoot);
 		break;
 	case 5:
 		// displayAlphabetical(owner->pokedexRoot);
