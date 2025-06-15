@@ -113,7 +113,7 @@ const char *getTypeName(PokemonType type) {
 // --------------------------------------------------------------
 // Utility: getDynamicInput (for reading a line into malloc'd memory)
 // --------------------------------------------------------------
-char *getDynamicInput() {
+char *getDynamicInput(void) {
 	char *input = NULL;
 	size_t size = 0, capacity = 1;
 	input = (char *)malloc(capacity);
@@ -163,6 +163,39 @@ void ownerCircleToTree(void) {
     } while (t != ownerHead);
 }
 
+void swapOwnerData(OwnerNode *a, OwnerNode *b) {
+    char *tmpName = a->ownerName;
+    PokemonNode *tmpRoot = a->pokedexRoot;
+    a->ownerName = b->ownerName;
+    a->pokedexRoot = b->pokedexRoot;
+    b->ownerName = tmpName;
+    b->pokedexRoot = tmpRoot;
+}
+
+void sortOwners(void) {
+    if (!ownerHead || ownerHead->next == ownerHead) return;
+    int swapped;
+    do {
+        swapped = 0;
+        OwnerNode *cur = ownerHead;
+        do {
+            OwnerNode *n = cur->next;
+            if (strcmp(cur->ownerName, n->ownerName) > 0) {
+                swapOwnerData(cur, n);
+                swapped = 1;
+            }
+            cur = n;
+        } while (cur->next != ownerHead);
+    } while (swapped);
+	OwnerNode *min = ownerHead;
+    OwnerNode *iter = ownerHead->next;
+    while (iter != ownerHead) {
+        if (strcmp(iter->ownerName, min->ownerName) < 0) min = iter;
+        iter = iter->next;
+    }
+    ownerHead = min;
+}
+
 PokemonNode* pokemonCircleToTree(PokemonNode *root) {
     if (!root) return NULL;
     PokemonNode *t = root;
@@ -201,10 +234,10 @@ PokemonNode* pokemonCircleToTree(PokemonNode *root) {
     return treeRoot;
 }
 
-void freeTree(PokemonNode **root) {
+void freePokemonTree(PokemonNode **root) {
     if (!*root) return;
-    freeTree(&(*root)->left);
-    freeTree(&(*root)->right);
+    freePokemonTree(&(*root)->left);
+    freePokemonTree(&(*root)->right);
     free(*root);
     *root = NULL;
 }
@@ -288,17 +321,17 @@ void displayMenu(OwnerNode *owner) {
 	case 2:
 		treeRoot = pokemonCircleToTree(owner->pokedexRoot);
 		preOrderTraversal(treeRoot);
-		freeTree(&treeRoot);
+		freePokemonTree(&treeRoot);
 		break;
 	case 3:
 		treeRoot = pokemonCircleToTree(owner->pokedexRoot);
 		inOrderTraversal(treeRoot);
-		freeTree(&treeRoot);
+		freePokemonTree(&treeRoot);
 		break;
 	case 4:
 		treeRoot = pokemonCircleToTree(owner->pokedexRoot);
 		postOrderTraversal(treeRoot);
-		freeTree(&treeRoot);
+		freePokemonTree(&treeRoot);
 		break;
 	case 5:
 		// displayAlphabetical(owner->pokedexRoot);
@@ -310,7 +343,7 @@ void displayMenu(OwnerNode *owner) {
 // --------------------------------------------------------------
 // Sub-menu for existing Pokedex
 // --------------------------------------------------------------
-void enterExistingPokedexMenu() {
+void enterExistingPokedexMenu(void) {
 	printf("\nExisting Pokedexes:\n");
 	if (!ownerHead) return;
 	OwnerNode* owner = NULL;
@@ -567,7 +600,7 @@ PokemonNode *createPokemonNode(const PokemonData *data) {
 // --------------------------------------------------------------
 // Main Menu
 // --------------------------------------------------------------
-void mainMenu() {
+void mainMenu(void) {
 	int choice;
 	do {
 		printf("\n=== Main Menu ===\n");
@@ -606,7 +639,7 @@ void mainMenu() {
 	} while (choice != 7);
 }
 
-int main() {
+int main(void) {
 	mainMenu();
 	freeAllOwners();
 	return 0;
