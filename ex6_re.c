@@ -182,10 +182,16 @@ PokemonNode* pokemonCircleToTree(PokemonNode *root) {
             PokemonNode *p = treeRoot;
             for (;;) {
                 if (clone->data->id < p->data->id) {
-                    if (!p->left) { p->left = clone; break; }
+                    if (!p->left) {
+						p->left = clone;
+						break;
+					}
                     p = p->left;
                 } else {
-                    if (!p->right) { p->right = clone; break; }
+                    if (!p->right) {
+						p->right = clone;
+						break;
+					}
                     p = p->right;
                 }
             }
