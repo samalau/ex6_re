@@ -617,7 +617,7 @@ void mainMenu(void) {
 			// mergePokedexMenu();
 			break;
 		case 5:
-			// sortOwners();
+			sortOwners();
 			break;
 		case 6:
 			printOwnersCircular(ownerHead);
