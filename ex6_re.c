@@ -244,6 +244,20 @@ void printPokemonNode(PokemonNode *node) {
 		(node->data->CAN_EVOLVE == CAN_EVOLVE) ? "Yes" : "No");
 }
 
+void BFSGeneric(PokemonNode *root, VisitNodeFunc visit) {
+    if (!root || !visit) return;
+    Queue q;
+    initQueue(&q);
+    enqueue(&q, root);
+    while (q.front) {
+        PokemonNode *node = dequeue(&q);
+        visit(node);
+        if (node->left) enqueue(&q, node->left);
+        if (node->right) enqueue(&q, node->right);
+    }
+    freeQueue(&q);
+}
+
 void preOrderGeneric(PokemonNode *root, VisitNodeFunc visit) {
     if (!root) return;
     visit(root);
@@ -307,8 +321,10 @@ void displayMenu(OwnerNode *owner) {
 	PokemonNode *treeRoot;
     switch (choice) {
 	case 1:
-		// displayBFS(owner->pokedexRoot);
-		break;
+		treeRoot = pokemonCircleToTree(owner->pokedexRoot);
+		displayBFS(treeRoot);
+		freePokemonTree(&treeRoot);
+	break;
 	case 2:
 		treeRoot = pokemonCircleToTree(owner->pokedexRoot);
 		preOrderTraversal(treeRoot);
@@ -359,7 +375,7 @@ void enterExistingPokedexMenu(void) {
 			displayMenu(owner);
 			break;
 		case 3:
-			// freePokemon(owner);
+			freePokemon(owner);
 			break;
 		case 4:
 			// pokemonFight(owner);
@@ -375,35 +391,82 @@ void enterExistingPokedexMenu(void) {
 	} while (subChoice != 6);
 }
 
-PokemonNode *removePokemonByID(PokemonNode *root, int id) {
-	searchPokemonBFS(root, id);
-	removeNodeBST(root, id);
+void initQueue(Queue *q) {
+    q->front = q->rear = NULL;
 }
 
+void enqueue(Queue *q, PokemonNode *p) {
+    QueueNode *n = malloc(sizeof(QueueNode));
+    if (!n) return;
+    n->pokemon = p;
+    n->next = NULL;
+    if (!q->rear) q->front = q->rear = n;
+    else q->rear = q->rear->next = n;
+}
 
-// void removeOwnerFromCircularList(OwnerNode *owner) {
-//     if (!owner || !ownerHead) return;
-//     if (owner->next == owner && owner->prev == owner) {
-//         ownerHead = NULL;
-//         return;
-//     }
-//     if (node->left && node->right) {
-//         node->left->right = node->right;
-//         node->right->left = node->left;
-//     }
-//     if (node == owner->pokedex)
-//         owner->pokedex = NULL;
-// }
+PokemonNode *dequeue(Queue *q) {
+    if (!q->front) return NULL;
+    QueueNode *n = q->front;
+    PokemonNode *p = n->pokemon;
+    if (!(q->front = n->next)) q->rear = NULL;
+    free(n);
+    return p;
+}
 
+void freeQueue(Queue *q) {
+    while (q->front) dequeue(q);
+}
 
 PokemonNode *searchPokemonBFS(PokemonNode *root, int id) {
-	
+    if (!root) return NULL;
+    Queue q;
+    initQueue(&q);
+    enqueue(&q, root);
+    while (q.front) {
+        PokemonNode *node = dequeue(&q);
+        if (node->data->id == id) {
+            freeQueue(&q);
+            return node;
+        }
+        if (node->left) enqueue(&q, node->left);
+        if (node->right) enqueue(&q, node->right);
+    }
+    return NULL;
 }
 
 PokemonNode *removeNodeBST(PokemonNode *root, int id) {
-	
+    if (!root) return NULL;
+    if (id < root->data->id)
+        root->left = removeNodeBST(root->left, id);
+    else if (id > root->data->id)
+        root->right = removeNodeBST(root->right, id);
+    else {
+        if (!root->left && !root->right) {
+            freePokemonNode(root);
+            return NULL;
+        } else if (!root->left) {
+            PokemonNode *temp = root->right;
+            freePokemonNode(root);
+            return temp;
+        } else if (!root->right) {
+            PokemonNode *temp = root->left;
+            freePokemonNode(root);
+            return temp;
+        } else {
+            PokemonNode *succ = root->right;
+            while (succ->left) succ = succ->left;
+            root->data = succ->data;
+            root->right = removeNodeBST(root->right, succ->data->id);
+        }
+    }
+    return root;
 }
-// PokemonNode* pokemonCircleToTree(PokemonNode *root);
+
+PokemonNode *removePokemonByID(PokemonNode *root, int id) {
+    PokemonNode *found = searchPokemonBFS(root, id);
+    if (!found) return root;
+    return removeNodeBST(root, id);
+}
 
 void freePokemon(OwnerNode *owner) {
 	PokemonNode *node = NULL;
@@ -422,6 +485,22 @@ void freePokemonNode(PokemonNode *node) {
 	// NULLIFY NODE IN CALLER
 }
 
+void displayBFS(PokemonNode *root) {
+    if (!root) {
+        printf("Pokedex is empty.\n");
+        return;
+    }
+    Queue q;
+    initQueue(&q);
+    enqueue(&q, root);
+    while (q.front) {
+        PokemonNode *node = dequeue(&q);
+        printPokemonNode(node);
+        if (node->left) enqueue(&q, node->left);
+        if (node->right) enqueue(&q, node->right);
+    }
+    freeQueue(&q);
+}
 // --------------------------------------------------------------
 // New Pokedex
 // --------------------------------------------------------------

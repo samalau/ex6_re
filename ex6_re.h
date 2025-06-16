@@ -6,6 +6,15 @@
 #include <stdlib.h>
 #include <string.h>
 
+typedef struct QueueNode {
+    PokemonNode *pokemon;
+    struct QueueNode *next;
+} QueueNode;
+
+typedef struct {
+    QueueNode *front;
+    QueueNode *rear;
+} Queue;
 
 typedef enum
 {
@@ -164,6 +173,15 @@ void freeOwnerNode(OwnerNode *owner);
  */
 PokemonNode *insertPokemonNode(PokemonNode *root, PokemonNode *newNode);
 
+/** */
+void initQueue(Queue *q);
+/** */
+void enqueue(Queue *q, PokemonNode *p);
+/** */
+PokemonNode *dequeue(Queue *q);
+/** */
+void freeQueue(Queue *q);
+
 /**
  * @brief BFS search for a Pokemon by ID in the BST.
  * @param root BST root
@@ -206,7 +224,7 @@ typedef void (*VisitNodeFunc)(PokemonNode *);
  * @param visit function pointer for what to do with each node
  * Why we made it: BFS plus function pointers => flexible traversal.
  */
-// void BFSGeneric(PokemonNode *root, VisitNodeFunc visit);
+void BFSGeneric(PokemonNode *root, VisitNodeFunc visit);
 
 /**
  * @brief A generic pre-order traversal (Root-Left-Right).
@@ -295,7 +313,7 @@ typedef struct
  * @param root BST root
  * Why we made it: Quick listing in BFS order.
  */
-// void displayBFS(PokemonNode *root);
+void displayBFS(PokemonNode *root);
 
 /**
  * @brief Pre-order user-friendly display (Root->Left->Right).
