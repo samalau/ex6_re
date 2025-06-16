@@ -19,24 +19,22 @@
 // 1) Safe integer reading
 // --------------------------------------------------------------
 
-void trimWhitespace(char *str)
-{
+void trimWhitespace(char *str) {
 	// Remove leading spaces/tabs/\r
 	int start = 0;
 	while (str[start] == ' ' || str[start] == '\t' || str[start] == '\r')
 		start++;
-
 	if (start > 0) {
 		int idx = 0;
-		while (str[start]) str[idx++] = str[start++];
+		while (str[start])
+			str[idx++] = str[start++];
 		str[idx] = '\0';
 	}
 
 	// Remove trailing spaces/tabs/\r
 	int len = (int)strlen(str);
-	while (len > 0 && (str[len - 1] == ' ' || str[len - 1] == '\t' || str[len - 1] == '\r')) {
+	while (len > 0 && (str[len - 1] == ' ' || str[len - 1] == '\t' || str[len - 1] == '\r'))
 		str[--len] = '\0';
-	}
 }
 
 char *myStrdup(const char *src) {
@@ -59,6 +57,7 @@ int readIntSafe(const char *prompt) {
 		printf("%s", prompt);
 		// If we fail to read, treat it as invalid
 		if (!fgets(buffer, sizeof(buffer), stdin)) {
+			if (feof(stdin)) return -1;
 			printf("Invalid input.\n");
 			clearerr(stdin);
 			continue;
@@ -147,6 +146,7 @@ char readDirection(char* prompt) {
     printf("%s", prompt);
 	char buffer[2];
 	if (fgets(buffer, sizeof(buffer), stdin) != NULL) {
+		if (feof(stdin)) return -1;
 		if (buffer[0] == 'F' || buffer[0] == 'f' || buffer[0] == 'B' || buffer[0] == 'b') {
 			return buffer[0];
 		}
@@ -396,7 +396,7 @@ void initQueue(Queue *q) {
 }
 
 void enqueue(Queue *q, PokemonNode *p) {
-    QueueNode *n = malloc(sizeof(QueueNode));
+    QueueNode *n = (QueueNode *)malloc(sizeof(QueueNode));
     if (!n) return;
     n->pokemon = p;
     n->next = NULL;
