@@ -309,7 +309,7 @@ void postOrderTraversal(PokemonNode *root) {
 void displayMenu(OwnerNode *owner) {
     if (!owner->pokedexRoot) {
         printf("Pokedex is empty.\n");
-        return;
+        return; 
     }
     printf("Display:\n");
     printf("1. BFS (Level-Order)\n");
@@ -469,12 +469,9 @@ PokemonNode *removePokemonByID(PokemonNode *root, int id) {
 }
 
 void freePokemon(OwnerNode *owner) {
-	PokemonNode *node = NULL;
 	int id = readIntSafe("Enter Pokemon ID to release: ");
 	if (id < 1 || id > 151) return;
-
-	removePokemonByID(owner->pokedexRoot, id);
-	freePokemonNode(node);
+	owner->pokedexRoot = removePokemonByID(owner->pokedexRoot, id);
 }
 
 void freePokemonNode(PokemonNode *node) {
@@ -482,7 +479,7 @@ void freePokemonNode(PokemonNode *node) {
     node->data = NULL;
     node->left = node->right = NULL;
     free(node);
-	// NULLIFY NODE IN CALLER
+	// NULLIFY or REASSIGN node in caller
 }
 
 void displayBFS(PokemonNode *root) {
@@ -699,12 +696,6 @@ PokemonNode *createPokemonNode(const PokemonData *data) {
 	poke->left = poke->right = NULL;  // assign in caller
 	return poke;
 }
-
-// PokemonNode *removeNodeBST(PokemonNode *root, int id) {
-// }
-
-// PokemonNode *removePokemonByID(PokemonNode *root, int id) {
-// }
 
 // --------------------------------------------------------------
 // Main Menu
