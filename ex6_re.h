@@ -451,7 +451,12 @@ void openPokedexMenu(void);
 /**
  * @brief Select a Pokedex (owner) from the list by number.
  */
-void choosePokedexByNumber(OwnerNode **cur, char ifDelete);
+void ownerByNumber(OwnerNode **cur, char ifDelete);
+
+/**
+ * @brief Enter an owner name for the pokedex merge.
+ */
+void ownerByName(OwnerNode **owner, char ifDelete);
 
 /**
  * @brief Delete an entire Pokedex (owner) from the list.

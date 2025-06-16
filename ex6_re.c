@@ -350,7 +350,7 @@ void enterExistingPokedexMenu(void) {
 	printf("\nExisting Pokedexes:\n");
 	if (!ownerHead) return;
 	OwnerNode* owner = NULL;
-	choosePokedexByNumber(&owner, (char)0);
+	ownerByNumber(&owner, (char)0);
 	if (!owner) return;
 	printf("\nEntering %s's Pokedex...\n", owner->ownerName);
 	int subChoice;
@@ -595,7 +595,7 @@ OwnerNode *findOwnerByName(const char *name) {
 	return node;
 }
 
-void choosePokedexByNumber(OwnerNode **owner, char ifDelete) {
+void ownerByNumber(OwnerNode **owner, char ifDelete) {
 	if (!ownerHead) return;
 	*owner = ownerHead;
 	int ind = 0;
@@ -617,7 +617,7 @@ void choosePokedexByNumber(OwnerNode **owner, char ifDelete) {
 void deletePokedex(void) {
 	if (!ownerHead) return;
 	OwnerNode *owner = NULL;
-	choosePokedexByNumber(&owner, (char)1);
+	ownerByNumber(&owner, (char)1);
 	if (!owner) return;
 	if (ownerHead == owner) {
 		if (ownerHead->next != ownerHead)
@@ -627,12 +627,31 @@ void deletePokedex(void) {
 	freeOwnerNode(owner);
 }
 
+void ownerByName(OwnerNode **owner, char ifDelete) {
+	if (!ownerHead) return;
+	*owner = ownerHead;
+	int ind = 0;
+	do {
+		printf("%d. %s\n", ++ind, (*owner)->ownerName);
+		*owner = (*owner)->next;
+	} while (*owner != ownerHead);
+	int select = readIntSafe(
+		ifDelete ? "Choose a Pokedex to delete by number: "
+			: "Choose a Pokedex by number: ");
+	if (select < 1 || select > ind) {
+		*owner = NULL;
+		return;  // placeholder
+	}
+	ind = 0;
+	while (++ind != select) *owner = (*owner)->next;
+}
+
 void mergePokedexMenu(void) {
 	if (!ownerHead || ownerHead->next == ownerHead) return;
 	OwnerNode *src = NULL, *dst = NULL;
-	choosePokedexByNumber(&src, 0);
+	ownerByNumber(&src, 0);
 	if (!src) return;
-	choosePokedexByNumber(&dst, 0);
+	ownerByNumber(&dst, 0);
 	if (!dst || dst == src) return;
 	if (!src->pokedexRoot) {
 		freeOwnerNode(src);
