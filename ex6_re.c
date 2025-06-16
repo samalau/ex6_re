@@ -432,10 +432,8 @@ PokemonNode *searchPokemonBFS(PokemonNode *root, int id) {
 
 PokemonNode *removeNodeBST(PokemonNode *root, int id) {
     if (!root) return NULL;
-    if (id < root->data->id)
-        root->left = removeNodeBST(root->left, id);
-    else if (id > root->data->id)
-        root->right = removeNodeBST(root->right, id);
+    if (id < root->data->id) root->left = removeNodeBST(root->left, id);
+    else if (id > root->data->id) root->right = removeNodeBST(root->right, id);
     else {
         if (!root->left && !root->right) {
             freePokemonNode(root);
@@ -494,6 +492,7 @@ void displayBFS(PokemonNode *root) {
     }
     freeQueue(&q);
 }
+
 // --------------------------------------------------------------
 // New Pokedex
 // --------------------------------------------------------------
@@ -513,17 +512,25 @@ void openPokedexMenu(void) {
 		if (pokemon < 1 || 3 < pokemon) {
 			free(ownerName);
 			ownerName = NULL;
-			return;  // placeholder
+			return;
 		}
 		pokemon = (pokemon * 3) - 3;
 		PokemonData *starterData = (PokemonData *)malloc(sizeof(PokemonData));
 		if (!(starterData)) return;  // placeholder
 		PokemonNode *starter = (PokemonNode *)malloc(sizeof(PokemonNode));
-		if (!(starter)) return;  // placeholder
+		if (!(starter)) {
+			free(ownerName);
+			ownerName = NULL;
+			return;
+		}
 		starter = createPokemonNode(&pokedex[pokemon]);
 		starter->left = starter->right = starter;
 		OwnerNode *ownerNode = createOwner(ownerName, starter);
-		if (!ownerNode) return;  // placeholder
+		if (!ownerNode) {
+			free(ownerName);
+			ownerName = NULL;
+			return;
+		}
 		if (ownerHead) linkOwnerInCircularList(ownerNode);
 		else ownerNode->next = ownerNode->prev = ownerHead = ownerNode;
 	}
@@ -601,7 +608,7 @@ void choosePokedexByNumber(OwnerNode **owner, char ifDelete) {
 			: "Choose a Pokedex by number: ");
 	if (select < 1 || select > ind) {
 		*owner = NULL;
-		return; // placeholder
+		return;  // placeholder
 	}
 	ind = 0;
 	while (++ind != select) *owner = (*owner)->next;
@@ -626,7 +633,7 @@ void deletePokedex(void) {
 OwnerNode *createOwner(char *ownerName, PokemonNode *starter) {
 	OwnerNode *owner = (OwnerNode *)malloc(sizeof(OwnerNode));
 	if (!(ownerName || starter)) return NULL;  // placeholder
-	owner->ownerName = myStrdup(ownerName);
+	owner->ownerName = ownerName;
 	owner->pokedexRoot = starter;
 	owner->prev = ownerHead ? ownerHead->prev : owner;
 	owner->next = ownerHead ? ownerHead : owner;
@@ -670,9 +677,9 @@ void freeOwnerNode(OwnerNode *owner) {
 
 void addPokemon(OwnerNode *owner) {
 	int id = readIntSafe("Enter ID to add: ");
-	if (id < 1 || id > 151) return;
+	if (id < 1 || id > 151 || searchPokemonBFS(owner->pokedexRoot, id)) return;
 	PokemonNode *pokemon = createPokemonNode(&pokedex[id-1]);
-	if (!pokemon) return;  // placeholder
+	if (!pokemon) return;
 	pokemon->left = pokemon->right = pokemon;
 	insertPokemonNode(owner->pokedexRoot, pokemon);
 	return;
