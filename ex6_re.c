@@ -626,7 +626,7 @@ void deletePokedex(void) {
 OwnerNode *createOwner(char *ownerName, PokemonNode *starter) {
 	OwnerNode *owner = (OwnerNode *)malloc(sizeof(OwnerNode));
 	if (!(ownerName || starter)) return NULL;  // placeholder
-	owner->ownerName = ownerName;
+	owner->ownerName = myStrdup(ownerName);
 	owner->pokedexRoot = starter;
 	owner->prev = ownerHead ? ownerHead->prev : owner;
 	owner->next = ownerHead ? ownerHead : owner;
