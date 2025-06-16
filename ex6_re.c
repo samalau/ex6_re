@@ -135,22 +135,18 @@ char *getDynamicInput(void) {
 		input[size++] = (char)c;
 	}
 	input[size] = '\0';
-
 	// Trim any leading/trailing whitespace or carriage returns
 	trimWhitespace(input);
 	return input;
 }
 
-// placeholder
-char readDirection(char* prompt) {
+char readDirection(const char *prompt) {
     printf("%s", prompt);
-	char buffer[2];
-	if (fgets(buffer, sizeof(buffer), stdin) != NULL) {
-		if (feof(stdin)) return -1;
-		if (buffer[0] == 'F' || buffer[0] == 'f' || buffer[0] == 'B' || buffer[0] == 'b') {
-			return buffer[0];
-		}
-	}
+    char *input = getDynamicInput();
+    if (!input) return '\0';
+    char dir = tolower(input[0]);
+    free(input);
+    if (dir == 'f' || dir == 'b') return dir;
     return '\0';
 }
 

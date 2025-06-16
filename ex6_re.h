@@ -117,7 +117,7 @@ const char *getTypeName(PokemonType type);
 /**
  * @brief Prompt the user for a direction (‘F’ or ‘B’) and return it.
  */
-char readDirection(char *prompt);
+char readDirection(const char *prompt);
 
 /* ------------------------------------------------------------
    2) Creating & Freeing Nodes
