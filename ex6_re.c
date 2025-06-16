@@ -763,7 +763,7 @@ void mainMenu(void) {
 			deletePokedex();
 			break;
 		case 4:
-			// mergePokedexMenu();
+			mergePokedexMenu();
 			break;
 		case 5:
 			sortOwners();
