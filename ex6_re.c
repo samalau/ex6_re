@@ -627,23 +627,23 @@ void deletePokedex(void) {
 	freeOwnerNode(owner);
 }
 
-void mergePokedexMenu(void)
-{
+void mergePokedexMenu(void) {
 	if (!ownerHead || ownerHead->next == ownerHead) return;
-
 	OwnerNode *src = NULL, *dst = NULL;
 	choosePokedexByNumber(&src, 0);
 	if (!src) return;
 	choosePokedexByNumber(&dst, 0);
 	if (!dst || dst == src) return;
-
-	if (!src->pokedexRoot) { freeOwnerNode(src); free(src); return; }
-
+	if (!src->pokedexRoot) {
+		freeOwnerNode(src);
+		free(src);
+		return;
+	}
 	PokemonNode *tree = pokemonCircleToTree(src->pokedexRoot);
 	if (!tree) return;
-
-	Queue q; initQueue(&q); enqueue(&q, tree);
-
+	Queue q;
+	initQueue(&q);
+	enqueue(&q, tree);
 	while (q.front) {
 		PokemonNode *n = dequeue(&q);
 		if (!searchPokemonBFS(dst->pokedexRoot, n->data->id)) {
@@ -657,7 +657,6 @@ void mergePokedexMenu(void)
 		if (n->left)  enqueue(&q, n->left);
 		if (n->right) enqueue(&q, n->right);
 	}
-
 	freeQueue(&q);
 	freePokemonTree(&tree);
 	freeOwnerNode(src);
