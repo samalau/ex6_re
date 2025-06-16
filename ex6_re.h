@@ -6,16 +6,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-typedef struct QueueNode {
-    PokemonNode *pokemon;
-    struct QueueNode *next;
-} QueueNode;
-
-typedef struct {
-    QueueNode *front;
-    QueueNode *rear;
-} Queue;
-
 typedef enum
 {
 	GRASS,
@@ -58,6 +48,17 @@ typedef struct PokemonNode
 	struct PokemonNode *left;
 	struct PokemonNode *right;
 } PokemonNode;
+
+// Queue Node (for BFS)
+typedef struct QueueNode {
+    PokemonNode *pokemon;
+    struct QueueNode *next;
+} QueueNode;
+
+typedef struct {
+    QueueNode *front;
+    QueueNode *rear;
+} Queue;
 
 // Linked List Node (for Owners)
 typedef struct OwnerNode
