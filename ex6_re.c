@@ -57,7 +57,7 @@ int readIntSafe(const char *prompt) {
 		printf("%s", prompt);
 		// If we fail to read, treat it as invalid
 		if (!fgets(buffer, sizeof(buffer), stdin)) {
-			if (feof(stdin)) return -1;
+			// if (feof(stdin)) return -1;
 			printf("Invalid input.\n");
 			clearerr(stdin);
 			continue;
@@ -627,8 +627,42 @@ void deletePokedex(void) {
 	freeOwnerNode(owner);
 }
 
-// void mergePokedexMenu(void) {
-// }
+void mergePokedexMenu(void)
+{
+	if (!ownerHead || ownerHead->next == ownerHead) return;
+
+	OwnerNode *src = NULL, *dst = NULL;
+	choosePokedexByNumber(&src, 0);
+	if (!src) return;
+	choosePokedexByNumber(&dst, 0);
+	if (!dst || dst == src) return;
+
+	if (!src->pokedexRoot) { freeOwnerNode(src); free(src); return; }
+
+	PokemonNode *tree = pokemonCircleToTree(src->pokedexRoot);
+	if (!tree) return;
+
+	Queue q; initQueue(&q); enqueue(&q, tree);
+
+	while (q.front) {
+		PokemonNode *n = dequeue(&q);
+		if (!searchPokemonBFS(dst->pokedexRoot, n->data->id)) {
+			PokemonNode *c = createPokemonNode(n->data);
+			if (c) {
+				c->left = c->right = c;
+				if (!dst->pokedexRoot) dst->pokedexRoot = c;
+				else insertPokemonNode(dst->pokedexRoot, c);
+			}
+		}
+		if (n->left)  enqueue(&q, n->left);
+		if (n->right) enqueue(&q, n->right);
+	}
+
+	freeQueue(&q);
+	freePokemonTree(&tree);
+	freeOwnerNode(src);
+	free(src);
+}
 
 OwnerNode *createOwner(char *ownerName, PokemonNode *starter) {
 	OwnerNode *owner = (OwnerNode *)malloc(sizeof(OwnerNode));
@@ -677,7 +711,11 @@ void freeOwnerNode(OwnerNode *owner) {
 
 void addPokemon(OwnerNode *owner) {
 	int id = readIntSafe("Enter ID to add: ");
-	if (id < 1 || id > 151 || searchPokemonBFS(owner->pokedexRoot, id)) return;
+	if (id < 1 || id > 151) return;
+	if (searchPokemonBFS(owner->pokedexRoot, id)) {
+		printf("Pokemon with ID %d is already in the Pokedex. No changes made.\n", id);
+		return;
+	}
 	PokemonNode *pokemon = createPokemonNode(&pokedex[id-1]);
 	if (!pokemon) return;
 	pokemon->left = pokemon->right = pokemon;

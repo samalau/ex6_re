@@ -463,7 +463,7 @@ void deletePokedex(void);
  * @brief Merge the second owner's Pokedex into the first, then remove the second owner.
  * Why we made it: BFS copy demonstration plus removing an owner.
  */
-// void mergePokedexMenu(void);
+void mergePokedexMenu(void);
 
 /* ------------------------------------------------------------
    11) Printing Owners in a Circle
