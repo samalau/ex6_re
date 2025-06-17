@@ -316,33 +316,28 @@ void displayMenu(OwnerNode *owner) {
     printf("4. Post-Order\n");
     printf("5. Alphabetical (by name)\n");
     int choice = readIntSafe("Your choice: ");
-	PokemonNode *treeRoot;
+	// PokemonNode *treeRoot = pokemonCircleToTree(owner->pokedexRoot);
     switch (choice) {
 	case 1:
-		treeRoot = pokemonCircleToTree(owner->pokedexRoot);
-		displayBFS(treeRoot);
-		freePokemonTree(&treeRoot);
-	break;
+		displayBFS(pokemonCircleToTree(owner->pokedexRoot));
+		break;
 	case 2:
-		treeRoot = pokemonCircleToTree(owner->pokedexRoot);
-		preOrderTraversal(treeRoot);
-		freePokemonTree(&treeRoot);
+		preOrderTraversal(pokemonCircleToTree(owner->pokedexRoot));
 		break;
 	case 3:
-		treeRoot = pokemonCircleToTree(owner->pokedexRoot);
-		inOrderTraversal(treeRoot);
-		freePokemonTree(&treeRoot);
+		inOrderTraversal(pokemonCircleToTree(owner->pokedexRoot));
 		break;
 	case 4:
-		treeRoot = pokemonCircleToTree(owner->pokedexRoot);
-		postOrderTraversal(treeRoot);
-		freePokemonTree(&treeRoot);
+		postOrderTraversal(pokemonCircleToTree(owner->pokedexRoot));
 		break;
 	case 5:
-		// displayAlphabetical(owner->pokedexRoot);
+		displayAlphabetical(pokemonCircleToTree(owner->pokedexRoot));
 		break;
-	default: printf("Invalid choice.\n");
+	default:
+		printf("Invalid choice.\n");
+		return;
     }
+	// freePokemonTree(&treeRoot);
 }
 
 // --------------------------------------------------------------
