@@ -5,6 +5,8 @@
 #include <string.h>
 
 # define INT_BUFFER 128
+#define FIRST_OWNER_OF_MERGE 1
+#define SECOND_OWNER_OF_MERGE 2
 
 // ================================================
 // Basic struct definitions from ex6.h assumed:
@@ -633,9 +635,6 @@ void deletePokedex(void) {
 	owner = NULL;
 }
 
-#define FIRST_OWNER_OF_MERGE 1
-#define SECOND_OWNER_OF_MERGE 2
-
 void ownerByName(OwnerNode **owner, char whichOwner) {
 	if (!ownerHead) {
 		*owner = NULL;
@@ -749,7 +748,7 @@ void freeOwnerNode(OwnerNode *owner) {
 	}
 	freePokemonNode(root);
 	owner->pokedexRoot = NULL;
-	// FREE OWNER IN CALLER
+	// free owner in caller
 }
 
 void addPokemon(OwnerNode *owner) {
