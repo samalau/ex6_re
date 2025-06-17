@@ -5,8 +5,8 @@
 #include <string.h>
 
 # define INT_BUFFER 128
-#define FIRST_OWNER_OF_MERGE 1
-#define SECOND_OWNER_OF_MERGE 2
+# define FIRST_OWNER_OF_MERGE 1
+# define SECOND_OWNER_OF_MERGE 2
 
 // ================================================
 // Basic struct definitions from ex6.h assumed:
@@ -511,6 +511,60 @@ void displayBFS(PokemonNode *root) {
         if (node->right) enqueue(&q, node->right);
     }
     freeQueue(&q);
+}
+
+void pokemonFight(OwnerNode *owner) {
+    if (!owner->pokedexRoot) {
+        printf("Pokedex is empty.\n");
+        return;
+    }
+    PokemonNode *tree = pokemonCircleToTree(owner->pokedexRoot);
+    int id1 = readIntSafe("Enter ID of the first Pokemon: ");
+    int id2 = readIntSafe("Enter ID of the second Pokemon: ");
+    PokemonNode *p1 = searchPokemonBFS(tree, id1);
+    PokemonNode *p2 = searchPokemonBFS(tree, id2);
+    if (!p1 || !p2) {
+        printf("One or both Pokemon IDs not found.\n");
+        freePokemonTree(&tree);
+        return;
+    }
+    double score1 = p1->data->attack * 1.5 + p1->data->hp * 1.2;
+    double score2 = p2->data->attack * 1.5 + p2->data->hp * 1.2;
+    printf("Pokemon 1: %s (Score = %.2f)\n", p1->data->name, score1);
+    printf("Pokemon 2: %s (Score = %.2f)\n", p2->data->name, score2);
+    if (score1 > score2)
+        printf("%s wins!\n", p1->data->name);
+    else if (score2 > score1)
+        printf("%s wins!\n", p2->data->name);
+    else
+        printf("It's a tie!\n");
+    freePokemonTree(&tree);
+}
+
+void evolvePokemon(OwnerNode *owner) {
+    if (!owner->pokedexRoot) {
+        printf("Cannot evolve. Pokedex empty.\n");
+        return;
+    }
+    int id = readIntSafe("Enter ID of Pokemon to evolve: ");
+    PokemonNode *tree = pokemonCircleToTree(owner->pokedexRoot);
+    PokemonNode *found = searchPokemonBFS(tree, id);
+    freePokemonTree(&tree);
+    if (!found) {
+        printf("Pokemon with ID %d not found.\n", id);
+        return;
+    }
+    int newId = id + 1;
+    owner->pokedexRoot = removePokemonByID(owner->pokedexRoot, id);
+    PokemonNode *c = createPokemonNode(&pokedex[newId - 1]);
+    c->left = c->right = c;
+    if (!owner->pokedexRoot)
+        owner->pokedexRoot = c;
+    else
+        insertPokemonNode(owner->pokedexRoot, c);
+    printf("Pokemon evolved from %s (ID %d) to %s (ID %d).\n",
+           found->data->name, id,
+           pokedex[newId - 1].name, newId);
 }
 
 // --------------------------------------------------------------

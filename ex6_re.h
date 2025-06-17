@@ -354,14 +354,14 @@ PokemonNode* pokemonCircleToTree(PokemonNode *root);
  * @param owner pointer to the Owner
  * Why we made it: Fun demonstration of BFS and custom formula for battles.
  */
-// void pokemonFight(OwnerNode *owner);
+void pokemonFight(OwnerNode *owner);
 
 /**
  * @brief Evolve a Pokemon (ID -> ID+1) if allowed.
  * @param owner pointer to the Owner
  * Why we made it: Demonstrates removing an old ID, inserting the next ID.
  */
-// void evolvePokemon(OwnerNode *owner);
+void evolvePokemon(OwnerNode *owner);
 
 /**
  * @brief Prompt for an ID, BFS-check duplicates, then insert into BST.
