@@ -414,7 +414,7 @@ void freeQueue(Queue *q) {
 }
 
 PokemonNode *searchPokemonBFS(PokemonNode *root, int id) {
-    if (!root) return NULL;
+    if (!root) {printf("FUCK IRAN\n"); return NULL;}
     Queue q;
     initQueue(&q);
     enqueue(&q, root);
@@ -431,7 +431,7 @@ PokemonNode *searchPokemonBFS(PokemonNode *root, int id) {
 }
 
 PokemonNode *removeNodeBST(PokemonNode *root, int id) {
-    if (!root) return NULL;
+    if (!root) {printf("FUCK YOU :)\n"); return NULL;}
     if (id < root->data->id) root->left = removeNodeBST(root->left, id);
     else if (id > root->data->id) root->right = removeNodeBST(root->right, id);
     else {
@@ -457,15 +457,30 @@ PokemonNode *removeNodeBST(PokemonNode *root, int id) {
 }
 
 PokemonNode *removePokemonByID(PokemonNode *root, int id) {
-    PokemonNode *found = searchPokemonBFS(root, id);
-    if (!found) return root;
     return removeNodeBST(root, id);
 }
 
 void freePokemon(OwnerNode *owner) {
 	int id = readIntSafe("Enter Pokemon ID to release: ");
-	if (id < 1 || id > 151) return;
-	owner->pokedexRoot = removePokemonByID(owner->pokedexRoot, id);
+	if (id < 1 || id > 151) {
+		printf("DEBUG PRINT: INVALID ID\n");
+		return;
+	}
+	if (!owner->pokedexRoot) {
+		printf("No Pokemon to release.\n");
+		return;
+	}
+	PokemonNode *treeRoot = pokemonCircleToTree(owner->pokedexRoot);
+	if (!treeRoot) {
+		printf("No Pokemon to release.\n");
+		return;
+	}
+	PokemonNode *found = searchPokemonBFS(treeRoot, id);
+    if (!found) {
+		printf("No Pokemon with ID %d found.\n", id);
+		return;
+	}
+	owner->pokedexRoot = removePokemonByID(treeRoot, id);
 }
 
 void freePokemonNode(PokemonNode *node) {
@@ -515,8 +530,6 @@ void openPokedexMenu(void) {
 			return;
 		}
 		pokemon = (pokemon * 3) - 3;
-		// PokemonData *starterData = (PokemonData *)malloc(sizeof(PokemonData));
-		// if (!(starterData)) return;  // placeholder
 		PokemonNode *starter = (PokemonNode *)malloc(sizeof(PokemonNode));
 		if (!(starter)) {
 			free(ownerName);
@@ -596,7 +609,8 @@ void ownerByNumber(OwnerNode **owner, char ifDelete) {
 			: "Choose a Pokedex by number: ");
 	if (select < 1 || select > ind) {
 		*owner = NULL;
-		return;  // placeholder
+		printf("DEBUG PRINT: OWNER DOESN'T EXIST\n");
+		return;
 	}
 	ind = 0;
 	while (++ind != select) *owner = (*owner)->next;
@@ -620,31 +634,78 @@ void deletePokedex(void) {
 #define SECOND_OWNER_OF_MERGE 1
 
 void ownerByName(OwnerNode **owner, char whichOwner) {
-	if (!ownerHead) {
-		*owner = NULL;
-		return; 
-	}
-	printf("%s",
-	       (whichOwner == FIRST_OWNER_OF_MERGE)
-	       ? "Enter name of first owner: "
-	       : "Enter name of second owner: ");
-	char *name = getDynamicInput();
-	if (!name) {
-		*owner = NULL;
-		return; 
-	}
-	OwnerNode *cur = ownerHead;
-	do {
-		if (strcmp(cur->ownerName, name) == 0) {
-			*owner = cur;
-			free(name);
-			return;
-		}
-		cur = cur->next;
-	} while (cur != ownerHead);
-	free(name);
-	*owner = NULL;
+    if (!ownerHead) {
+        *owner = NULL;
+        printf("DEBUG: No owners in the list.\n");
+        return; 
+    }
+    printf("%s",
+           (whichOwner == FIRST_OWNER_OF_MERGE)
+           ? "Enter name of first owner: "
+           : "Enter name of second owner: ");
+
+    char *name = getDynamicInput();
+
+    // Debug: print exactly what was input (make invisible chars visible)
+    printf("DEBUG: Owner name input: [");
+    for (char *p = name; *p; p++) {
+        if (*p == '\r') printf("\\r");
+        else if (*p == '\n') printf("\\n");
+        else printf("%c", *p);
+    }
+    printf("]\n");
+
+    // Debug: print exactly what is stored
+    OwnerNode *cur = ownerHead;
+    do {
+        printf("DEBUG: Comparing against stored owner: [");
+        for (char *p = cur->ownerName; *p; p++) {
+            if (*p == '\r') printf("\\r");
+            else if (*p == '\n') printf("\\n");
+            else printf("%c", *p);
+        }
+        printf("]\n");
+
+        if (strcmp(cur->ownerName, name) == 0) {
+            *owner = cur;
+            free(name);
+            printf("DEBUG: MATCH FOUND.\n");
+            return;
+        }
+        cur = cur->next;
+    } while (cur != ownerHead);
+
+    free(name);
+    *owner = NULL;
+    printf("DEBUG: Owner not found.\n");
 }
+
+// void ownerByName(OwnerNode **owner, char whichOwner) {
+// 	if (!ownerHead) {
+// 		*owner = NULL;
+// 		return; 
+// 	}
+// 	printf("%s",
+// 	       (whichOwner == FIRST_OWNER_OF_MERGE)
+// 	       ? "Enter name of first owner: "
+// 	       : "Enter name of second owner: ");
+// 	char *name = getDynamicInput();
+// 	if (!name) {
+// 		*owner = NULL;
+// 		return; 
+// 	}
+// 	OwnerNode *cur = ownerHead;
+// 	do {
+// 		if (strcmp(cur->ownerName, name) == 0) {
+// 			*owner = cur;
+// 			free(name);
+// 			return;
+// 		}
+// 		cur = cur->next;
+// 	} while (cur != ownerHead);
+// 	free(name);
+// 	*owner = NULL;
+// }
 
 void mergePokedexMenu(void) {
 	if (!ownerHead || ownerHead->next == ownerHead) return;
@@ -732,7 +793,10 @@ void freeOwnerNode(OwnerNode *owner) {
 
 void addPokemon(OwnerNode *owner) {
 	int id = readIntSafe("Enter ID to add: ");
-	if (id < 1 || id > 151) return;
+	if (id < 1 || id > 151) {
+		printf("DEBUG PRINT: INVALID ID\n");
+		return;
+	}
 	if (searchPokemonBFS(owner->pokedexRoot, id)) {
 		printf("Pokemon with ID %d is already in the Pokedex. No changes made.\n", id);
 		return;
