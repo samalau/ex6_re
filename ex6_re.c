@@ -467,12 +467,12 @@ void freePokemon(OwnerNode *owner) {
 		return;
 	}
 	if (!owner->pokedexRoot) {
-		printf("No Pokemon to release.\n");
+		printf("(?) DEBUG: Pokedex is empty. ___OR___ No Pokemon to release.\n");
 		return;
 	}
 	PokemonNode *treeRoot = pokemonCircleToTree(owner->pokedexRoot);
 	if (!treeRoot) {
-		printf("No Pokemon to release.\n");
+		printf("(?) DEBUG: Pokedex is empty. ___OR___ No Pokemon to release.\n");
 		return;
 	}
 	PokemonNode *found = searchPokemonBFS(treeRoot, id);
@@ -493,7 +493,7 @@ void freePokemonNode(PokemonNode *node) {
 
 void displayBFS(PokemonNode *root) {
     if (!root) {
-        printf("Pokedex is empty.\n");
+        printf("(?) DEBUG: Pokedex is empty. ___OR___ No Pokemon to release.\n");
         return;
     }
     Queue q;
