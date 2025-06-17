@@ -680,7 +680,8 @@ void mergePokedexMenu(void) {
 	enqueue(&q, tree);
 	while (q.front) {
 		PokemonNode *n = dequeue(&q);
-		if (!searchPokemonBFS(dst->pokedexRoot, n->data->id)) {
+		PokemonNode *dstTree = pokemonCircleToTree(dst->pokedexRoot);
+		if (!searchPokemonBFS(dstTree, n->data->id)) {
 			PokemonNode *c = createPokemonNode(n->data);
 			if (c) {
 				c->left = c->right = c;
@@ -688,6 +689,7 @@ void mergePokedexMenu(void) {
 				else insertPokemonNode(dst->pokedexRoot, c);
 			}
 		}
+		freePokemonTree(&dstTree);
 		if (n->left)  enqueue(&q, n->left);
 		if (n->right) enqueue(&q, n->right);
 	}
