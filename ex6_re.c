@@ -457,6 +457,8 @@ PokemonNode *removeNodeBST(PokemonNode *root, int id) {
 }
 
 PokemonNode *removePokemonByID(PokemonNode *root, int id) {
+    if (!searchPokemonBFS(root, id)) 
+        return root;
     return removeNodeBST(root, id);
 }
 
