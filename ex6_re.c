@@ -63,7 +63,7 @@ int readIntSafe(const char *prompt) {
 		printf("%s", prompt);
 		// If we fail to read, treat it as invalid
 		if (!fgets(buffer, sizeof(buffer), stdin)) {
-			// if (feof(stdin)) return -1;
+			if (feof(stdin)) return -1;
 			printf("Invalid input.\n");
 			clearerr(stdin);
 			continue;
@@ -126,6 +126,7 @@ char *getDynamicInput(void) {
 	if (!input) {
 		printf("Memory allocation failed.\n");
 		while ((c = getchar()) != '\n' && c != EOF);
+		if (c == EOF) exit(0);
 		return NULL;
 	}
 	while ((c = getchar()) != '\n' && c != EOF) {
@@ -141,6 +142,7 @@ char *getDynamicInput(void) {
 		}
 		input[size++] = (char)c;
 	}
+	if (c == EOF) exit(0);
 	input[size] = '\0';
 	// Trim any leading/trailing whitespace or carriage returns
 	trimWhitespace(input);
