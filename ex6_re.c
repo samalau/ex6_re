@@ -360,14 +360,14 @@ void displayAlphabetical(PokemonNode *root) {
 }
 
 void initNodeArray(NodeArray *na, int cap) {
-    na->nodes = (PokemonNode*)(cap * sizeof(PokemonNode *));
+    na->nodes = (PokemonNode**)malloc(cap * sizeof(PokemonNode *));
     na->size = 0;
     na->capacity = cap;
 }
 void addNode(NodeArray *na, PokemonNode *node) {
     if (na->size == na->capacity) {
         na->capacity *= 2;
-        na->nodes = (PokemonNode*)realloc(na->nodes, na->capacity * sizeof(PokemonNode *));
+        na->nodes = (PokemonNode**)realloc(na->nodes, na->capacity * sizeof(PokemonNode *));
     }
     na->nodes[na->size++] = node;
 }
