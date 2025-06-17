@@ -525,13 +525,12 @@ void freePokemon(OwnerNode *owner) {
     if (target->left == target && target->right == target) {
         newRoot = NULL;
     } else {
-        newRoot = (target == owner->pokedexRoot) ? target->right : owner->pokedexRoot;
+        newRoot = target->right;
         target->left->right = target->right;
         target->right->left = target->left;
     }
     freePokemonNode(target);
-	if (!newRoot) owner->pokedexRoot = NULL;
-    else owner->pokedexRoot = newRoot;
+	owner->pokedexRoot = newRoot;
 }
 
 void freePokemonNode(PokemonNode *node) {
