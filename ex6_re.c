@@ -63,7 +63,7 @@ int readIntSafe(const char *prompt) {
 		printf("%s", prompt);
 		// If we fail to read, treat it as invalid
 		if (!fgets(buffer, sizeof(buffer), stdin)) {
-			if (feof(stdin)) return -1;
+			if (feof(stdin)) exit(0);
 			printf("Invalid input.\n");
 			clearerr(stdin);
 			continue;
