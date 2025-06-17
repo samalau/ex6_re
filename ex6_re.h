@@ -275,7 +275,7 @@ typedef struct
  * @param cap initial capacity
  * Why we made it: We store pointers to PokemonNodes for alphabetical sorting.
  */
-// void initNodeArray(NodeArray *na, int cap);
+void initNodeArray(NodeArray *na, int cap);
 
 /**
  * @brief Add a PokemonNode pointer to NodeArray, realloc if needed.
@@ -283,7 +283,7 @@ typedef struct
  * @param node pointer to the node
  * Why we made it: We want a dynamic list of BST nodes for sorting.
  */
-// void addNode(NodeArray *na, PokemonNode *node);
+void addNode(NodeArray *na, PokemonNode *node);
 
 /**
  * @brief Recursively collect all nodes from the BST into a NodeArray.
@@ -291,7 +291,7 @@ typedef struct
  * @param na pointer to NodeArray
  * Why we made it: We gather everything for qsort.
  */
-// void collectAll(PokemonNode *root, NodeArray *na);
+void collectAll(PokemonNode *root, NodeArray *na);
 
 /**
  * @brief Compare function for qsort (alphabetical by node->data->name).
@@ -300,7 +300,7 @@ typedef struct
  * @return -1, 0, or +1
  * Why we made it: Sorting by name for alphabetical display.
  */
-// int compareByNameNode(const void *a, const void *b);
+int compareByNameNode(const void *a, const void *b);
 
 /**
  * @brief BFS is nice, but alphabetical means we gather all nodes, sort by name, then print.
