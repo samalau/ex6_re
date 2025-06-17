@@ -505,11 +505,14 @@ PokemonNode *removePokemonByID(PokemonNode *root, int id) {
 void freePokemon(OwnerNode *owner) {
     int id = readIntSafe("Enter Pokemon ID to release: ");
     if (id < 1 || id > 151 || !owner->pokedexRoot) return;
-    PokemonNode *cur = owner->pokedexRoot, *target = NULL;
+    PokemonNode *pokemon = owner->pokedexRoot, *target = NULL;
     do {
-        if (cur->data->id == id) { target = cur; break; }
-        cur = cur->right;
-    } while (cur != owner->pokedexRoot);
+        if (pokemon->data->id == id) {
+			target = pokemon;
+			break;
+		}
+        pokemon = pokemon->right;
+    } while (pokemon != owner->pokedexRoot);
     if (!target) {
         printf("No Pokemon with ID %d found.\n", id);
         return;
@@ -523,7 +526,6 @@ void freePokemon(OwnerNode *owner) {
         target->right->left = target->left;
     }
     freePokemonNode(target);
-    target = NULL;
     owner->pokedexRoot = newRoot;
 }
 
@@ -851,7 +853,8 @@ void addPokemon(OwnerNode *owner) {
 		printf("Pokemon with ID %d is already in the Pokedex. No changes made.\n", id);
 		return;
 	}
-	PokemonNode *pokemon = createPokemonNode(&pokedex[id-1]);
+	int idIndex = id-1;
+	PokemonNode *pokemon = createPokemonNode(&pokedex[idIndex]);
 	if (!pokemon) return;
 	pokemon->left = pokemon->right = pokemon;
 	insertPokemonNode(owner->pokedexRoot, pokemon);
