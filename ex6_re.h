@@ -449,6 +449,13 @@ void enterExistingPokedexMenu(void);
 void openPokedexMenu(void);
 
 /**
+ * @brief Computes the ID of the starter pokemon
+ * @param menuChoice number chosen from the menu
+ * @return actual starter pokemon ID
+ */
+int computeStarterID(menuChoice);
+
+/**
  * @brief Select a Pokedex (owner) from the list by number.
  */
 void ownerByNumber(OwnerNode **cur, char ifDelete);

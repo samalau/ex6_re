@@ -608,6 +608,8 @@ void evolvePokemon(OwnerNode *owner) {
 // --------------------------------------------------------------
 // New Pokedex
 // --------------------------------------------------------------
+int computeStarterID(menuChoice) {return (menuChoice * 3) - 3;}
+
 void openPokedexMenu(void) {
 	printf("Your name: ");
 	char *ownerName = getDynamicInput();
@@ -617,16 +619,15 @@ void openPokedexMenu(void) {
 		free(ownerName);
 		return;
 	}
-	int pokemon = readIntSafe(
+	int choice = readIntSafe(
 		"Choose Starter:\n"
 		"1. Bulbasaur\n2. Charmander\n3. Squirtle\n"
 		"Your choice: ");
-	if (pokemon < FIRST_STARTER || pokemon > LAST_STARTER) {
+	if (choice < FIRST_STARTER || choice > LAST_STARTER) {
 		free(ownerName);
 		return;
 	}
-	pokemon = (pokemon * 3) - 3;
-	PokemonNode *starter = createPokemonNode(&pokedex[pokemon]);
+	PokemonNode *starter = createPokemonNode(&pokedex[computeStarterID(menuChoice)]);
 	if (!starter) {
 		free(ownerName);
 		return;
@@ -638,11 +639,8 @@ void openPokedexMenu(void) {
 		free(ownerName);
 		return;
 	}
-	if (!ownerHead) {
-		ownerHead = ownerNode->prev = ownerNode->next = ownerNode;
-		return;
-	}
-	linkOwnerInCircularList(ownerNode);
+	if (!ownerHead) ownerHead = ownerNode->prev = ownerNode->next = ownerNode;
+	else linkOwnerInCircularList(ownerNode);
 }
 
 void linkOwnerInCircularList(OwnerNode *newOwner) {
