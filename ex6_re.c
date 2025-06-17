@@ -599,7 +599,10 @@ void evolvePokemon(OwnerNode *owner) {
 		return;
 	}
     freePokemonTree(&tree);
-    if (!pokedex[idToEvolve].CAN_EVOLVE) printf("Cannot evolve.\n");
+    if (!pokedex[idToEvolve].CAN_EVOLVE) {
+		printf("Cannot evolve.\n");
+		return;
+	}
 	do {
         if (pokemon->data->id == idToEvolve) {
             printf("Pokemon evolved from %s (ID %d) to %s (ID %d).\n",
