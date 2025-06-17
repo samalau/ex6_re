@@ -524,19 +524,22 @@ void freePokemon(OwnerNode *owner) {
 	if (target == owner->pokedexRoot) {
 		if (target->left == target && target->right == target) {
 			freePokemonNode(target);
-			owner->pokedexRoot = NULL;
+			target = owner->pokedexRoot = NULL;
 		}
-		PokemonNode *temp =  target;
-        temp->left->right = temp->right;
-        temp->right->left = temp->left;
-		owner->pokedexRoot = temp->right;
-		freePokemonNode(temp);
+		else {
+			target->left->right = target->right;
+			target->right->left = target->left;
+			owner->pokedexRoot = target->right;
+			freePokemonNode(target);
+			target = NULL;
+		}
 	}
-    else {
-		
+	else {
+		target->left->right = target->right;
+		target->right->left = target->left;
+		freePokemonNode(target);
+		target = NULL;
     }
-    freePokemonNode(target);
-	// owner->pokedexRoot = newRoot;
 }
 
 void freePokemonNode(PokemonNode *node) {
