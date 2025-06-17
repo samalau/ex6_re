@@ -521,20 +521,15 @@ void freePokemon(OwnerNode *owner) {
         printf("No Pokemon with ID %d found.\n", id);
         return;
     }
-	if (target == owner->pokedexRoot) {
-		if (!(target->left == target && target->right == target)) {
-			target->left->right = target->right;
-			target->right->left = target->left;
-			owner->pokedexRoot = target->right;
-		}
-		
-		owner->pokedexRoot = NULL;
-	}
-	else {
+	if (target->left != target || target->right != target) {
 		target->left->right = target->right;
 		target->right->left = target->left;
-    }
+		if (target == owner->pokedexRoot) owner->pokedexRoot = target->right;
+		freePokemonNode(target);
+		return;
+	}
 	freePokemonNode(target);
+	owner->pokedexRoot = NULL;
 }
 
 void freePokemonNode(PokemonNode *node) {
