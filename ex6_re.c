@@ -618,24 +618,31 @@ void openPokedexMenu(void) {
 		return;
 	}
 	int pokemon = readIntSafe(
-		"Choose Starter:\n" 
+		"Choose Starter:\n"
 		"1. Bulbasaur\n2. Charmander\n3. Squirtle\n"
 		"Your choice: ");
-	if (pokemon >= FIRST_STARTER && pokemon <= LAST_STARTER) {
-		pokemon = (pokemon * 3) - 3;
-		PokemonNode *starter = createPokemonNode(&pokedex[pokemon]);
-		if (starter) {
-			starter->left = starter->right = starter;
-			OwnerNode *ownerNode = createOwner(ownerName, starter);
-			if (ownerNode) {
-				if (ownerHead) linkOwnerInCircularList(ownerNode);
-				else ownerNode->next = ownerNode->prev = ownerHead = ownerNode;
-				return;
-			}
-			freePokemonNode(starter);
-		}
+	if (pokemon < FIRST_STARTER || pokemon > LAST_STARTER) {
+		free(ownerName);
+		return;
 	}
-	free(ownerName);
+	pokemon = (pokemon * 3) - 3;
+	PokemonNode *starter = createPokemonNode(&pokedex[pokemon]);
+	if (!starter) {
+		free(ownerName);
+		return;
+	}
+	starter->left = starter->right = starter;
+	OwnerNode *ownerNode = createOwner(ownerName, starter);
+	if (!ownerNode) {
+		freePokemonNode(starter);
+		free(ownerName);
+		return;
+	}
+	if (!ownerHead) {
+		ownerHead = ownerNode->prev = ownerNode->next = ownerNode;
+		return;
+	}
+	linkOwnerInCircularList(ownerNode);
 }
 
 void linkOwnerInCircularList(OwnerNode *newOwner) {
