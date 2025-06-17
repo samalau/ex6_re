@@ -307,7 +307,7 @@ typedef struct
  * @param root BST root
  * Why we made it: Provide user the option to see Pokemon sorted by name.
  */
-// void displayAlphabetical(PokemonNode *root);
+void displayAlphabetical(PokemonNode *root);
 
 /**
  * @brief BFS user-friendly display (level-order).

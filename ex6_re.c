@@ -316,28 +316,67 @@ void displayMenu(OwnerNode *owner) {
     printf("4. Post-Order\n");
     printf("5. Alphabetical (by name)\n");
     int choice = readIntSafe("Your choice: ");
-	// PokemonNode *treeRoot = pokemonCircleToTree(owner->pokedexRoot);
+	PokemonNode *treeRoot = pokemonCircleToTree(owner->pokedexRoot);
     switch (choice) {
 	case 1:
-		displayBFS(pokemonCircleToTree(owner->pokedexRoot));
+		displayBFS(treeRoot);
 		break;
 	case 2:
-		preOrderTraversal(pokemonCircleToTree(owner->pokedexRoot));
+		preOrderTraversal(treeRoot);
 		break;
 	case 3:
-		inOrderTraversal(pokemonCircleToTree(owner->pokedexRoot));
+		inOrderTraversal(treeRoot);
 		break;
 	case 4:
-		postOrderTraversal(pokemonCircleToTree(owner->pokedexRoot));
+		postOrderTraversal(treeRoot);
 		break;
 	case 5:
-		displayAlphabetical(pokemonCircleToTree(owner->pokedexRoot));
+		displayAlphabetical(treeRoot);
 		break;
 	default:
 		printf("Invalid choice.\n");
-		return;
     }
-	// freePokemonTree(&treeRoot);
+	freePokemonTree(&treeRoot);
+}
+
+void displayAlphabetical(PokemonNode *root) {
+    if (!root) {
+        printf("Pokedex is empty.\n");
+        return;
+    }
+    NodeArray na;
+    initNodeArray(&na, 16);
+    collectAll(root, &na);
+    qsort(na.nodes, na.size, sizeof(PokemonNode *), compareByNameNode);
+    for (int i = 0; i < na.size; i++)
+        printPokemonNode(na.nodes[i]);
+    free(na.nodes);
+}
+
+static void initNodeArray(NodeArray *na, int cap) {
+    na->nodes = malloc(cap * sizeof(PokemonNode *));
+    na->size = 0;
+    na->capacity = cap;
+}
+static void addNode(NodeArray *na, PokemonNode *node) {
+    if (na->size == na->capacity) {
+        na->capacity *= 2;
+        na->nodes = realloc(na->nodes, na->capacity * sizeof(PokemonNode *));
+    }
+    na->nodes[na->size++] = node;
+}
+
+static void collectAll(PokemonNode *root, NodeArray *na) {
+    if (!root) return;
+    collectAll(root->left, na);
+    addNode(na, root);
+    collectAll(root->right, na);
+}
+
+static int compareByNameNode(const void *a, const void *b) {
+    const PokemonNode *const *p1 = a;
+    const PokemonNode *const *p2 = b;
+    return strcmp((*p1)->data->name, (*p2)->data->name);
 }
 
 // --------------------------------------------------------------
