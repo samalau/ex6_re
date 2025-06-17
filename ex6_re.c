@@ -603,10 +603,10 @@ void evolvePokemon(OwnerNode *owner) {
 	do {
         if (pokemon->data->id == idToEvolve) {
             printf("Pokemon evolved from %s (ID %d) to %s (ID %d).\n",
-                   pokemon->data->name,
-				   idToEvolve,
-				   pokedex[idToEvolve].name,
-				   idToEvolve);
+                pokemon->data->name,
+				idToEvolve,
+				pokedex[idToEvolve].name,
+				pokedex[idToEvolve].id);
             pokemon->data = &pokedex[idToEvolve];
             return;
         }
