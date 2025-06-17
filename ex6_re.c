@@ -629,7 +629,7 @@ void openPokedexMenu(void) {
 			ownerName = NULL;
 			return;
 		}
-		starter = createPokemonNode(&pokedex[pokemon]);
+		PokemonNode *starter = createPokemonNode(&pokedex[pokemon]);
 		starter->left = starter->right = starter;
 		OwnerNode *ownerNode = createOwner(ownerName, starter);
 		if (!ownerNode) {
@@ -866,6 +866,7 @@ PokemonNode *insertPokemonNode(PokemonNode *root, PokemonNode *newNode) {
 
 PokemonNode *createPokemonNode(const PokemonData *data) {
 	PokemonNode *poke = (PokemonNode*)malloc(sizeof(PokemonNode));
+	if (!poke) return NULL;
 	poke->data = data;
 	poke->left = poke->right = NULL;  // assign in caller
 	return poke;
