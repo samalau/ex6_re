@@ -477,10 +477,14 @@ void freePokemon(OwnerNode *owner) {
 	}
 	PokemonNode *found = searchPokemonBFS(treeRoot, id);
     if (!found) {
+		freePokemonTree(&treeRoot);
+		treeRoot = NULL;
 		printf("No Pokemon with ID %d found.\n", id);
 		return;
 	}
-	owner->pokedexRoot = removePokemonByID(treeRoot, id);
+	freePokemonTree(&treeRoot);
+	treeRoot = NULL;
+	owner->pokedexRoot = removePokemonByID(owner->pokedexRoot, id);
 }
 
 void freePokemonNode(PokemonNode *node) {
