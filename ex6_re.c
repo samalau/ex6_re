@@ -431,7 +431,7 @@ PokemonNode *searchPokemonBFS(PokemonNode *root, int id) {
 }
 
 PokemonNode *removeNodeBST(PokemonNode *root, int id) {
-    if (!root) {printf("FUCK YOU :)\n"); return NULL;}
+    if (!root) {printf("FUCK YOU\n"); return NULL;}
     if (id < root->data->id) root->left = removeNodeBST(root->left, id);
     else if (id > root->data->id) root->right = removeNodeBST(root->right, id);
     else {
@@ -461,30 +461,28 @@ PokemonNode *removePokemonByID(PokemonNode *root, int id) {
 }
 
 void freePokemon(OwnerNode *owner) {
-	int id = readIntSafe("Enter Pokemon ID to release: ");
-	if (id < 1 || id > 151) {
-		printf("DEBUG PRINT: INVALID ID\n");
-		return;
-	}
-	if (!owner->pokedexRoot) {
-		printf("(?) DEBUG: Pokedex is empty. ___OR___ No Pokemon to release.\n");
-		return;
-	}
-	PokemonNode *treeRoot = pokemonCircleToTree(owner->pokedexRoot);
-	if (!treeRoot) {
-		printf("(?) DEBUG: Pokedex is empty. ___OR___ No Pokemon to release.\n");
-		return;
-	}
-	PokemonNode *found = searchPokemonBFS(treeRoot, id);
-    if (!found) {
-		freePokemonTree(&treeRoot);
-		treeRoot = NULL;
-		printf("No Pokemon with ID %d found.\n", id);
-		return;
-	}
-	freePokemonTree(&treeRoot);
-	treeRoot = NULL;
-	owner->pokedexRoot = removePokemonByID(owner->pokedexRoot, id);
+    int id = readIntSafe("Enter Pokemon ID to release: ");
+    if (id < 1 || id > 151 || !owner->pokedexRoot) return;
+    PokemonNode *cur = owner->pokedexRoot, *target = NULL;
+    do {
+        if (cur->data->id == id) { target = cur; break; }
+        cur = cur->right;
+    } while (cur != owner->pokedexRoot);
+    if (!target) {
+        printf("No Pokemon with ID %d found.\n", id);
+        return;
+    }
+    PokemonNode *newRoot;
+    if (target->left == target && target->right == target) {
+        newRoot = NULL;
+    } else {
+        newRoot = (target == owner->pokedexRoot) ? target->right : owner->pokedexRoot;
+        target->left->right = target->right;
+        target->right->left = target->left;
+    }
+    freePokemonNode(target);
+    target = NULL;
+    owner->pokedexRoot = newRoot;
 }
 
 void freePokemonNode(PokemonNode *node) {
@@ -492,7 +490,6 @@ void freePokemonNode(PokemonNode *node) {
     node->data = NULL;
     node->left = node->right = NULL;
     free(node);
-	// NULLIFY or REASSIGN node in caller
 }
 
 void displayBFS(PokemonNode *root) {
@@ -665,43 +662,45 @@ void ownerByName(OwnerNode **owner, char whichOwner) {
 }
 
 void mergePokedexMenu(void) {
-	if (!ownerHead || ownerHead->next == ownerHead) return;
-	OwnerNode *dst = NULL, *src = NULL;
-	ownerByName(&dst, FIRST_OWNER_OF_MERGE);
-	if (!dst) return;
-	ownerByName(&src, SECOND_OWNER_OF_MERGE);
-	if (!src) return;
-	if (!src->pokedexRoot) {
+    if (!ownerHead || ownerHead->next == ownerHead) return;
+    OwnerNode *dst = NULL, *src = NULL;
+    ownerByName(&dst, FIRST_OWNER_OF_MERGE);
+    ownerByName(&src, SECOND_OWNER_OF_MERGE);
+    if (!dst || !src) return;
+    if (!src->pokedexRoot) {
+        freeOwnerNode(src);
+        free(src);
+        return;
+    }
+    PokemonNode *dstTree = pokemonCircleToTree(dst->pokedexRoot);
+    PokemonNode *srcTree = pokemonCircleToTree(src->pokedexRoot);
+    if (!srcTree) {
+		freePokemonTree(&dstTree);
+		dstTree = NULL;
 		freeOwnerNode(src);
 		free(src);
 		src = NULL;
 		return;
-	}
-	PokemonNode *tree = pokemonCircleToTree(src->pokedexRoot);
-	if (!tree) return;
-	Queue q;
-	initQueue(&q);
-	enqueue(&q, tree);
-	while (q.front) {
-		PokemonNode *n = dequeue(&q);
-		PokemonNode *dstTree = pokemonCircleToTree(dst->pokedexRoot);
-		if (!searchPokemonBFS(dstTree, n->data->id)) {
-			PokemonNode *c = createPokemonNode(n->data);
-			if (c) {
-				c->left = c->right = c;
-				if (!dst->pokedexRoot) dst->pokedexRoot = c;
-				else insertPokemonNode(dst->pokedexRoot, c);
-			}
-		}
-		freePokemonTree(&dstTree);
-		if (n->left)  enqueue(&q, n->left);
-		if (n->right) enqueue(&q, n->right);
-	}
-	freeQueue(&q);
-	freePokemonTree(&tree);
-	freeOwnerNode(src);
-	free(src);
-	src = NULL;
+    }
+    Queue q;
+    initQueue(&q);
+    enqueue(&q, srcTree);
+    while (q.front) {
+        PokemonNode *n = dequeue(&q);
+        if (!searchPokemonBFS(dstTree, n->data->id)) {
+            PokemonNode *c = createPokemonNode(n->data);
+            c->left = c->right = c;
+            if (!dst->pokedexRoot) dst->pokedexRoot = c;
+            else insertPokemonNode(dst->pokedexRoot, c);
+        }
+        if (n->left) enqueue(&q, n->left);
+        if (n->right) enqueue(&q, n->right);
+    }
+    freeQueue(&q);
+    freePokemonTree(&srcTree);
+    freePokemonTree(&dstTree);
+    freeOwnerNode(src);
+    free(src);
 }
 
 OwnerNode *createOwner(char *ownerName, PokemonNode *starter) {
@@ -733,6 +732,7 @@ void freeAllOwners(void) {
 
 void freeOwnerNode(OwnerNode *owner) {
 	if (!owner) return;
+	free(owner->ownerName);
 	owner->ownerName = NULL;
 	removeOwnerFromCircularList(owner);
 	PokemonNode *root = owner->pokedexRoot;
