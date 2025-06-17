@@ -608,7 +608,9 @@ void evolvePokemon(OwnerNode *owner) {
 // --------------------------------------------------------------
 // New Pokedex
 // --------------------------------------------------------------
-int computeStarterID(menuChoice) {return (menuChoice * 3) - 3;}
+int computeStarterID(int menuChoice) {
+	return (menuChoice * 3) - 3;
+}
 
 void openPokedexMenu(void) {
 	printf("Your name: ");
