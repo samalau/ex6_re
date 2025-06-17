@@ -497,8 +497,7 @@ PokemonNode *removeNodeBST(PokemonNode *root, int id) {
 }
 
 PokemonNode *removePokemonByID(PokemonNode *root, int id) {
-    if (!searchPokemonBFS(root, id)) 
-        return root;
+    if (!searchPokemonBFS(root, id)) return root;
     return removeNodeBST(root, id);
 }
 
@@ -586,25 +585,21 @@ void evolvePokemon(OwnerNode *owner) {
         printf("Cannot evolve. Pokedex empty.\n");
         return;
     }
-    int id = readIntSafe("Enter ID of Pokemon to evolve: ");
+    int indexNewID = readIntSafe("Enter ID of Pokemon to evolve: ");
     PokemonNode *tree = pokemonCircleToTree(owner->pokedexRoot);
-    PokemonNode *found = searchPokemonBFS(tree, id);
+	PokemonNode *found = searchPokemonBFS(tree, indexNewID);
     freePokemonTree(&tree);
     if (!found) {
-        printf("Pokemon with ID %d not found.\n", id);
+        printf("Pokemon with ID %d not found.\n", indexNewID);
         return;
     }
-    int newId = id + 1;
-    owner->pokedexRoot = removePokemonByID(owner->pokedexRoot, id);
-    PokemonNode *c = createPokemonNode(&pokedex[newId - 1]);
+    owner->pokedexRoot = removePokemonByID(owner->pokedexRoot, indexNewID);
+    PokemonNode *c = createPokemonNode(&pokedex[indexNewID]);
     c->left = c->right = c;
-    if (!owner->pokedexRoot)
-        owner->pokedexRoot = c;
-    else
-        insertPokemonNode(owner->pokedexRoot, c);
+    if (!owner->pokedexRoot) owner->pokedexRoot = c;
+    else insertPokemonNode(owner->pokedexRoot, c);
     printf("Pokemon evolved from %s (ID %d) to %s (ID %d).\n",
-           found->data->name, id,
-           pokedex[newId - 1].name, newId);
+           found->data->name, indexNewID, pokedex[indexNewID].name, indexNewID);
 }
 
 // --------------------------------------------------------------
@@ -845,16 +840,16 @@ void freeOwnerNode(OwnerNode *owner) {
 
 void addPokemon(OwnerNode *owner) {
 	int id = readIntSafe("Enter ID to add: ");
-	if (id < 1 || id > 151) {
-		printf("DEBUG PRINT: INVALID ID\n");
-		return;
-	}
-	if (searchPokemonBFS(owner->pokedexRoot, id)) {
+	if (id < 1 || id > 151) return;
+	PokemonNode *treeRoot = pokemonCircleToTree(owner->pokedexRoot);
+	if (searchPokemonBFS(treeRoot, id)) {
+		freePokemonTree(&treeRoot);
 		printf("Pokemon with ID %d is already in the Pokedex. No changes made.\n", id);
 		return;
 	}
-	int idIndex = id - 1;
-	PokemonNode *pokemon = createPokemonNode(&pokedex[idIndex]);
+	freePokemonTree(&treeRoot);
+	int indexID = id - 1;
+	PokemonNode *pokemon = createPokemonNode(&pokedex[indexID]);
 	if (!pokemon) return;
 	pokemon->left = pokemon->right = pokemon;
 	insertPokemonNode(owner->pokedexRoot, pokemon);
