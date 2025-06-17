@@ -853,12 +853,11 @@ void addPokemon(OwnerNode *owner) {
 		printf("Pokemon with ID %d is already in the Pokedex. No changes made.\n", id);
 		return;
 	}
-	int idIndex = id-1;
+	int idIndex = id - 1;
 	PokemonNode *pokemon = createPokemonNode(&pokedex[idIndex]);
 	if (!pokemon) return;
 	pokemon->left = pokemon->right = pokemon;
 	insertPokemonNode(owner->pokedexRoot, pokemon);
-	return;
 }
 
 PokemonNode *insertPokemonNode(PokemonNode *root, PokemonNode *newNode) {
