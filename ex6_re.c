@@ -5,8 +5,12 @@
 #include <string.h>
 
 # define INT_BUFFER 128
-# define FIRST_OWNER_OF_MERGE 1
-# define SECOND_OWNER_OF_MERGE 2
+
+# define FIRST_STARTER 1 
+# define LAST_STARTER 3
+
+# define MERGE_DST 1
+# define MERGE_SRC 2
 
 // ================================================
 // Basic struct definitions from ex6.h assumed:
@@ -410,10 +414,10 @@ void enterExistingPokedexMenu(void) {
 			freePokemon(owner);
 			break;
 		case 4:
-			// pokemonFight(owner);
+			pokemonFight(owner);
 			break;
 		case 5:
-			// evolvePokemon(owner);
+			evolvePokemon(owner);
 			break;
 		case 6:
 			printf("Back to Main Menu.\n");
@@ -607,40 +611,31 @@ void evolvePokemon(OwnerNode *owner) {
 void openPokedexMenu(void) {
 	printf("Your name: ");
 	char *ownerName = getDynamicInput();
-	if (!ownerName) return;  // placeholder
+	if (!ownerName) return;
 	if (findOwnerByName(ownerName)) {
 		printf("Owner '%s' already exists. Not creating a new Pokedex.\n", ownerName);
 		free(ownerName);
-		ownerName = NULL;
-	} else {
-		int pokemon = readIntSafe(
-			"Choose Starter:\n"
-			"1. Bulbasaur\n2. Charmander\n3. Squirtle\n"
-			"Your choice: ");
-		if (pokemon < 1 || 3 < pokemon) {
-			free(ownerName);
-			ownerName = NULL;
-			return;
-		}
-		pokemon = (pokemon * 3) - 3;
-		PokemonNode *starter = (PokemonNode *)malloc(sizeof(PokemonNode));
-		if (!(starter)) {
-			free(ownerName);
-			ownerName = NULL;
-			return;
-		}
-		PokemonNode *starter = createPokemonNode(&pokedex[pokemon]);
-		starter->left = starter->right = starter;
-		OwnerNode *ownerNode = createOwner(ownerName, starter);
-		if (!ownerNode) {
-			free(ownerName);
-			ownerName = NULL;
-			return;
-		}
-		if (ownerHead) linkOwnerInCircularList(ownerNode);
-		else ownerNode->next = ownerNode->prev = ownerHead = ownerNode;
+		return;
 	}
-	return;
+	int pokemon = readIntSafe(
+		"Choose Starter:\n" 
+		"1. Bulbasaur\n2. Charmander\n3. Squirtle\n"
+		"Your choice: ");
+	if (pokemon >= FIRST_STARTER && pokemon <= LAST_STARTER) {
+		pokemon = (pokemon * 3) - 3;
+		PokemonNode *starter = createPokemonNode(&pokedex[pokemon]);
+		if (starter) {
+			starter->left = starter->right = starter;
+			OwnerNode *ownerNode = createOwner(ownerName, starter);
+			if (ownerNode) {
+				if (ownerHead) linkOwnerInCircularList(ownerNode);
+				else ownerNode->next = ownerNode->prev = ownerHead = ownerNode;
+				return;
+			}
+			freePokemonNode(starter);
+		}
+	}
+	free(ownerName);
 }
 
 void linkOwnerInCircularList(OwnerNode *newOwner) {
@@ -728,10 +723,10 @@ void ownerByName(OwnerNode **owner, char whichOwner) {
 		*owner = NULL;
 		return; 
 	}
-	printf("%s",
-	       (whichOwner == FIRST_OWNER_OF_MERGE)
-	       ? "Enter name of first owner: "
-	       : "Enter name of second owner: ");
+	printf("%s", 
+		whichOwner == MERGE_DST
+			? "Enter name of first owner: "
+			: "Enter name of second owner: ");  // MERGE_SRC
 	char *name = getDynamicInput();
 	if (!name) {
 		*owner = NULL;
@@ -753,8 +748,8 @@ void ownerByName(OwnerNode **owner, char whichOwner) {
 void mergePokedexMenu(void) {
     if (!ownerHead || ownerHead->next == ownerHead) return;
     OwnerNode *dst = NULL, *src = NULL;
-    ownerByName(&dst, FIRST_OWNER_OF_MERGE);
-    ownerByName(&src, SECOND_OWNER_OF_MERGE);
+    ownerByName(&dst, MERGE_DST);
+    ownerByName(&src, MERGE_SRC);
     if (!dst || !src) return;
     if (!src->pokedexRoot) {
         freeOwnerNode(src);
@@ -765,7 +760,6 @@ void mergePokedexMenu(void) {
     PokemonNode *srcTree = pokemonCircleToTree(src->pokedexRoot);
     if (!srcTree) {
 		freePokemonTree(&dstTree);
-		dstTree = NULL;
 		freeOwnerNode(src);
 		free(src);
 		src = NULL;
@@ -778,6 +772,7 @@ void mergePokedexMenu(void) {
         PokemonNode *n = dequeue(&q);
         if (!searchPokemonBFS(dstTree, n->data->id)) {
             PokemonNode *c = createPokemonNode(n->data);
+			if (!c) break;
             c->left = c->right = c;
             if (!dst->pokedexRoot) dst->pokedexRoot = c;
             else insertPokemonNode(dst->pokedexRoot, c);
