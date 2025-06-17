@@ -521,7 +521,7 @@ void freePokemon(OwnerNode *owner) {
         printf("No Pokemon with ID %d found.\n", id);
         return;
     }
-    PokemonNode *newRoot;
+    PokemonNode *newRoot = NULL;
     if (target->left == target && target->right == target) {
         newRoot = NULL;
     } else {
@@ -530,7 +530,8 @@ void freePokemon(OwnerNode *owner) {
         target->right->left = target->left;
     }
     freePokemonNode(target);
-    owner->pokedexRoot = newRoot;
+	if (!newRoot) owner->pokedexRoot = NULL;
+    else owner->pokedexRoot = newRoot;
 }
 
 void freePokemonNode(PokemonNode *node) {
