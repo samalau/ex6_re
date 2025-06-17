@@ -631,81 +631,34 @@ void deletePokedex(void) {
 }
 
 #define FIRST_OWNER_OF_MERGE 1
-#define SECOND_OWNER_OF_MERGE 1
+#define SECOND_OWNER_OF_MERGE 2
 
 void ownerByName(OwnerNode **owner, char whichOwner) {
-    if (!ownerHead) {
-        *owner = NULL;
-        printf("DEBUG: No owners in the list.\n");
-        return; 
-    }
-    printf("%s",
-           (whichOwner == FIRST_OWNER_OF_MERGE)
-           ? "Enter name of first owner: "
-           : "Enter name of second owner: ");
-
-    char *name = getDynamicInput();
-
-    // Debug: print exactly what was input (make invisible chars visible)
-    printf("DEBUG: Owner name input: [");
-    for (char *p = name; *p; p++) {
-        if (*p == '\r') printf("\\r");
-        else if (*p == '\n') printf("\\n");
-        else printf("%c", *p);
-    }
-    printf("]\n");
-
-    // Debug: print exactly what is stored
-    OwnerNode *cur = ownerHead;
-    do {
-        printf("DEBUG: Comparing against stored owner: [");
-        for (char *p = cur->ownerName; *p; p++) {
-            if (*p == '\r') printf("\\r");
-            else if (*p == '\n') printf("\\n");
-            else printf("%c", *p);
-        }
-        printf("]\n");
-
-        if (strcmp(cur->ownerName, name) == 0) {
-            *owner = cur;
-            free(name);
-            printf("DEBUG: MATCH FOUND.\n");
-            return;
-        }
-        cur = cur->next;
-    } while (cur != ownerHead);
-
-    free(name);
-    *owner = NULL;
-    printf("DEBUG: Owner not found.\n");
+	if (!ownerHead) {
+		*owner = NULL;
+		return; 
+	}
+	printf("%s",
+	       (whichOwner == FIRST_OWNER_OF_MERGE)
+	       ? "Enter name of first owner: "
+	       : "Enter name of second owner: ");
+	char *name = getDynamicInput();
+	if (!name) {
+		*owner = NULL;
+		return; 
+	}
+	OwnerNode *cur = ownerHead;
+	do {
+		if (strcmp(cur->ownerName, name) == 0) {
+			*owner = cur;
+			free(name);
+			return;
+		}
+		cur = cur->next;
+	} while (cur != ownerHead);
+	free(name);
+	*owner = NULL;
 }
-
-// void ownerByName(OwnerNode **owner, char whichOwner) {
-// 	if (!ownerHead) {
-// 		*owner = NULL;
-// 		return; 
-// 	}
-// 	printf("%s",
-// 	       (whichOwner == FIRST_OWNER_OF_MERGE)
-// 	       ? "Enter name of first owner: "
-// 	       : "Enter name of second owner: ");
-// 	char *name = getDynamicInput();
-// 	if (!name) {
-// 		*owner = NULL;
-// 		return; 
-// 	}
-// 	OwnerNode *cur = ownerHead;
-// 	do {
-// 		if (strcmp(cur->ownerName, name) == 0) {
-// 			*owner = cur;
-// 			free(name);
-// 			return;
-// 		}
-// 		cur = cur->next;
-// 	} while (cur != ownerHead);
-// 	free(name);
-// 	*owner = NULL;
-// }
 
 void mergePokedexMenu(void) {
 	if (!ownerHead || ownerHead->next == ownerHead) return;
