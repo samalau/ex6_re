@@ -476,7 +476,7 @@ PokemonNode *searchPokemonBFS(PokemonNode *root, int id) {
 }
 
 PokemonNode *removeNodeBST(PokemonNode *root, int id) {
-    if (!root) return NULL;
+    if (!root || id < 1 || id > 151) return NULL;
     if (id < root->data->id) root->left = removeNodeBST(root->left, id);
     else if (id > root->data->id) root->right = removeNodeBST(root->right, id);
     else {
@@ -510,26 +510,21 @@ void freePokemon(OwnerNode *owner) {
     int id = readIntSafe("Enter Pokemon ID to release: ");
     if (id < 1 || id > 151 || !owner->pokedexRoot) return;
     PokemonNode *pokemon = owner->pokedexRoot, *target = NULL;
-    do {
-        if (pokemon->data->id == id) {
-			target = pokemon;
-			break;
-		}
-        pokemon = pokemon->right;
-    } while (pokemon != owner->pokedexRoot);
-    if (!target) {
-        printf("No Pokemon with ID %d found.\n", id);
+	PokemonNode *poke = pokemonCircleToTree(owner->pokedexRoot);
+	poke = searchPokemonBFS(poke, id);
+	if (!poke) {
+		printf("No Pokemon with ID %d found.\n", id);
         return;
-    }
-	if (target->left != target || target->right != target) {
-		target->left->right = target->right;
-		target->right->left = target->left;
-		if (target == owner->pokedexRoot) owner->pokedexRoot = target->right;
-		freePokemonNode(target);
+	}
+	if (poke->left == poke && poke->right == poke) {
+		freePokemonNode(poke);
+		owner->pokedexRoot = NULL;
 		return;
 	}
-	freePokemonNode(target);
-	owner->pokedexRoot = NULL;
+	poke->left->right = poke->right;
+	poke->right->left = poke->left;
+	if (poke == owner->pokedexRoot) owner->pokedexRoot = poke->right;
+	freePokemonNode(poke);
 }
 
 void freePokemonNode(PokemonNode *node) {
