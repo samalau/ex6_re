@@ -187,6 +187,7 @@ void sortOwners(void) {
         iter = iter->next;
     }
     ownerHead = min;
+	printf("Owners sorted by name.\n");
 }
 
 PokemonNode* pokemonCircleToTree(PokemonNode *root) {
@@ -451,10 +452,11 @@ PokemonNode *dequeue(Queue *q) {
 
 void freeQueue(Queue *q) {
     while (q->front) dequeue(q);
+	q->rear = NULL;
 }
 
 PokemonNode *searchPokemonBFS(PokemonNode *root, int id) {
-    if (!root) {printf("FUCK IRAN\n"); return NULL;}
+    if (!root) return NULL;
     Queue q;
     initQueue(&q);
     enqueue(&q, root);
@@ -462,16 +464,19 @@ PokemonNode *searchPokemonBFS(PokemonNode *root, int id) {
         PokemonNode *node = dequeue(&q);
         if (node->data->id == id) {
             freeQueue(&q);
+			q.front = q.rear = NULL;
             return node;
         }
         if (node->left) enqueue(&q, node->left);
         if (node->right) enqueue(&q, node->right);
     }
+	freeQueue(&q);
+	q.front = q.rear = NULL;
     return NULL;
 }
 
 PokemonNode *removeNodeBST(PokemonNode *root, int id) {
-    if (!root) {printf("FUCK YOU\n"); return NULL;}
+    if (!root) return NULL;
     if (id < root->data->id) root->left = removeNodeBST(root->left, id);
     else if (id > root->data->id) root->right = removeNodeBST(root->right, id);
     else {
@@ -585,21 +590,28 @@ void evolvePokemon(OwnerNode *owner) {
         printf("Cannot evolve. Pokedex empty.\n");
         return;
     }
-    int indexNewID = readIntSafe("Enter ID of Pokemon to evolve: ");
-    PokemonNode *tree = pokemonCircleToTree(owner->pokedexRoot);
-	PokemonNode *found = searchPokemonBFS(tree, indexNewID);
+    int idToEvolve = readIntSafe("Enter ID of Pokemon to evolve: ");
+	PokemonNode *pokemon = owner->pokedexRoot;
+    PokemonNode *tree = pokemonCircleToTree(pokemon);
+	if (idToEvolve < 1 || idToEvolve > 151 || !searchPokemonBFS(tree, idToEvolve)) {
+		printf("No Pokemon with ID %d found.\n", idToEvolve);
+        freePokemonTree(&tree);
+		return;
+	}
     freePokemonTree(&tree);
-    if (!found) {
-        printf("Pokemon with ID %d not found.\n", indexNewID);
-        return;
-    }
-    owner->pokedexRoot = removePokemonByID(owner->pokedexRoot, indexNewID);
-    PokemonNode *c = createPokemonNode(&pokedex[indexNewID]);
-    c->left = c->right = c;
-    if (!owner->pokedexRoot) owner->pokedexRoot = c;
-    else insertPokemonNode(owner->pokedexRoot, c);
-    printf("Pokemon evolved from %s (ID %d) to %s (ID %d).\n",
-           found->data->name, indexNewID, pokedex[indexNewID].name, indexNewID);
+    if (!pokedex[idToEvolve].CAN_EVOLVE) printf("Cannot evolve.\n");
+	do {
+        if (pokemon->data->id == idToEvolve) {
+            printf("Pokemon evolved from %s (ID %d) to %s (ID %d).\n",
+                   pokemon->data->name,
+				   idToEvolve,
+				   pokedex[idToEvolve].name,
+				   idToEvolve);
+            pokemon->data = &pokedex[idToEvolve];
+            return;
+        }
+        pokemon = pokemon->right;
+    } while (pokemon != owner->pokedexRoot);
 }
 
 // --------------------------------------------------------------
