@@ -121,12 +121,13 @@ const char *getTypeName(PokemonType type) {
 char *getDynamicInput(void) {
 	char *input = NULL;
 	size_t size = 0, capacity = 1;
+	int c;
 	input = (char *)malloc(capacity);
 	if (!input) {
 		printf("Memory allocation failed.\n");
+		while ((c = getchar()) != '\n' && c != EOF);
 		return NULL;
 	}
-	int c;
 	while ((c = getchar()) != '\n' && c != EOF) {
 		if (size + 1 >= capacity) {
 			capacity *= 2;
@@ -359,14 +360,14 @@ void displayAlphabetical(PokemonNode *root) {
 }
 
 void initNodeArray(NodeArray *na, int cap) {
-    na->nodes = malloc(cap * sizeof(PokemonNode *));
+    na->nodes = (PokemonNode*)(cap * sizeof(PokemonNode *));
     na->size = 0;
     na->capacity = cap;
 }
 void addNode(NodeArray *na, PokemonNode *node) {
     if (na->size == na->capacity) {
         na->capacity *= 2;
-        na->nodes = realloc(na->nodes, na->capacity * sizeof(PokemonNode *));
+        na->nodes = (PokemonNode*)realloc(na->nodes, na->capacity * sizeof(PokemonNode *));
     }
     na->nodes[na->size++] = node;
 }
