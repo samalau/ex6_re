@@ -357,12 +357,12 @@ void displayAlphabetical(PokemonNode *root) {
     free(na.nodes);
 }
 
-static void initNodeArray(NodeArray *na, int cap) {
+void initNodeArray(NodeArray *na, int cap) {
     na->nodes = malloc(cap * sizeof(PokemonNode *));
     na->size = 0;
     na->capacity = cap;
 }
-static void addNode(NodeArray *na, PokemonNode *node) {
+void addNode(NodeArray *na, PokemonNode *node) {
     if (na->size == na->capacity) {
         na->capacity *= 2;
         na->nodes = realloc(na->nodes, na->capacity * sizeof(PokemonNode *));
@@ -370,14 +370,14 @@ static void addNode(NodeArray *na, PokemonNode *node) {
     na->nodes[na->size++] = node;
 }
 
-static void collectAll(PokemonNode *root, NodeArray *na) {
+void collectAll(PokemonNode *root, NodeArray *na) {
     if (!root) return;
     collectAll(root->left, na);
     addNode(na, root);
     collectAll(root->right, na);
 }
 
-static int compareByNameNode(const void *a, const void *b) {
+int compareByNameNode(const void *a, const void *b) {
     const PokemonNode *const *p1 = a;
     const PokemonNode *const *p2 = b;
     return strcmp((*p1)->data->name, (*p2)->data->name);
