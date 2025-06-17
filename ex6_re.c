@@ -619,11 +619,11 @@ void openPokedexMenu(void) {
 		free(ownerName);
 		return;
 	}
-	int choice = readIntSafe(
+	int menuChoice = readIntSafe(
 		"Choose Starter:\n"
 		"1. Bulbasaur\n2. Charmander\n3. Squirtle\n"
 		"Your choice: ");
-	if (choice < FIRST_STARTER || choice > LAST_STARTER) {
+	if (menuChoice < FIRST_STARTER || menuChoice > LAST_STARTER) {
 		free(ownerName);
 		return;
 	}
