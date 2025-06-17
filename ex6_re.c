@@ -152,7 +152,7 @@ char readDirection(const char *prompt) {
     if (!input) return '\0';
     char dir = tolower(input[0]);
     free(input);
-    if (dir == 'f' || dir == 'b') return dir;
+	if (dir == 'f' || dir == 'b') return dir;
     return '\0';
 }
 
@@ -674,16 +674,14 @@ void removeOwnerFromCircularList(OwnerNode *owner) {
         owner->prev->next = owner->next;
         owner->next->prev = owner->prev;
     }
-    if (ownerHead == owner)
-        ownerHead = owner->next;
+    if (ownerHead == owner) ownerHead = owner->next;
 }
 
 void printOwnersCircular(OwnerNode *owner) {
     if (! (ownerHead && owner)) return;
 	char direction = toupper(readDirection("Enter direction (F or B): "));
     if (!(direction || direction == 'F' || direction == 'B')) return;
-	while (getchar() != '\n') {continue;}
-    int repeatCount = 0;
+	int repeatCount = 0;
 	// ?? EXPECT RE-PROMPT ??
     if (repeatCount = readIntSafe("How many prints? "), repeatCount <= 0) return;
     OwnerNode *t = ownerHead;
