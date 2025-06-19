@@ -85,8 +85,10 @@ int readIntSafe(const char *prompt) {
 		value = (int)strtol(buffer, &endptr, 10);
 		// If endptr didn't point to the end => leftover chars => invalid
 		// or if buffer was something non-numeric
-		if (*endptr != '\0') printf("Invalid input.\n");
-		else success = 1;  // We got a valid integer
+		if (*endptr != '\0')
+			printf("Invalid input.\n");
+		else
+			success = 1;  // We got a valid integer
 	}
 	return value;
 }
@@ -156,7 +158,8 @@ char readDirection(const char *prompt) {
     if (!input) return '\0';
     char dir = tolower(input[0]);
     free(input);
-	if (dir == 'f' || dir == 'b') return dir;
+	if (dir == 'f' || dir == 'b')
+		return dir;
     return '\0';
 }
 
@@ -240,6 +243,7 @@ void freePokemonTree(PokemonNode **root) {
     *root = NULL;
 }
 
+// HERE
 void printPokemonNode(PokemonNode *node) {
 	if (!node || !node->data) return;
 	printf("ID: %d, Name: %s, Type: %s, HP: %d, Attack: %d, Can Evolve: %s\n",
@@ -318,6 +322,7 @@ void displayMenu(OwnerNode *owner) {
         printf("Pokedex is empty.\n");
         return; 
     }
+	// HERE
     printf("Display:\n");
     printf("1. BFS (Level-Order)\n");
     printf("2. Pre-Order\n");
@@ -390,6 +395,7 @@ void enterExistingPokedexMenu(void) {
 	printf("\nEntering %s's Pokedex...\n", owner->ownerName);
 	int subChoice;
 	do {
+	// HERE
 		printf("\n-- %s's Pokedex Menu --\n", owner->ownerName);
 		printf("1. Add Pokemon\n");
 		printf("2. Display Pokedex\n");
@@ -459,6 +465,7 @@ PokemonNode *searchPokemonBFS(PokemonNode *root, int id) {
 }
 
 PokemonNode *removeNodeBST(PokemonNode *root, int id) {
+	// MAGIC
     if (!root || id < 1 || id > 151) return NULL;
     if (id < root->data->id) root->left = removeNodeBST(root->left, id);
     else if (id > root->data->id) root->right = removeNodeBST(root->right, id);
@@ -475,10 +482,10 @@ PokemonNode *removeNodeBST(PokemonNode *root, int id) {
             freePokemonNode(root);
             return temp;
         } else {
-            PokemonNode *succ = root->right;
-            while (succ->left) succ = succ->left;
-            root->data = succ->data;
-            root->right = removeNodeBST(root->right, succ->data->id);
+            PokemonNode *temp = root->right;
+            while (temp->left) temp = temp->left;
+            root->data = temp->data;
+            root->right = removeNodeBST(root->right, temp->data->id);
         }
     }
     return root;
@@ -491,6 +498,7 @@ PokemonNode *removePokemonByID(PokemonNode *root, int id) {
 
 void freePokemon(OwnerNode *owner) {
     int id = readIntSafe("Enter Pokemon ID to release: ");
+	// MAGIC
     if (id < 1 || id > 151 || !owner->pokedexRoot) return;
     PokemonNode *temp = owner->pokedexRoot;
 	PokemonNode *pokemon = NULL;
@@ -525,6 +533,7 @@ void freePokemonNode(PokemonNode *node) {
 
 void displayBFS(PokemonNode *root) {
     if (!root) {
+	// HERE
         printf("(?) DEBUG: Pokedex is empty. ___OR___ No Pokemon to release.\n");
         return;
     }
@@ -570,6 +579,7 @@ void pokemonFight(OwnerNode *owner) {
 
 void evolvePokemon(OwnerNode *owner) {
     if (!owner->pokedexRoot) {
+		// HERE
         printf("Cannot evolve. Pokedex empty.\n");
         return;
     }
@@ -583,6 +593,7 @@ void evolvePokemon(OwnerNode *owner) {
 	}
     freePokemonTree(&tree);
     if (!pokedex[idToEvolve].CAN_EVOLVE) {
+	// HERE
 		printf("Cannot evolve.\n");
 		return;
 	}
@@ -618,7 +629,9 @@ void openPokedexMenu(void) {
 	}
 	int menuChoice = readIntSafe(
 		"Choose Starter:\n"
-		"1. Bulbasaur\n2. Charmander\n3. Squirtle\n"
+		"1. Bulbasaur\n"
+		"2. Charmander\n"
+		"3. Squirtle\n"
 		"Your choice: ");
 	if (menuChoice < FIRST_STARTER || menuChoice > LAST_STARTER) {
 		free(ownerName);
@@ -667,6 +680,7 @@ void printOwnersCircular(OwnerNode *owner) {
     if (!(direction || direction == 'F' || direction == 'B')) return;
 	int repeatCount = 0;
 	// ?? EXPECT RE-PROMPT ??
+	// HERE
     if (repeatCount = readIntSafe("How many prints? "), repeatCount <= 0) return;
     OwnerNode *t = ownerHead;
     for (int i = 0; i < repeatCount; i++) {
@@ -685,6 +699,7 @@ OwnerNode *findOwnerByName(const char *name) {
 	return node;
 }
 
+// HERE
 void ownerByNumber(OwnerNode **owner, char ifDelete) {
 	if (!ownerHead) return;
 	*owner = ownerHead;
@@ -885,15 +900,6 @@ void mainMenu(void) {
 			"6. Print Owners in a direction X times\n"
 			"7. Exit\n"
 			"Your choice: ");
-		// printf("\n=== Main Menu ===\n");
-		// printf("1. New Pokedex\n");
-		// printf("2. Existing Pokedex\n");
-		// printf("3. Delete a Pokedex\n");
-		// printf("4. Merge Pokedexes\n");
-		// printf("5. Sort Owners by Name\n");
-		// printf("6. Print Owners in a direction X times\n");
-		// printf("7. Exit\n");
-		// choice = readIntSafe("Your choice: ");
 		switch (choice) {
 			case 1: openPokedexMenu(); break;
 			case 2: enterExistingPokedexMenu(); break;
