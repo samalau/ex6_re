@@ -882,11 +882,12 @@ void ownerByName(OwnerNode **owner, int whichOwner) {
 		return; 
 	}
 
-	// HERE
-	printf("%s", 
-		whichOwner == MERGE_DESTINATION
-			? "Enter name of first owner: "
-			: "Enter name of second owner: ");  // MERGE_SOURCE
+	if (whichOwner == MERGE_DESTINATION)
+		printf("Enter name of first owner: ");
+	else if (whichOwner == MERGE_SOURCE)
+		printf("Enter name of second owner: ");
+	else
+		return;  // placeholder
 	
 	char *name = getDynamicInput();
 	if (!name) {
@@ -915,18 +916,20 @@ void mergePokedexMenu(void) {
 
     OwnerNode *dst = NULL;
 	OwnerNode *src = NULL;
+	
     ownerByName(&dst, MERGE_DESTINATION);
     ownerByName(&src, MERGE_SOURCE);
-    if (!dst || !src) return;
+
+    if (!dst || !src)
+		return;
+
     if (!src->pokedexRoot) {
         freeOwnerNode(src);
         free(src);
         return;
     }
 
-	printf("Merging %s and %s...\n"
-		"Merge completed.\n"
-		"Owner '%s' has been removed after merging.\n");
+	printf("Merging %s and %s...\n", dst->ownerName, src->ownerName);
 
     PokemonNode *dstTree = pokemonCircleToTree(dst->pokedexRoot);
     PokemonNode *srcTree = pokemonCircleToTree(src->pokedexRoot);
@@ -966,8 +969,9 @@ void mergePokedexMenu(void) {
 	printf("Owner '%s' has been removed after merging.\n", src->ownerName);
     freeOwnerNode(src);
     free(src);
-	src = NULL;
+	// src = NULL;  // TODO ???
 }
+
 
 OwnerNode *createOwner(char *ownerName, PokemonNode *starter) {
 	if (!(ownerName || starter))
@@ -1003,14 +1007,12 @@ void freeAllOwners(void) {
 void freeOwnerNode(OwnerNode *owner) {
 	if (!owner)
 		return;
-
 	free(owner->ownerName);
 	owner->ownerName = NULL;
 	removeOwnerFromCircularList(owner);
 
 	if (!owner->pokedexRoot)
 		return;
-
 	PokemonNode *root = owner->pokedexRoot;
 	PokemonNode *pokemon = root->right;
 	PokemonNode *next;
@@ -1022,10 +1024,8 @@ void freeOwnerNode(OwnerNode *owner) {
 		freePokemonNode(pokemon);
 		pokemon = next;
 	}
-
 	freePokemonNode(root);
-	owner->pokedexRoot = NULL;
-	// free owner in caller
+	owner->pokedexRoot = NULL;  // free owner in caller
 }
 
 
@@ -1044,7 +1044,8 @@ void addPokemon(OwnerNode *owner) {
 
 	int indexID = id - 1;
 	PokemonNode *pokemon = createPokemonNode(&pokedex[indexID]);
-	if (!pokemon) return;
+	if (!pokemon)
+		return;
 	pokemon->left = pokemon->right = pokemon;
 
 	insertPokemonNode(owner->pokedexRoot, pokemon);
