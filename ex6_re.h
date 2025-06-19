@@ -458,7 +458,7 @@ int computeStarterID(int menuChoice);
 /**
  * @brief Select a Pokedex (owner) from the list by number.
  */
-void ownerByNumber(OwnerNode **cur, const unsigned char ifDelete);
+void ownerByNumber(OwnerNode **cur, int ifDelete);
 
 /**
  * @brief Enter an owner name for the pokedex merge.
