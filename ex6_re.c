@@ -454,15 +454,15 @@ void enterExistingPokedexMenu(void) {
 	printf("\nEntering %s's Pokedex...\n", owner->ownerName);
 	int subChoice = 0;
 	do {
-		printf("\n-- %s's Pokedex Menu --\n", owner->ownerName);
-		subChoice = readIntSafe(
+		printf("\n-- %s's Pokedex Menu --\n"
 			"1. Add Pokemon\n"
 			"2. Display Pokedex\n"
 			"3. Release Pokemon (by ID)\n"
 			"4. Pokemon Fight!\n"
 			"5. Evolve Pokemon\n"
-			"6. Back to Main\n"
-			"Your choice: ");
+			"6. Back to Main\n",
+			owner->ownerName);
+		subChoice = readIntSafe("Your choice: ");
 		switch (subChoice) {
 			case 1: addPokemon(owner); break;
 			case 2: displayMenu(owner); break;
