@@ -9,11 +9,14 @@
 # define FIRST_STARTER 1 
 # define LAST_STARTER 3
 
-# define MERGE_DESTINATION 1
-# define MERGE_SOURCE 2
+# define LOWEST_ID 1
+# define HIGHEST_ID 151
 
 # define  CHOOSE_POKEDEX 0
 # define  DELETE_POKEDEX 1
+
+# define MERGE_DESTINATION 1
+# define MERGE_SOURCE 2
 
 // ================================================
 // Basic struct definitions from ex6.h assumed:
@@ -27,7 +30,6 @@
 // --------------------------------------------------------------
 // 1) Safe integer reading
 // --------------------------------------------------------------
-
 void trimWhitespace(char *str) {
 	// Remove leading spaces/tabs/\r
 	int start = 0;
@@ -39,7 +41,6 @@ void trimWhitespace(char *str) {
 			str[idx++] = str[start++];
 		str[idx] = '\0';
 	}
-
 	// Remove trailing spaces/tabs/\r
 	int len = (int)strlen(str);
 	while (len > 0 && (str[len - 1] == ' ' || str[len - 1] == '\t' || str[len - 1] == '\r'))
@@ -224,7 +225,7 @@ PokemonNode* pokemonCircleToTree(PokemonNode *root) {
 
     PokemonNode *t = root;
     PokemonNode *treeRoot = NULL;
-    PokemonNode *next;
+    PokemonNode *next = NULL;
 
     do {
         next = t->right;
@@ -402,6 +403,8 @@ void displayAlphabetical(PokemonNode *root) {
 
 void initNodeArray(NodeArray *na, int cap) {
     na->nodes = (PokemonNode**)malloc(cap * sizeof(PokemonNode *));
+	if (!na->nodes)
+		return;
     na->size = 0;
     na->capacity = cap;
 }
@@ -436,13 +439,18 @@ int compareByNameNode(const void *a, const void *b) {
 // Sub-menu for existing Pokedex
 // --------------------------------------------------------------
 void enterExistingPokedexMenu(void) {
-	printf("\nExisting Pokedexes:\n");
-	if (!ownerHead)
+	if (!ownerHead) {
+		printf("TODO: WHAT TO PRINT HERE IF NO POKEDEXES ???\n");
 		return;
+	}
+
 	OwnerNode* owner = NULL;
-	ownerByNumber(&owner, CHOOSE_POKEDEX);
-	if (!owner)
-		return;
+	do {
+		owner = NULL;
+		printf("\nExisting Pokedexes:\n");
+		ownerByNumber(&owner, CHOOSE_POKEDEX);
+	} while (!owner);
+
 	printf("\nEntering %s's Pokedex...\n", owner->ownerName);
 	int subChoice = 0;
 	do {
@@ -468,9 +476,11 @@ void enterExistingPokedexMenu(void) {
 	} while (subChoice != 6);
 }
 
+
 void initQueue(Queue *q) {
     q->front = q->rear = NULL;
 }
+
 
 void enqueue(Queue *q, PokemonNode *p) {
     QueueNode *n = (QueueNode *)malloc(sizeof(QueueNode));
@@ -484,6 +494,7 @@ void enqueue(Queue *q, PokemonNode *p) {
 		q->rear = q->rear->next = n;
 }
 
+
 PokemonNode *dequeue(Queue *q) {
     if (!q->front)
 		return NULL;
@@ -495,11 +506,13 @@ PokemonNode *dequeue(Queue *q) {
     return p;
 }
 
+
 void freeQueue(Queue *q) {
     while (q->front)
 		dequeue(q);
 	q->rear = NULL;
 }
+
 
 PokemonNode *searchPokemonBFS(PokemonNode *root, int id) {
     if (!root)
@@ -529,30 +542,24 @@ PokemonNode *searchPokemonBFS(PokemonNode *root, int id) {
 
 
 PokemonNode *removeNodeBST(PokemonNode *root, int id) {
-    if (!root || id < 1 || id > 151)  // MAGIC
+    if (!root || id < LOWEST_ID || id > HIGHEST_ID)  // MAGIC
 		return NULL;
-
     if (id < root->data->id)
 		root->left = removeNodeBST(root->left, id);
-    
 	else if (id > root->data->id)
 		root->right = removeNodeBST(root->right, id);
-
 	else {
         if (!root->left && !root->right) {
             freePokemonNode(root);
             return NULL;
-
         } else if (!root->left) {
             PokemonNode *temp = root->right;
             freePokemonNode(root);
             return temp;
-
         } else if (!root->right) {
             PokemonNode *temp = root->left;
             freePokemonNode(root);
             return temp;
-
         } else {
             PokemonNode *temp = root->right;
             while (temp->left)
@@ -574,7 +581,7 @@ PokemonNode *removePokemonByID(PokemonNode *root, int id) {
 
 void freePokemon(OwnerNode *owner) {
     int id = readIntSafe("Enter Pokemon ID to release: ");
-    if (id < 1 || id > 151 || !owner->pokedexRoot)  // MAGIC
+    if (id < LOWEST_ID || id > HIGHEST_ID || !owner->pokedexRoot)  // MAGIC
 		return;
 
     PokemonNode *temp = owner->pokedexRoot;
