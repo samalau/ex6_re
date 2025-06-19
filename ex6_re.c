@@ -658,7 +658,7 @@ void openPokedexMenu(void) {
 	}
 	if (!ownerHead) ownerHead = ownerNode->prev = ownerNode->next = ownerNode;
 	else linkOwnerInCircularList(ownerNode);
-	printf("New Pokedex created for %s with starter %s.", ownerName, starter->data->name);
+	printf("New Pokedex created for %s with starter %s.\n", ownerName, starter->data->name);
 }
 
 void linkOwnerInCircularList(OwnerNode *newOwner) {
