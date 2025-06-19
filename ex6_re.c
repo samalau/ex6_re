@@ -850,6 +850,7 @@ void addPokemon(OwnerNode *owner) {
 	if (!pokemon) return;
 	pokemon->left = pokemon->right = pokemon;
 	insertPokemonNode(owner->pokedexRoot, pokemon);
+	printf("Pokemon %s (ID %d) added.\n", pokemon->data->name, id);
 }
 
 PokemonNode *insertPokemonNode(PokemonNode *root, PokemonNode *newNode) {
