@@ -440,7 +440,7 @@ int compareByNameNode(const void *a, const void *b) {
 // --------------------------------------------------------------
 void enterExistingPokedexMenu(void) {
 	if (!ownerHead) {
-		printf("TODO: WHAT TO PRINT HERE IF NO POKEDEXES ???\n");
+		printf("No existing Pokedexes.\n");
 		return;
 	}
 
@@ -1093,13 +1093,13 @@ PokemonNode *createPokemonNode(const PokemonData *data) {
 void mainMenu(void) {
 	int choice = 0;
 	printf("\n=== Main Menu ===\n"
-			"1. New Pokedex\n"
-			"2. Existing Pokedex\n"
-			"3. Delete a Pokedex\n"
-			"4. Merge Pokedexes\n"
-			"5. Sort Owners by Name\n"
-			"6. Print Owners in a direction X times\n"
-			"7. Exit\n");
+		"1. New Pokedex\n"
+		"2. Existing Pokedex\n"
+		"3. Delete a Pokedex\n"
+		"4. Merge Pokedexes\n"
+		"5. Sort Owners by Name\n"
+		"6. Print Owners in a direction X times\n"
+		"7. Exit\n");
 	do {
 		choice = readIntSafe("Your choice: ");
 		switch (choice) {
