@@ -364,14 +364,13 @@ void displayMenu(OwnerNode *owner) {
         return; 
     }
 	int choice = 0;
-	choice = readIntSafe(
-		"Display:\n"
-		"1. BFS (Level-Order)\n"
-		"2. Pre-Order\n"
-		"3. In-Order\n"
-		"4. Post-Order\n"
-		"5. Alphabetical (by name)\n"
-		"Your choice: ");
+	printf("Display:\n"
+	"1. BFS (Level-Order)\n"
+	"2. Pre-Order\n"
+	"3. In-Order\n"
+	"4. Post-Order\n"
+	"5. Alphabetical (by name)\n");
+	choice = readIntSafe("Your choice: ");
 	PokemonNode *treeRoot = pokemonCircleToTree(owner->pokedexRoot);
     switch (choice) {
 		case 1: displayBFS(treeRoot); break;
@@ -452,8 +451,9 @@ void enterExistingPokedexMenu(void) {
 	} while (!owner);
 
 	printf("\nEntering %s's Pokedex...\n", owner->ownerName);
-	int subChoice = 0;
+	int subChoice;
 	do {
+		subChoice = 0;
 		printf("\n-- %s's Pokedex Menu --\n"
 			"1. Add Pokemon\n"
 			"2. Display Pokedex\n"
@@ -1091,8 +1091,10 @@ PokemonNode *createPokemonNode(const PokemonData *data) {
 // Main Menu
 // --------------------------------------------------------------
 void mainMenu(void) {
-	int choice = 0;
-	printf("\n=== Main Menu ===\n"
+	int choice;
+	do {
+		choice = 0;
+		printf("\n=== Main Menu ===\n"
 		"1. New Pokedex\n"
 		"2. Existing Pokedex\n"
 		"3. Delete a Pokedex\n"
@@ -1100,7 +1102,6 @@ void mainMenu(void) {
 		"5. Sort Owners by Name\n"
 		"6. Print Owners in a direction X times\n"
 		"7. Exit\n");
-	do {
 		choice = readIntSafe("Your choice: ");
 		switch (choice) {
 			case 1: openPokedexMenu(); break;
