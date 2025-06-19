@@ -96,22 +96,23 @@ int readIntSafe(const char *prompt) {
 // --------------------------------------------------------------
 const char *getTypeName(PokemonType type) {
 	switch (type) {
-	case GRASS: return "GRASS";
-	case FIRE: return "FIRE";
-	case WATER: return "WATER";
-	case BUG: return "BUG";
-	case NORMAL: return "NORMAL";
-	case POISON: return "POISON";
-	case ELECTRIC: return "ELECTRIC";
-	case GROUND: return "GROUND";
-	case FAIRY: return "FAIRY";
-	case FIGHTING: return "FIGHTING";
-	case PSYCHIC: return "PSYCHIC";
-	case ROCK: return "ROCK";
-	case GHOST: return "GHOST";
-	case DRAGON: return "DRAGON";
-	case ICE: return "ICE";
-	default: return "UNKNOWN";
+		case GRASS: return "GRASS";
+		case FIRE: return "FIRE";
+		case WATER: return "WATER";
+		case BUG: return "BUG";
+		case NORMAL: return "NORMAL";
+		case POISON: return "POISON";
+		case ELECTRIC: return "ELECTRIC";
+		case GROUND: return "GROUND";
+		case FAIRY: return "FAIRY";
+		case FIGHTING: return "FIGHTING";
+		case PSYCHIC: return "PSYCHIC";
+		case ROCK: return "ROCK";
+		case GHOST: return "GHOST";
+		case DRAGON: return "DRAGON";
+		case ICE: return "ICE";
+	default:
+		return "UNKNOWN";
 	}
 }
 
@@ -326,21 +327,11 @@ void displayMenu(OwnerNode *owner) {
     int choice = readIntSafe("Your choice: ");
 	PokemonNode *treeRoot = pokemonCircleToTree(owner->pokedexRoot);
     switch (choice) {
-	case 1:
-		displayBFS(treeRoot);
-		break;
-	case 2:
-		preOrderTraversal(treeRoot);
-		break;
-	case 3:
-		inOrderTraversal(treeRoot);
-		break;
-	case 4:
-		postOrderTraversal(treeRoot);
-		break;
-	case 5:
-		displayAlphabetical(treeRoot);
-		break;
+		case 1: displayBFS(treeRoot); break;
+		case 2: preOrderTraversal(treeRoot); break;
+		case 3: inOrderTraversal(treeRoot); break;
+		case 4: postOrderTraversal(treeRoot); break;
+		case 5: displayAlphabetical(treeRoot); break;
 	default:
 		printf("Invalid choice.\n");
     }
@@ -408,25 +399,14 @@ void enterExistingPokedexMenu(void) {
 		printf("6. Back to Main\n");
 		subChoice = readIntSafe("Your choice: ");
 		switch (subChoice) {
-		case 1:
-			addPokemon(owner);
-			break;
-		case 2:
-			displayMenu(owner);
-			break;
-		case 3:
-			freePokemon(owner);
-			break;
-		case 4:
-			pokemonFight(owner);
-			break;
-		case 5:
-			evolvePokemon(owner);
-			break;
-		case 6:
-			printf("Back to Main Menu.\n");
-			break;
-		default: printf("Invalid choice.\n");
+			case 1: addPokemon(owner); break;
+			case 2: displayMenu(owner); break;
+			case 3: freePokemon(owner); break;
+			case 4: pokemonFight(owner); break;
+			case 5: evolvePokemon(owner); break;
+			case 6: printf("Back to Main Menu.\n"); break;
+		default:
+			printf("Invalid choice.\n");
 		}
 	} while (subChoice != 6);
 }
@@ -904,28 +884,15 @@ void mainMenu(void) {
 		printf("7. Exit\n");
 		choice = readIntSafe("Your choice: ");
 		switch (choice) {
-		case 1:
-			openPokedexMenu();
-			break;
-		case 2:
-			enterExistingPokedexMenu();
-			break;
-		case 3:
-			deletePokedex();
-			break;
-		case 4:
-			mergePokedexMenu();
-			break;
-		case 5:
-			sortOwners();
-			break;
-		case 6:
-			printOwnersCircular(ownerHead);
-			break;
-		case 7:
-			printf("Goodbye!\n");
-			break;
-		default: printf("Invalid.\n");
+			case 1: openPokedexMenu(); break;
+			case 2: enterExistingPokedexMenu(); break;
+			case 3: deletePokedex(); break;
+			case 4: mergePokedexMenu(); break;
+			case 5: sortOwners(); break;
+			case 6: printOwnersCircular(ownerHead); break;
+			case 7: printf("Goodbye!\n"); break;
+		default:
+			printf("Invalid.\n");
 		}
 	} while (choice != 7);
 }
