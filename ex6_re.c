@@ -628,11 +628,9 @@ void displayBFS(PokemonNode *root) {
         printf("(?) DEBUG: Pokedex is empty. ___OR___ No Pokemon to release.\n");  // HERE
         return;
     }
-
     Queue q;
     initQueue(&q);
     enqueue(&q, root);
-
     while (q.front) {
         PokemonNode *node = dequeue(&q);
         printPokemonNode(node);
@@ -650,7 +648,6 @@ void pokemonFight(OwnerNode *owner) {
         printf("Pokedex is empty.\n");
         return;
     }
-
     PokemonNode *tree = pokemonCircleToTree(owner->pokedexRoot);
 
     int id1 = readIntSafe("Enter ID of the first Pokemon: ");
@@ -764,7 +761,6 @@ void openPokedexMenu(void) {
 		free(ownerName);
 		return;
 	}
-
 	if (!ownerHead)
 		ownerHead = ownerNode->prev = ownerNode->next = ownerNode;
 	else
@@ -772,12 +768,14 @@ void openPokedexMenu(void) {
 	printf("New Pokedex created for %s with starter %s.\n", ownerName, starter->data->name);
 }
 
+
 void linkOwnerInCircularList(OwnerNode *newOwner) {
 	newOwner->prev = ownerHead->prev;
 	newOwner->next = ownerHead;
 	ownerHead->prev->next = newOwner;
 	ownerHead->prev = newOwner;
 }
+
 
 void removeOwnerFromCircularList(OwnerNode *owner) {
     if (!owner || !ownerHead)
@@ -795,8 +793,10 @@ void removeOwnerFromCircularList(OwnerNode *owner) {
 		ownerHead = owner->next;
 }
 
+
 void printOwnersCircular(OwnerNode *owner) {
     if (!(ownerHead && owner))
+		// TODO PRINT MESSAGE IF EXPECT
 		return;
 
 	char direction = toupper(readDirection("Enter direction (F or B): "));
@@ -804,15 +804,16 @@ void printOwnersCircular(OwnerNode *owner) {
 		return;
 
 	int repeatCount = 0;
-	// ?? EXPECT RE-PROMPT ??
-	// HERE
-    if (repeatCount = readIntSafe("How many prints? "), repeatCount <= 0)
+    if (repeatCount = readIntSafe("How many prints? "), repeatCount <= 0)  // TODO: EXPECT RE-PROMPT ??
 		return;
 
     OwnerNode *temp = ownerHead;
     for (int i = 0; i < repeatCount; i++) {
         printf("[%d] %s\n", i + 1, temp->ownerName);
-        temp = (direction == 'F') ? temp->next : temp->prev;
+		if (direction == 'F')
+			temp = temp->next;
+		else
+			temp = temp->prev;
     }
 }
 
@@ -848,7 +849,7 @@ void ownerByNumber(OwnerNode **owner, int ifDelete) {
 
 	if (select < 1 || select > ind) {
 		*owner = NULL;
-		printf("DEBUG PRINT: OWNER DOESN'T EXIST\n");  // HERE
+		printf("DEBUG PRINT: OWNER DOESN'T EXIST\n");  // TODO
 		return;
 	}
 
@@ -873,12 +874,11 @@ void deletePokedex(void) {
 		else
 			ownerHead = NULL;
 	}
+	
 	printf("Deleting %s's entire Pokedex...\n", owner->ownerName);
-
 	freeOwnerNode(owner);
 	free(owner);
 	owner = NULL;
-
 	printf("Pokedex deleted.\n");
 }
 
@@ -894,6 +894,7 @@ void ownerByName(OwnerNode **owner, int whichOwner) {
 	else if (whichOwner == MERGE_SOURCE)
 		printf("Enter name of second owner: ");
 	else
+		// TODO PRINT MESSAGE IF EXPECT
 		return;  // placeholder
 	
 	char *name = getDynamicInput();
@@ -945,7 +946,7 @@ void mergePokedexMenu(void) {
 		freePokemonTree(&dstTree);
 		freeOwnerNode(src);
 		free(src);
-		src = NULL;
+		src = NULL;  // TODO: NOT NEEDED
 		return;
     }
 
@@ -997,15 +998,18 @@ OwnerNode *createOwner(char *ownerName, PokemonNode *starter) {
 void freeAllOwners(void) {
     if (!ownerHead)
 		return;
+	
     OwnerNode *head = ownerHead;
     OwnerNode *curr = head->next;
     OwnerNode *next;
+
     while (curr != head) {
         next = curr->next;
         freeOwnerNode(curr);
         free(curr);
         curr = next;
     }
+
     freeOwnerNode(head);
     free(head);
     ownerHead = NULL;
@@ -1018,10 +1022,12 @@ void freeOwnerNode(OwnerNode *owner) {
 
 	free(owner->ownerName);
 	owner->ownerName = NULL;
+	
 	removeOwnerFromCircularList(owner);
 
 	if (!owner->pokedexRoot)
 		return;
+	
 	PokemonNode *root = owner->pokedexRoot;
 	PokemonNode *pokemon = root->right;
 	PokemonNode *next;
@@ -1033,7 +1039,6 @@ void freeOwnerNode(OwnerNode *owner) {
 		freePokemonNode(pokemon);
 		pokemon = next;
 	}
-
 	freePokemonNode(root);
 	owner->pokedexRoot = NULL;  // free owner in caller
 }
@@ -1041,7 +1046,7 @@ void freeOwnerNode(OwnerNode *owner) {
 
 void addPokemon(OwnerNode *owner) {
 	int id = readIntSafe("Enter ID to add: ");
-	if (id < 1 || id > 151)
+	if (id < LOWEST_ID || id > HIGHEST_ID)
 		return;
 
 	PokemonNode *treeRoot = pokemonCircleToTree(owner->pokedexRoot);
