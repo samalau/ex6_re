@@ -1093,16 +1093,15 @@ PokemonNode *createPokemonNode(const PokemonData *data) {
 void mainMenu(void) {
 	int choice = 0;
 	do {
-		choice = readIntSafe(
-			"\n=== Main Menu ===\n"
+		printf("\n=== Main Menu ===\n"
 			"1. New Pokedex\n"
 			"2. Existing Pokedex\n"
 			"3. Delete a Pokedex\n"
 			"4. Merge Pokedexes\n"
 			"5. Sort Owners by Name\n"
 			"6. Print Owners in a direction X times\n"
-			"7. Exit\n"
-			"Your choice: ");
+			"7. Exit\n");
+		choice = readIntSafe("Your choice: ");
 		switch (choice) {
 			case 1: openPokedexMenu(); break;
 			case 2: enterExistingPokedexMenu(); break;
