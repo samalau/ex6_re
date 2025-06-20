@@ -344,7 +344,7 @@ void inOrderTraversal(PokemonNode *root) {
 	if (!root){
 		printf("Pokedex is empty.\n");
 		return;
-   }
+	}
 	inOrderGeneric(root, printPokemonNode);
 }
 
@@ -353,7 +353,7 @@ void postOrderTraversal(PokemonNode *root) {
 	if (!root){
 		printf("Pokedex is empty.\n");
 		return;
-   }
+	}
 	postOrderGeneric(root, printPokemonNode);
 }
 
