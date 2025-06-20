@@ -270,8 +270,7 @@ PokemonNode* pokemonCircleToTree(PokemonNode *root) {
 
 
 void freePokemonTree(PokemonNode **root) {
-    if (!*root)
-		return;
+    if (!*root) return;
     freePokemonTree(&(*root)->left);
     freePokemonTree(&(*root)->right);
     free(*root);
@@ -280,8 +279,7 @@ void freePokemonTree(PokemonNode **root) {
 
 
 void printPokemonNode(PokemonNode *node) {
-	if (!node || !node->data)
-		return;
+	if (!node || !node->data) return;
 	printf("ID: %d, Name: %s, Type: %s, HP: %d, Attack: %d, Can Evolve: %s\n",
 		node->data->id,
 		node->data->name,
@@ -293,8 +291,7 @@ void printPokemonNode(PokemonNode *node) {
 
 
 void BFSGeneric(PokemonNode *root, VisitNodeFunc visit) {
-    if (!root || !visit)
-		return;
+    if (!root || !visit) return;
     Queue q;
     initQueue(&q);
     enqueue(&q, root);
@@ -311,8 +308,7 @@ void BFSGeneric(PokemonNode *root, VisitNodeFunc visit) {
 
 
 void preOrderGeneric(PokemonNode *root, VisitNodeFunc visit) {
-    if (!root)
-		return;
+    if (!root) return;
     visit(root);
     preOrderGeneric(root->left, visit);
     preOrderGeneric(root->right, visit);
@@ -320,8 +316,7 @@ void preOrderGeneric(PokemonNode *root, VisitNodeFunc visit) {
 
 
 void inOrderGeneric(PokemonNode *root, VisitNodeFunc visit) {
-    if (!root)
-		return;
+    if (!root) return;
     inOrderGeneric(root->left, visit);
 	visit(root);
     inOrderGeneric(root->right, visit);
@@ -329,8 +324,7 @@ void inOrderGeneric(PokemonNode *root, VisitNodeFunc visit) {
 
 
 void postOrderGeneric(PokemonNode *root, VisitNodeFunc visit) {
-    if (!root)
-		return;
+    if (!root) return;
     postOrderGeneric(root->left, visit);
     postOrderGeneric(root->right, visit);
 	visit(root);
@@ -338,16 +332,16 @@ void postOrderGeneric(PokemonNode *root, VisitNodeFunc visit) {
 
 
 void preOrderTraversal(PokemonNode *root) {
-	if (root==NULL){
+	if (!root){
 		printf("Pokedex is empty.\n");
 		return;
-   }
+	}
 	preOrderGeneric(root, printPokemonNode);
 }
 
 
 void inOrderTraversal(PokemonNode *root) {
-	if (root==NULL){
+	if (!root){
 		printf("Pokedex is empty.\n");
 		return;
    }
@@ -356,7 +350,7 @@ void inOrderTraversal(PokemonNode *root) {
 
 
 void postOrderTraversal(PokemonNode *root) {
-	if (root==NULL){
+	if (!root){
 		printf("Pokedex is empty.\n");
 		return;
    }
