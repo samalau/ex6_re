@@ -167,15 +167,26 @@ char *getDynamicInput(void) {
 
 
 char readDirection(const char *prompt) {
-    printf("%s", prompt);
-    char *input = getDynamicInput();
-    if (!input)
-		return '\0';
-    char dir = tolower(input[0]);
+	char *input = '\0';
+	printf("%s", prompt);
+	do {
+		input = '\0';
+		if (input = getDynamicInput(), input) {
+			input = tolower(input[0]);
+			// char lowerLetter = tolower(input[0]);
+			free(input);
+			input = NULL;
+			if (input == 'f' || input == 'b')
+				
+				return input;
+		}
+		// free(input);
+		// input = NULL;
+		printf("Invalid direction, must be F or B.\n%s\n", prompt); 
+		// note: lemida linux executable incorrectly prints "L or R"
+	} while (1);  // placeholder
     free(input);
-	if (dir == 'f' || dir == 'b')
-		return dir;
-    return '\0';
+	return '\0';
 }
 
 
@@ -580,8 +591,13 @@ PokemonNode *removePokemonByID(PokemonNode *root, int id) {
 
 
 void freePokemon(OwnerNode *owner) {
+	if (!owner->pokedexRoot) {
+		printf("No Pokemon to release.\n");
+		return;
+	}
+
     int id = readIntSafe("Enter Pokemon ID to release: ");
-    if (id < LOWEST_ID || id > HIGHEST_ID || !owner->pokedexRoot)  // MAGIC
+    if (id < LOWEST_ID || id > HIGHEST_ID)
 		return;
 
     PokemonNode *temp = owner->pokedexRoot;
