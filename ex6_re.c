@@ -62,7 +62,8 @@ char *myStrdup(const char *src) {
 }
 
 
-int readIntSafe(const char *prompt) {
+int readIntSafe(const char *prompt)
+{
 	char buffer[INT_BUFFER];
 	int value;
 	int success = 0;
@@ -70,14 +71,12 @@ int readIntSafe(const char *prompt) {
 		printf("%s", prompt);
 		// If we fail to read, treat it as invalid
 		if (!fgets(buffer, sizeof(buffer), stdin)) {
-			if (feof(stdin))
-				exit(0);  // TODO: CHECK IF PERMIT AND MUST CLEAN MEMORY AND MUST CLEAN MEMORY
 			printf("Invalid input.\n");
 			clearerr(stdin);
 			continue;
 		}
 		// 1) Strip any trailing \r or \n
-		// so "123\r\n" becomes "123"
+		//    so "123\r\n" becomes "123"
 		size_t len = strlen(buffer);
 		if (len > 0 && (buffer[len - 1] == '\n' || buffer[len - 1] == '\r'))
 			buffer[--len] = '\0';
@@ -93,14 +92,11 @@ int readIntSafe(const char *prompt) {
 		value = (int)strtol(buffer, &endptr, 10);
 		// If endptr didn't point to the end => leftover chars => invalid
 		// or if buffer was something non-numeric
-		if (*endptr != '\0')
-			printf("Invalid input.\n");
-		else
-			success = 1;  // We got a valid integer
+		if (*endptr != '\0') printf("Invalid input.\n");
+		else success = 1;  // We got a valid integer 
 	}
 	return value;
 }
-
 
 // --------------------------------------------------------------
 // 2) Utility: Get type name from enum
@@ -130,19 +126,15 @@ const char *getTypeName(PokemonType type) {
 // --------------------------------------------------------------
 // Utility: getDynamicInput (for reading a line into malloc'd memory)
 // --------------------------------------------------------------
-char *getDynamicInput(void) {
+char *getDynamicInput() {
 	char *input = NULL;
-	size_t size = 0;
-	size_t capacity = 1;
-	int c = 0;
+	size_t size = 0, capacity = 1;
 	input = (char *)malloc(capacity);
 	if (!input) {
 		printf("Memory allocation failed.\n");
-		while ((c = getchar()) != '\n' && c != EOF);
-		if (c == EOF)
-			exit(0);  // TODO: CHECK IF PERMIT AND MUST CLEAN MEMORY
 		return NULL;
 	}
+	int c;
 	while ((c = getchar()) != '\n' && c != EOF) {
 		if (size + 1 >= capacity) {
 			capacity *= 2;
@@ -156,8 +148,6 @@ char *getDynamicInput(void) {
 		}
 		input[size++] = (char)c;
 	}
-	if (c == EOF)
-		exit(0);  // TODO: CHECK IF PERMIT AND MUST CLEAN MEMORY
 	input[size] = '\0';
 	// Trim any leading/trailing whitespace or carriage returns
 	trimWhitespace(input);
