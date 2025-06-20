@@ -167,26 +167,24 @@ char *getDynamicInput(void) {
 
 
 char readDirection(const char *prompt) {
-	char *input = '\0';
+	char *input = NULL;
+	char temp = '\0';
 	printf("%s", prompt);
 	do {
-		input = '\0';
-		if (input = getDynamicInput(), input) {
-			input = tolower(input[0]);
-			// char lowerLetter = tolower(input[0]);
-			free(input);
-			input = NULL;
-			if (input == 'f' || input == 'b')
-				
-				return input;
+		input = getDynamicInput();
+		if (input) {
+			temp = tolower(input[0]);
+			if (temp == 'f' || temp == 'b') {
+				free(input);
+				return temp;
+			}
 		}
-		// free(input);
-		// input = NULL;
+		free(input);
+		input = NULL;
+		temp = '\0';
+		// lemida linux executable prints "L or R"
 		printf("Invalid direction, must be F or B.\n%s\n", prompt); 
-		// note: lemida linux executable incorrectly prints "L or R"
-	} while (1);  // placeholder
-    free(input);
-	return '\0';
+	} while (1);
 }
 
 
@@ -811,12 +809,14 @@ void removeOwnerFromCircularList(OwnerNode *owner) {
 
 
 void printOwnersCircular(OwnerNode *owner) {
-    if (!(ownerHead && owner))
-		// TODO PRINT MESSAGE IF EXPECT
+    if (!(ownerHead && owner))  // TODO PRINT MESSAGE IF EXPECT
 		return;
 
-	char direction = toupper(readDirection("Enter direction (F or B): "));
-    if (!(direction || direction == 'F' || direction == 'B'))
+	char direction = readDirection("Enter direction (F or B): ");
+	if (!direction)
+		return;
+	direction = tolower(direction);
+	if (direction == 'f' && direction == 'b')
 		return;
 
 	int repeatCount = 0;
