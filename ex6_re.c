@@ -122,8 +122,7 @@ const char *getTypeName(PokemonType type) {
 		case GHOST: return "GHOST";
 		case DRAGON: return "DRAGON";
 		case ICE: return "ICE";
-	default:
-		return "UNKNOWN";
+	default: return "UNKNOWN";
 	}
 }
 
@@ -750,81 +749,62 @@ void printOwnersCircular(OwnerNode *owner) {
 	direction = tolower(direction);  // redundant tolower -- caller returns lower
 	if (!(direction == 'f' && direction == 'b')) return;  // should never be reached
 	int repeatCount = 0;
-	if (repeatCount = readIntSafe("How many prints? "), repeatCount <= 0)  // TODO: EXPECT RE-PROMPT ??
-		return;
-
+	repeatCount = readIntSafe("How many prints? ");
+	if (repeatCount <= 0) return;  // TODO: EXPECT RE-PROMPT ?? AND HOW TP HANDLE NEG
 	OwnerNode *temp = ownerHead;
 	for (int i = 0; i < repeatCount; i++) {
 		printf("[%d] %s\n", i + 1, temp->ownerName);
-		if (direction == 'F')
-			temp = temp->next;
-		else
-			temp = temp->prev;
+		if (direction == 'F') temp = temp->next;
+		else temp = temp->prev;
 	}
 }
 
 
 OwnerNode *findOwnerByName(const char *name) {
-	if (!ownerHead)
-		return NULL;
+	if (!ownerHead) return NULL;
 	OwnerNode *node = ownerHead;
 	while(strcmp(node->ownerName, name) != 0) {
-		if (node->next == ownerHead)
-			return NULL;
+		if (node->next == ownerHead) return NULL;
 		node = node->next;
 	}
 	return node;
 }
 
-void ownerByNumber(OwnerNode **owner, int ifDelete) {
-	if (!ownerHead)
-		return;
-	*owner = ownerHead;
 
+void ownerByNumber(OwnerNode **owner, int ifDelete) {
+	if (!ownerHead) return;
+	*owner = ownerHead;
 	int ind = 0;
 	do {
 		printf("%d. %s\n", ++ind, (*owner)->ownerName);
 		*owner = (*owner)->next;
 	} while (*owner != ownerHead);
-
 	int select = 0;
-	if (ifDelete)
-		select = readIntSafe("Choose a Pokedex to delete by number: ");
-	else
-		select = readIntSafe("Choose a Pokedex by number: ");
-
+	if (ifDelete) select = readIntSafe("Choose a Pokedex to delete by number: ");
+	else select = readIntSafe("Choose a Pokedex by number: ");
 	if (select < 1 || select > ind) {
 		*owner = NULL;
 		printf("DEBUG PRINT: OWNER DOESN'T EXIST\n");  // TODO
 		return;
 	}
-
 	ind = 0;
-	while (++ind != select)
-		*owner = (*owner)->next;
+	while (++ind != select) *owner = (*owner)->next;
 }
 
 
 void deletePokedex(void) {
-	if (!ownerHead)
-		return;
-
+	if (!ownerHead) return;
 	OwnerNode *owner = NULL;
 	ownerByNumber(&owner, DELETE_POKEDEX);
-	if (!owner)
-		return;
-
+	if (!owner) return;
 	if (owner == ownerHead) {
-		if (ownerHead->next != ownerHead)
-			ownerHead = ownerHead->next;
-		else
-			ownerHead = NULL;
+		if (ownerHead->next != ownerHead) ownerHead = ownerHead->next;
+		else ownerHead = NULL;
 	}
-	
 	printf("Deleting %s's entire Pokedex...\n", owner->ownerName);
 	freeOwnerNode(owner);
 	free(owner);
-	owner = NULL;
+	// owner = NULL;
 	printf("Pokedex deleted.\n");
 }
 
@@ -834,21 +814,16 @@ void ownerByName(OwnerNode **owner, int whichOwner) {
 		*owner = NULL;
 		return; 
 	}
-
 	if (whichOwner == MERGE_DESTINATION)
 		printf("Enter name of first owner: ");
 	else if (whichOwner == MERGE_SOURCE)
 		printf("Enter name of second owner: ");
-	else
-		// TODO PRINT MESSAGE IF EXPECT
-		return;  // placeholder
-	
+	else return;  // TODO PRINT MESSAGE IF EXPECT
 	char *name = getDynamicInput();
 	if (!name) {
 		*owner = NULL;
 		return;
 	}
-
 	OwnerNode *cur = ownerHead;
 	do {
 		if (strcmp(cur->ownerName, name) == 0) {
@@ -858,44 +833,31 @@ void ownerByName(OwnerNode **owner, int whichOwner) {
 		}
 		cur = cur->next;
 	} while (cur != ownerHead);
-
 	free(name);
 	*owner = NULL;
 }
 
 
 void mergePokedexMenu(void) {
-	if (!ownerHead || ownerHead->next == ownerHead)
-		return;
-
+	if (!ownerHead || ownerHead->next == ownerHead) return;
 	OwnerNode *dst = NULL;
 	OwnerNode *src = NULL;
-	
 	ownerByName(&dst, MERGE_DESTINATION);
 	ownerByName(&src, MERGE_SOURCE);
-
-	if (!dst || !src)
-		return;
-
+	if (!dst || !src) return;
 	if (!src->pokedexRoot) {
 		freeOwnerNode(src);
-		free(src);
 		return;
 	}
-
 	printf("Merging %s and %s...\n", dst->ownerName, src->ownerName);
-
 	PokemonNode *dstTree = pokemonCircleToTree(dst->pokedexRoot);
 	PokemonNode *srcTree = pokemonCircleToTree(src->pokedexRoot);
-
 	if (!srcTree) {
 		freePokemonTree(&dstTree);
 		freeOwnerNode(src);
 		free(src);
-		src = NULL;  // TODO: NOT NEEDED
 		return;
 	}
-
 	Queue q;
 	initQueue(&q);
 	enqueue(&q, srcTree);
@@ -905,34 +867,26 @@ void mergePokedexMenu(void) {
 			PokemonNode *c = createPokemonNode(n->data);
 			if (!c) break;
 			c->left = c->right = c;
-			if (!dst->pokedexRoot)
-				dst->pokedexRoot = c;
+			if (!dst->pokedexRoot) dst->pokedexRoot = c;
 			else insertPokemonNode(dst->pokedexRoot, c);
 		}
-		if (n->left)
-			enqueue(&q, n->left);
-		if (n->right)
-			enqueue(&q, n->right);
+		if (n->left) enqueue(&q, n->left);
+		if (n->right) enqueue(&q, n->right);
 	}
-
 	printf("Merge completed.\n");
 	freeQueue(&q);
 	freePokemonTree(&srcTree);
 	freePokemonTree(&dstTree);
-
 	printf("Owner '%s' has been removed after merging.\n", src->ownerName);
 	freeOwnerNode(src);
 	free(src);
-	// src = NULL;  // TODO ???
 }
 
 
 OwnerNode *createOwner(char *ownerName, PokemonNode *starter) {
-	if (!(ownerName || starter))
-		return NULL; 
+	if (!(ownerName || starter)) return NULL; 
 	OwnerNode *owner = (OwnerNode *)malloc(sizeof(OwnerNode));
-	if (!owner)
-		return NULL;
+	if (!owner) return NULL;
 	owner->ownerName = ownerName;
 	owner->pokedexRoot = starter;
 	owner->prev = ownerHead ? ownerHead->prev : owner;
@@ -942,20 +896,16 @@ OwnerNode *createOwner(char *ownerName, PokemonNode *starter) {
 
 
 void freeAllOwners(void) {
-	if (!ownerHead)
-		return;
-	
+	if (!ownerHead) return;
 	OwnerNode *head = ownerHead;
 	OwnerNode *curr = head->next;
 	OwnerNode *next;
-
 	while (curr != head) {
 		next = curr->next;
 		freeOwnerNode(curr);
 		free(curr);
 		curr = next;
 	}
-
 	freeOwnerNode(head);
 	free(head);
 	ownerHead = NULL;
@@ -963,21 +913,14 @@ void freeAllOwners(void) {
 
 
 void freeOwnerNode(OwnerNode *owner) {
-	if (!owner)
-		return;
-
+	if (!owner) return;
 	free(owner->ownerName);
 	owner->ownerName = NULL;
-	
 	removeOwnerFromCircularList(owner);
-
-	if (!owner->pokedexRoot)
-		return;
-	
+	if (!owner->pokedexRoot) return;
 	PokemonNode *root = owner->pokedexRoot;
 	PokemonNode *pokemon = root->right;
 	PokemonNode *next;
-
 	while (pokemon != root) {
 		pokemon->left->right = pokemon->right;
 		pokemon->right->left = pokemon->left;
@@ -992,9 +935,7 @@ void freeOwnerNode(OwnerNode *owner) {
 
 void addPokemon(OwnerNode *owner) {
 	int id = readIntSafe("Enter ID to add: ");
-	if (id < LOWEST_ID || id > HIGHEST_ID)
-		return;
-
+	if (id < LOWEST_ID || id > HIGHEST_ID) return;
 	PokemonNode *treeRoot = pokemonCircleToTree(owner->pokedexRoot);
 	if (searchPokemonBFS(treeRoot, id)) {
 		freePokemonTree(&treeRoot);
@@ -1002,13 +943,10 @@ void addPokemon(OwnerNode *owner) {
 		return;
 	}
 	freePokemonTree(&treeRoot);
-
 	int indexID = id - 1;
 	PokemonNode *pokemon = createPokemonNode(&pokedex[indexID]);
-	if (!pokemon)
-		return;
+	if (!pokemon) return;
 	pokemon->left = pokemon->right = pokemon;
-
 	insertPokemonNode(owner->pokedexRoot, pokemon);
 	printf("Pokemon %s (ID %d) added.\n", pokemon->data->name, id);
 }
@@ -1025,8 +963,7 @@ PokemonNode *insertPokemonNode(PokemonNode *root, PokemonNode *newNode) {
 
 PokemonNode *createPokemonNode(const PokemonData *data) {
 	PokemonNode *poke = (PokemonNode*)malloc(sizeof(PokemonNode));
-	if (!poke)
-		return NULL;
+	if (!poke) return NULL;
 	poke->data = data;
 	poke->left = poke->right = NULL;
 	return poke;
@@ -1057,8 +994,7 @@ void mainMenu(void) {
 			case 5: sortOwners(); break;
 			case 6: printOwnersCircular(ownerHead); break;
 			case 7: printf("Goodbye!\n"); break;
-		default:
-			printf("Invalid.\n");
+		default: printf("Invalid.\n");
 		}
 	} while (choice != 7);
 }
