@@ -570,6 +570,7 @@ void freePokemon(OwnerNode *owner) {
 		printf("No Pokemon with ID %d found.\n", id);
 		return;
 	}
+	printf("Removing Pokemon %s (ID %d).\n", pokemon->data->name, id);
 	if (pokemon->left == pokemon && pokemon->right == pokemon) {
 		freePokemonNode(pokemon);
 		owner->pokedexRoot = NULL;
@@ -684,14 +685,14 @@ void openPokedexMenu(void) {
 		free(ownerName);
 		return;
 	}
-	int menuChoice = readIntSafe(
-		"Choose Starter:\n"
-		"1. Bulbasaur\n"
-		"2. Charmander\n"
-		"3. Squirtle\n"
-		"Your choice: ");
+	printf("Choose Starter:\n"
+				"1. Bulbasaur\n"
+				"2. Charmander\n"
+				"3. Squirtle\n");
+	int menuChoice = readIntSafe("Your choice: ");
 	if (menuChoice < FIRST_STARTER || menuChoice > LAST_STARTER) {
 		free(ownerName);
+		printf("Invalid choice.\n");
 		return;
 	}
 	PokemonNode *starter = createPokemonNode(&pokedex[computeStarterID(menuChoice)]);
@@ -708,7 +709,10 @@ void openPokedexMenu(void) {
 	}
 	if (!ownerHead) ownerHead = ownerNode->prev = ownerNode->next = ownerNode;
 	else linkOwnerInCircularList(ownerNode);
-	printf("New Pokedex created for %s with starter %s.\n", ownerName, starter->data->name);
+	printf("New Pokedex created for %s with starter %s.\n",
+		ownerName,
+		starter->data->name
+	);
 }
 
 
@@ -772,25 +776,30 @@ void ownerByNumber(OwnerNode **owner, int ifDelete) {
 	if (!ownerHead) return;
 	*owner = ownerHead;
 	int ind = 0;
+	int select = 0;
 	do {
 		printf("%d. %s\n", ++ind, (*owner)->ownerName);
 		*owner = (*owner)->next;
 	} while (*owner != ownerHead);
-	int select = 0;
 	if (ifDelete) select = readIntSafe("Choose a Pokedex to delete by number: ");
 	else select = readIntSafe("Choose a Pokedex by number: ");
 	if (select < 1 || select > ind) {
-		*owner = NULL;
-		printf("DEBUG PRINT: OWNER DOESN'T EXIST\n");  // TODO
+		*owner = ownerHead;  // redundant
 		return;
 	}
-	ind = 0;
-	while (++ind != select) *owner = (*owner)->next;
+	if (*owner == ownerHead) printf("\nDEBUG: IS OWNERHEAD\n\n");
+	if (select >= 1 && select <= ind) {
+		ind = 0;
+		while (++ind != select) *owner = (*owner)->next;
+	}
 }
 
 
 void deletePokedex(void) {
-	if (!ownerHead) return;
+	if (!ownerHead) {
+		printf("No existing Pokedexes to delete.\n");
+		return;
+	}
 	OwnerNode *owner = NULL;
 	printf("\n=== Delete a Pokedex ===\n");
 	ownerByNumber(&owner, DELETE_POKEDEX);
@@ -808,18 +817,14 @@ void deletePokedex(void) {
 
 void ownerByName(OwnerNode **owner, int whichOwner) {
 	if (!ownerHead) {
-		free(*owner);  // keep?
 		*owner = NULL;
 		return; 
 	}
-	if (whichOwner == MERGE_DESTINATION)
-		printf("Enter name of first owner: ");
-	else if (whichOwner == MERGE_SOURCE)
-		printf("Enter name of second owner: ");
+	if (whichOwner == MERGE_DESTINATION) printf("Enter name of first owner: ");
+	else if (whichOwner == MERGE_SOURCE) printf("Enter name of second owner: ");
 	else return;  // should never be reached / defensive
 	char *name = getDynamicInput();
 	if (!name) {
-		free(*owner);  // keep?
 		*owner = NULL;
 		return;
 	}
@@ -833,7 +838,6 @@ void ownerByName(OwnerNode **owner, int whichOwner) {
 		cur = cur->next;
 	} while (cur != ownerHead);
 	free(name);
-	free(*owner);  // keep?
 	*owner = NULL;
 }
 
@@ -848,8 +852,6 @@ void mergePokedexMenu(void) {
 	ownerByName(&dst, MERGE_DESTINATION);
 	ownerByName(&src, MERGE_SOURCE);
 	if (!dst || !src) {
-		if (!dst) free(dst);
-		if (!src) free(src);
 		printf("One or both owners not found.\n");
 		return;
 	}
@@ -857,8 +859,7 @@ void mergePokedexMenu(void) {
 				"Merge completed.\n"
 				"Owner '%s' has been removed after merging.\n",
 		dst->ownerName,
-		src->ownerName,
-		src->ownerName
+		src->ownerName, src->ownerName
 	);
 	if (dst == src || !src->pokedexRoot) {
 		freeOwnerNode(src);
@@ -891,11 +892,11 @@ void mergePokedexMenu(void) {
 		if (n->left) enqueue(&q, n->left);
 		if (n->right) enqueue(&q, n->right);
 	}
-	printf("Merge completed.\n");
+	// printf("Merge completed.\n");
 	freeQueue(&q);
 	freePokemonTree(&srcTree);
 	freePokemonTree(&dstTree);
-	printf("Owner '%s' has been removed after merging.\n", src->ownerName);
+	// printf("Owner '%s' has been removed after merging.\n", src->ownerName);
 	freeOwnerNode(src);
 	free(src);
 }
