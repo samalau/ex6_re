@@ -172,8 +172,10 @@ void freeOwnerNode(OwnerNode *owner);
  * @return updated BST root
  * Why we made it: Standard BST insertion ignoring duplicates.
  */
-void  insertPokemonNode(PokemonNode **root, PokemonNode *newNode);
+void insertPokemonNode(PokemonNode **root, PokemonNode *newNode);
 
+/** */
+void  linkToPokedex(PokemonNode **root, PokemonNode *newNode);
 /** */
 void initQueue(Queue *q);
 /** */

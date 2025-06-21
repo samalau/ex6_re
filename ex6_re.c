@@ -223,6 +223,18 @@ void sortOwners(void) {
 	printf("Owners sorted by name.\n");
 }
 
+void insertPokemonNode(PokemonNode **root, PokemonNode *newNode) {
+	if (!(*root)) {
+		*root = newNode;
+		newNode->left = newNode->right = NULL;
+		return;
+	}
+	if (newNode->data->id < (*root)->data->id)
+		insertPokemonNode(&(*root)->left, newNode);
+	else if (newNode->data->id > (*root)->data->id)
+		insertPokemonNode(&(*root)->right, newNode);
+	else freePokemonNode(newNode);
+}
 
 PokemonNode* pokemonCircleToTree(PokemonNode *root) {
 	if (!root) return NULL;
@@ -231,30 +243,11 @@ PokemonNode* pokemonCircleToTree(PokemonNode *root) {
 	PokemonNode *next = NULL;
 	do {
 		next = t->right;
-		PokemonNode *clone = (PokemonNode *)malloc(sizeof(PokemonNode));
-		if (!clone) return treeRoot;
-		*clone = *t;
-		clone->left = clone->right = NULL;
-		if (!treeRoot) {
-			treeRoot = clone;
-		} else {
-			PokemonNode *p = treeRoot;
-			for (;;) {
-				if (clone->data->id < p->data->id) {
-					if (!p->left) {
-						p->left = clone;
-						break;
-					}
-					p = p->left;
-				} else {
-					if (!p->right) {
-						p->right = clone;
-						break;
-					}
-					p = p->right;
-				}
-			}
-		}
+		PokemonNode *node = (PokemonNode *)malloc(sizeof(PokemonNode));
+		if (!node) return treeRoot;
+		*node = *t;
+		node->left = node->right = NULL;
+		insertPokemonNode(&treeRoot, node);
 		t = next;
 	} while (t != root);
 	return treeRoot;
@@ -711,10 +704,7 @@ void openPokedexMenu(void) {
 	}
 	if (!ownerHead) ownerHead = ownerNode->prev = ownerNode->next = ownerNode;
 	else linkOwnerInCircularList(ownerNode);
-	printf("New Pokedex created for %s with starter %s.\n",
-		ownerName,
-		starter->data->name
-	);
+	printf("New Pokedex created for %s with starter %s.\n", ownerName, starter->data->name);
 }
 
 
@@ -883,7 +873,7 @@ void mergePokedexMenu(void) {
 			PokemonNode *c = createPokemonNode(n->data);
 			if (!c) break;
 			c->left = c->right = c;
-			insertPokemonNode(&(dst->pokedexRoot), c);
+			linkToPokedex(&(dst->pokedexRoot), c);
 		}
 		if (n->left) enqueue(&q, n->left);
 		if (n->right) enqueue(&q, n->right);
@@ -963,12 +953,12 @@ void addPokemon(OwnerNode *owner) {
 	PokemonNode *pokemon = createPokemonNode(&pokedex[indexID]);
 	if (!pokemon) return;
 	pokemon->left = pokemon->right = pokemon;
-	insertPokemonNode(&(owner->pokedexRoot), pokemon);
+	linkToPokedex(&(owner->pokedexRoot), pokemon);
 	printf("Pokemon %s (ID %d) added.\n", pokemon->data->name, id);
 }
 
 
-void  insertPokemonNode(PokemonNode **root, PokemonNode *newNode) {
+void  linkToPokedex(PokemonNode **root, PokemonNode *newNode) {
 	if (!(*root)) {
 		newNode->left = newNode->right = newNode;
 		*root = newNode;
