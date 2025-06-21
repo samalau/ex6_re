@@ -808,6 +808,7 @@ void deletePokedex(void) {
 
 void ownerByName(OwnerNode **owner, int whichOwner) {
 	if (!ownerHead) {
+		free(*owner);  // keep?
 		*owner = NULL;
 		return; 
 	}
@@ -815,9 +816,10 @@ void ownerByName(OwnerNode **owner, int whichOwner) {
 		printf("Enter name of first owner: ");
 	else if (whichOwner == MERGE_SOURCE)
 		printf("Enter name of second owner: ");
-	else return;
+	else return;  // should never be reached / defensive
 	char *name = getDynamicInput();
 	if (!name) {
+		free(*owner);  // keep?
 		*owner = NULL;
 		return;
 	}
@@ -831,6 +833,7 @@ void ownerByName(OwnerNode **owner, int whichOwner) {
 		cur = cur->next;
 	} while (cur != ownerHead);
 	free(name);
+	free(*owner);  // keep?
 	*owner = NULL;
 }
 
@@ -845,15 +848,26 @@ void mergePokedexMenu(void) {
 	ownerByName(&dst, MERGE_DESTINATION);
 	ownerByName(&src, MERGE_SOURCE);
 	if (!dst || !src) {
+		if (!dst) free(dst);
+		if (!src) free(src);
 		printf("One or both owners not found.\n");
-		
 		return;
 	}
-	if (!src->pokedexRoot) {
+	printf("Merging %s and %s...\n"
+				"Merge completed.\n"
+				"Owner '%s' has been removed after merging.\n",
+		dst->ownerName,
+		src->ownerName,
+		src->ownerName
+	);
+	if (dst == src || !src->pokedexRoot) {
 		freeOwnerNode(src);
+		free(src);
+		src = NULL;
+		free(dst);
+		dst = NULL;
 		return;
 	}
-	printf("Merging %s and %s...\n", dst->ownerName, src->ownerName);
 	PokemonNode *dstTree = pokemonCircleToTree(dst->pokedexRoot);
 	PokemonNode *srcTree = pokemonCircleToTree(src->pokedexRoot);
 	if (!srcTree) {
