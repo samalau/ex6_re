@@ -172,7 +172,7 @@ char readDirection(const char *prompt) {
 		input = NULL;
 		temp = '\0';
 		// lemida linux executable prints "L or R"
-		printf("Invalid direction, must be F or B.\n%s\n", prompt); 
+		printf("Invalid direction, must be F or B.\n%s", prompt); 
 	} while (1);
 }
 
@@ -733,11 +733,14 @@ void removeOwnerFromCircularList(OwnerNode *owner) {
 
 
 void printOwnersCircular(OwnerNode *owner) {
-	if (!(ownerHead && owner)) return;  // TODO PRINT MESSAGE IF EXPECT
+	if (!(ownerHead && owner)) {
+		printf("No owners.\n");
+		return;
+	}
 	char direction = readDirection("Enter direction (F or B): ");
 	if (!direction) return;
-	direction = tolower(direction);  // redundant tolower -- caller returns lower
-	if (!(direction == 'f' && direction == 'b')) return;  // should never be reached
+	direction = tolower(direction);  // NOTE: redundant
+	if (!(direction == 'f' || direction == 'b')) return;  // NOTE: should never be reached
 	int repeatCount = 0;
 	repeatCount = readIntSafe("How many prints? ");
 	if (repeatCount <= 0) return;  // TODO: EXPECT RE-PROMPT ?? AND HOW TP HANDLE NEG
