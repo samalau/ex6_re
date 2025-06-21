@@ -575,8 +575,8 @@ void freePokemon(OwnerNode *owner) {
 	}
 	printf("Removing Pokemon %s (ID %d).\n", pokemon->data->name, id);
 	if (pokemon->left == pokemon && pokemon->right == pokemon) {
-		freePokemonNode(pokemon);
 		owner->pokedexRoot = NULL;
+		freePokemonNode(pokemon);
 		return;
 	}
 	pokemon->left->right = pokemon->right;
@@ -596,7 +596,6 @@ void freePokemonNode(PokemonNode *node) {
 
 void displayBFS(PokemonNode *root) {
 	if (!root) {
-		printf("(?) DEBUG: Pokedex is empty. ___OR___ No Pokemon to release.\n");  // HERE
 		return;
 	}
 	Queue q;
@@ -889,8 +888,7 @@ void mergePokedexMenu(void) {
 			PokemonNode *c = createPokemonNode(n->data);
 			if (!c) break;
 			c->left = c->right = c;
-			if (!dst->pokedexRoot) dst->pokedexRoot = c;
-			else insertPokemonNode(dst->pokedexRoot, c);
+			insertPokemonNode(&(dst->pokedexRoot), c);
 		}
 		if (n->left) enqueue(&q, n->left);
 		if (n->right) enqueue(&q, n->right);
@@ -972,17 +970,21 @@ void addPokemon(OwnerNode *owner) {
 	PokemonNode *pokemon = createPokemonNode(&pokedex[indexID]);
 	if (!pokemon) return;
 	pokemon->left = pokemon->right = pokemon;
-	insertPokemonNode(owner->pokedexRoot, pokemon);
+	insertPokemonNode(&(owner->pokedexRoot), pokemon);
 	printf("Pokemon %s (ID %d) added.\n", pokemon->data->name, id);
 }
 
 
-PokemonNode *insertPokemonNode(PokemonNode *root, PokemonNode *newNode) {
-	newNode->right = root;
-	newNode->left = root->left;
-	root->left->right = newNode;
-	root->left = newNode;
-	return newNode;
+void *insertPokemonNode(PokemonNode **root, PokemonNode *newNode) {
+	if (!(*root)) {
+		newNode->left = newNode->right = newNode;
+		*root = newNode;
+		return;
+	}
+	newNode->right = *root;
+	newNode->left = (*root)->left;
+	(*root)->left->right = newNode;
+	(*root)->left = newNode;
 }
 
 
