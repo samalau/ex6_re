@@ -556,7 +556,10 @@ void freePokemon(OwnerNode *owner) {
 		return;
 	}
 	int id = readIntSafe("Enter Pokemon ID to release: ");
-	if (id < LOWEST_ID || id > HIGHEST_ID) return;
+	if (id < LOWEST_ID || id > HIGHEST_ID) {
+		printf("No Pokemon with ID %d found.\n", id);
+		return;
+	}
 	PokemonNode *temp = owner->pokedexRoot;
 	PokemonNode *pokemon = NULL;
 	do {
@@ -954,7 +957,10 @@ void freeOwnerNode(OwnerNode *owner) {
 
 void addPokemon(OwnerNode *owner) {
 	int id = readIntSafe("Enter ID to add: ");
-	if (id < LOWEST_ID || id > HIGHEST_ID) return;
+	if (id < LOWEST_ID || id > HIGHEST_ID) {
+		printf("Invalid ID.\n");
+		return;
+	}
 	PokemonNode *treeRoot = pokemonCircleToTree(owner->pokedexRoot);
 	if (searchPokemonBFS(treeRoot, id)) {
 		freePokemonTree(&treeRoot);
