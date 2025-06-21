@@ -735,17 +735,13 @@ void printOwnersCircular(OwnerNode *owner) {
 	}
 	char direction = readDirection("Enter direction (F or B): ");
 	if (!direction) return;
-	// redundant / defensive
-	direction = tolower(direction);
-	// should never be reached / defensive
-	if (!(direction == 'f' || direction == 'b')) return;
 	int repeatCount = 0;
 	repeatCount = readIntSafe("How many prints? ");
 	if (repeatCount <= 0) return;
 	OwnerNode *temp = ownerHead;
 	for (int i = 0; i < repeatCount; i++) {
 		printf("[%d] %s\n", i + 1, temp->ownerName);
-		if (direction == 'F') temp = temp->next;
+		if (direction == 'f') temp = temp->next;
 		else temp = temp->prev;
 	}
 }
