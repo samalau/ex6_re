@@ -171,7 +171,7 @@ char readDirection(const char *prompt) {
 		free(input);
 		input = NULL;
 		temp = '\0';
-		// lemida linux executable prints "L or R"
+		// official linux executable prints "L or R"
 		printf("Invalid direction, must be F or B.\n%s", prompt); 
 	} while (1);
 }
@@ -188,9 +188,16 @@ void swapOwnerData(OwnerNode *a, OwnerNode *b) {
 
 
 void sortOwners(void) {
-	if (!ownerHead || ownerHead->next == ownerHead)
+	if (!ownerHead) {
+		// official linux executable prints iff 0 owners
+		printf("0 or 1 owners only => no need to sort.\n");
 		return;
-	
+	}
+	if (ownerHead->next == ownerHead) {
+		// official linux executable prints iff owners >=1
+		printf("Owners sorted by name.\n");
+		return;
+	}
 	int swapped;
 	do {
 		swapped = 0;
@@ -788,6 +795,7 @@ void ownerByNumber(OwnerNode **owner, int ifDelete) {
 void deletePokedex(void) {
 	if (!ownerHead) return;
 	OwnerNode *owner = NULL;
+	printf("\n=== Delete a Pokedex ===\n");
 	ownerByNumber(&owner, DELETE_POKEDEX);
 	if (!owner) return;
 	if (owner == ownerHead) {
