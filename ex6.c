@@ -1,9 +1,3 @@
-/*
-Samantha Newmark
-346587629
-Ex 6
-*/
-
 #include "ex6.h"
 #include <ctype.h>
 #include <stdio.h>
@@ -836,6 +830,7 @@ void mergePokedexMenu(void) {
 	}
 	OwnerNode *dst = NULL;
 	OwnerNode *src = NULL;
+	printf("\n=== Merge Pokedexes ===\n");
 	ownerByName(&dst, MERGE_DESTINATION);
 	ownerByName(&src, MERGE_SOURCE);
 	if (!dst || !src) {
