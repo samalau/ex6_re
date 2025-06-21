@@ -1,0 +1,487 @@
+=== Main Menu ===
+1. New Pokedex
+2. Existing Pokedex
+3. Delete a Pokedex
+4. Merge Pokedexes
+5. Sort Owners by Name
+6. Print Owners in a direction X times
+7. Exit
+Your choice: Your name: Choose Starter:
+1. Bulbasaur
+2. Charmander
+3. Squirtle
+Your choice: New Pokedex created for Ash with starter Charmander.
+=== Main Menu ===
+1. New Pokedex
+2. Existing Pokedex
+3. Delete a Pokedex
+4. Merge Pokedexes
+5. Sort Owners by Name
+6. Print Owners in a direction X times
+7. Exit
+Your choice: Your name: Choose Starter:
+1. Bulbasaur
+2. Charmander
+3. Squirtle
+Your choice: New Pokedex created for Misty with starter Squirtle.
+=== Main Menu ===
+1. New Pokedex
+2. Existing Pokedex
+3. Delete a Pokedex
+4. Merge Pokedexes
+5. Sort Owners by Name
+6. Print Owners in a direction X times
+7. Exit
+Your choice: Your name: Choose Starter:
+1. Bulbasaur
+2. Charmander
+3. Squirtle
+Your choice: New Pokedex created for Brook with starter Bulbasaur.
+=== Main Menu ===
+1. New Pokedex
+2. Existing Pokedex
+3. Delete a Pokedex
+4. Merge Pokedexes
+5. Sort Owners by Name
+6. Print Owners in a direction X times
+7. Exit
+Your choice: Your name: Choose Starter:
+1. Bulbasaur
+2. Charmander
+3. Squirtle
+Your choice: New Pokedex created for Officer Jenny with starter Bulbasaur.
+=== Main Menu ===
+1. New Pokedex
+2. Existing Pokedex
+3. Delete a Pokedex
+4. Merge Pokedexes
+5. Sort Owners by Name
+6. Print Owners in a direction X times
+7. Exit
+Your choice: Your name: Owner 'Ash' already exists. Not creating a new Pokedex.
+=== Main Menu ===
+1. New Pokedex
+2. Existing Pokedex
+3. Delete a Pokedex
+4. Merge Pokedexes
+5. Sort Owners by Name
+6. Print Owners in a direction X times
+7. Exit
+Your choice:
+Existing Pokedexes:
+1. Ash
+2. Misty
+3. Brook
+4. Officer Jenny
+Choose a Pokedex by number:
+Entering Brook's Pokedex...
+-- Brook's Pokedex Menu --
+1. Add Pokemon
+2. Display Pokedex
+3. Release Pokemon (by ID)
+4. Pokemon Fight!
+5. Evolve Pokemon
+6. Back to Main
+Your choice: Enter ID to add: Pokemon with ID 1 is already in the Pokedex. No changes made.
+-- Brook's Pokedex Menu --
+1. Add Pokemon
+2. Display Pokedex
+3. Release Pokemon (by ID)
+4. Pokemon Fight!
+5. Evolve Pokemon
+6. Back to Main
+Your choice: Invalid choice.
+-- Brook's Pokedex Menu --
+1. Add Pokemon
+2. Display Pokedex
+3. Release Pokemon (by ID)
+4. Pokemon Fight!
+5. Evolve Pokemon
+6. Back to Main
+Your choice: Enter Pokemon ID to release: Removing Pokemon Bulbasaur (ID 1).
+-- Brook's Pokedex Menu --
+1. Add Pokemon
+2. Display Pokedex
+3. Release Pokemon (by ID)
+4. Pokemon Fight!
+5. Evolve Pokemon
+6. Back to Main
+Your choice: Pokedex is empty.
+-- Brook's Pokedex Menu --
+1. Add Pokemon
+2. Display Pokedex
+3. Release Pokemon (by ID)
+4. Pokemon Fight!
+5. Evolve Pokemon
+6. Back to Main
+Your choice: Invalid choice.
+-- Brook's Pokedex Menu --
+1. Add Pokemon
+2. Display Pokedex
+3. Release Pokemon (by ID)
+4. Pokemon Fight!
+5. Evolve Pokemon
+6. Back to Main
+Your choice: Invalid choice.
+-- Brook's Pokedex Menu --
+1. Add Pokemon
+2. Display Pokedex
+3. Release Pokemon (by ID)
+4. Pokemon Fight!
+5. Evolve Pokemon
+6. Back to Main
+Your choice: Cannot evolve. Pokedex empty.
+-- Brook's Pokedex Menu --
+1. Add Pokemon
+2. Display Pokedex
+3. Release Pokemon (by ID)
+4. Pokemon Fight!
+5. Evolve Pokemon
+6. Back to Main
+Your choice: Invalid choice.
+-- Brook's Pokedex Menu --
+1. Add Pokemon
+2. Display Pokedex
+3. Release Pokemon (by ID)
+4. Pokemon Fight!
+5. Evolve Pokemon
+6. Back to Main
+Your choice: Back to Main Menu.
+=== Main Menu ===
+1. New Pokedex
+2. Existing Pokedex
+3. Delete a Pokedex
+4. Merge Pokedexes
+5. Sort Owners by Name
+6. Print Owners in a direction X times
+7. Exit
+Your choice:
+Existing Pokedexes:
+1. Ash
+2. Misty
+3. Brook
+4. Officer Jenny
+Choose a Pokedex by number:
+Entering Ash's Pokedex...
+-- Ash's Pokedex Menu --
+1. Add Pokemon
+2. Display Pokedex
+3. Release Pokemon (by ID)
+4. Pokemon Fight!
+5. Evolve Pokemon
+6. Back to Main
+Your choice: Enter ID to add: Pokemon Bulbasaur (ID 1) added.
+-- Ash's Pokedex Menu --
+1. Add Pokemon
+2. Display Pokedex
+3. Release Pokemon (by ID)
+4. Pokemon Fight!
+5. Evolve Pokemon
+6. Back to Main
+Your choice: Enter Pokemon ID to release: Removing Pokemon Bulbasaur (ID 1).
+-- Ash's Pokedex Menu --
+1. Add Pokemon
+2. Display Pokedex
+3. Release Pokemon (by ID)
+4. Pokemon Fight!
+5. Evolve Pokemon
+6. Back to Main
+Your choice: Enter Pokemon ID to release: Removing Pokemon Charmander (ID 4).
+-- Ash's Pokedex Menu --
+1. Add Pokemon
+2. Display Pokedex
+3. Release Pokemon (by ID)
+4. Pokemon Fight!
+5. Evolve Pokemon
+6. Back to Main
+Your choice: Pokedex is empty.
+-- Ash's Pokedex Menu --
+1. Add Pokemon
+2. Display Pokedex
+3. Release Pokemon (by ID)
+4. Pokemon Fight!
+5. Evolve Pokemon
+6. Back to Main
+Your choice: No Pokemon to release.
+-- Ash's Pokedex Menu --
+1. Add Pokemon
+2. Display Pokedex
+3. Release Pokemon (by ID)
+4. Pokemon Fight!
+5. Evolve Pokemon
+6. Back to Main
+Your choice: Pokedex is empty.
+-- Ash's Pokedex Menu --
+1. Add Pokemon
+2. Display Pokedex
+3. Release Pokemon (by ID)
+4. Pokemon Fight!
+5. Evolve Pokemon
+6. Back to Main
+Your choice: Cannot evolve. Pokedex empty.
+-- Ash's Pokedex Menu --
+1. Add Pokemon
+2. Display Pokedex
+3. Release Pokemon (by ID)
+4. Pokemon Fight!
+5. Evolve Pokemon
+6. Back to Main
+Your choice: Enter ID to add: Pokemon Weepinbell (ID 70) added.
+-- Ash's Pokedex Menu --
+1. Add Pokemon
+2. Display Pokedex
+3. Release Pokemon (by ID)
+4. Pokemon Fight!
+5. Evolve Pokemon
+6. Back to Main
+Your choice: Enter ID to add: Pokemon Clefairy (ID 35) added.
+-- Ash's Pokedex Menu --
+1. Add Pokemon
+2. Display Pokedex
+3. Release Pokemon (by ID)
+4. Pokemon Fight!
+5. Evolve Pokemon
+6. Back to Main
+Your choice: Enter ID to add: Pokemon Marowak (ID 105) added.
+-- Ash's Pokedex Menu --
+1. Add Pokemon
+2. Display Pokedex
+3. Release Pokemon (by ID)
+4. Pokemon Fight!
+5. Evolve Pokemon
+6. Back to Main
+Your choice: Enter ID to add: Pokemon Vileplume (ID 45) added.
+-- Ash's Pokedex Menu --
+1. Add Pokemon
+2. Display Pokedex
+3. Release Pokemon (by ID)
+4. Pokemon Fight!
+5. Evolve Pokemon
+6. Back to Main
+Your choice: Enter ID to add: Pokemon Poliwag (ID 60) added.
+-- Ash's Pokedex Menu --
+1. Add Pokemon
+2. Display Pokedex
+3. Release Pokemon (by ID)
+4. Pokemon Fight!
+5. Evolve Pokemon
+6. Back to Main
+Your choice: Enter ID to add: Pokemon Alakazam (ID 65) added.
+-- Ash's Pokedex Menu --
+1. Add Pokemon
+2. Display Pokedex
+3. Release Pokemon (by ID)
+4. Pokemon Fight!
+5. Evolve Pokemon
+6. Back to Main
+Your choice: Enter ID to add: Pokemon Mew (ID 151) added.
+-- Ash's Pokedex Menu --
+1. Add Pokemon
+2. Display Pokedex
+3. Release Pokemon (by ID)
+4. Pokemon Fight!
+5. Evolve Pokemon
+6. Back to Main
+Your choice: Enter ID to add: Pokemon Gyarados (ID 130) added.
+-- Ash's Pokedex Menu --
+1. Add Pokemon
+2. Display Pokedex
+3. Release Pokemon (by ID)
+4. Pokemon Fight!
+5. Evolve Pokemon
+6. Back to Main
+Your choice: Enter ID to add: Pokemon with ID 130 is already in the Pokedex. No changes made.
+-- Ash's Pokedex Menu --
+1. Add Pokemon
+2. Display Pokedex
+3. Release Pokemon (by ID)
+4. Pokemon Fight!
+5. Evolve Pokemon
+6. Back to Main
+Your choice: Enter ID of the first Pokemon: Enter ID of the second Pokemon: Pokemon 1: Mew (Score = 270.00)
+Pokemon 2: Gyarados (Score = 301.50)
+Gyarados wins!
+-- Ash's Pokedex Menu --
+1. Add Pokemon
+2. Display Pokedex
+3. Release Pokemon (by ID)
+4. Pokemon Fight!
+5. Evolve Pokemon
+6. Back to Main
+Your choice: Display:
+1. BFS (Level-Order)
+2. Pre-Order
+3. In-Order
+4. Post-Order
+5. Alphabetical (by name)
+Your choice: ID: 70, Name: Weepinbell, Type: GRASS, HP: 65, Attack: 90, Can Evolve: Yes
+ID: 35, Name: Clefairy, Type: FAIRY, HP: 70, Attack: 45, Can Evolve: Yes
+ID: 105, Name: Marowak, Type: GROUND, HP: 60, Attack: 80, Can Evolve: No
+ID: 45, Name: Vileplume, Type: GRASS, HP: 75, Attack: 80, Can Evolve: No
+ID: 151, Name: Mew, Type: PSYCHIC, HP: 100, Attack: 100, Can Evolve: No
+ID: 60, Name: Poliwag, Type: WATER, HP: 40, Attack: 50, Can Evolve: Yes
+ID: 130, Name: Gyarados, Type: WATER, HP: 95, Attack: 125, Can Evolve: No
+ID: 65, Name: Alakazam, Type: PSYCHIC, HP: 55, Attack: 50, Can Evolve: No
+-- Ash's Pokedex Menu --
+1. Add Pokemon
+2. Display Pokedex
+3. Release Pokemon (by ID)
+4. Pokemon Fight!
+5. Evolve Pokemon
+6. Back to Main
+Your choice: Display:
+1. BFS (Level-Order)
+2. Pre-Order
+3. In-Order
+4. Post-Order
+5. Alphabetical (by name)
+Your choice: ID: 70, Name: Weepinbell, Type: GRASS, HP: 65, Attack: 90, Can Evolve: Yes
+ID: 35, Name: Clefairy, Type: FAIRY, HP: 70, Attack: 45, Can Evolve: Yes
+ID: 45, Name: Vileplume, Type: GRASS, HP: 75, Attack: 80, Can Evolve: No
+ID: 60, Name: Poliwag, Type: WATER, HP: 40, Attack: 50, Can Evolve: Yes
+ID: 65, Name: Alakazam, Type: PSYCHIC, HP: 55, Attack: 50, Can Evolve: No
+ID: 105, Name: Marowak, Type: GROUND, HP: 60, Attack: 80, Can Evolve: No
+ID: 151, Name: Mew, Type: PSYCHIC, HP: 100, Attack: 100, Can Evolve: No
+ID: 130, Name: Gyarados, Type: WATER, HP: 95, Attack: 125, Can Evolve: No
+-- Ash's Pokedex Menu --
+1. Add Pokemon
+2. Display Pokedex
+3. Release Pokemon (by ID)
+4. Pokemon Fight!
+5. Evolve Pokemon
+6. Back to Main
+Your choice: Display:
+1. BFS (Level-Order)
+2. Pre-Order
+3. In-Order
+4. Post-Order
+5. Alphabetical (by name)
+Your choice: ID: 35, Name: Clefairy, Type: FAIRY, HP: 70, Attack: 45, Can Evolve: Yes
+ID: 45, Name: Vileplume, Type: GRASS, HP: 75, Attack: 80, Can Evolve: No
+ID: 60, Name: Poliwag, Type: WATER, HP: 40, Attack: 50, Can Evolve: Yes
+ID: 65, Name: Alakazam, Type: PSYCHIC, HP: 55, Attack: 50, Can Evolve: No
+ID: 70, Name: Weepinbell, Type: GRASS, HP: 65, Attack: 90, Can Evolve: Yes
+ID: 105, Name: Marowak, Type: GROUND, HP: 60, Attack: 80, Can Evolve: No
+ID: 130, Name: Gyarados, Type: WATER, HP: 95, Attack: 125, Can Evolve: No
+ID: 151, Name: Mew, Type: PSYCHIC, HP: 100, Attack: 100, Can Evolve: No
+-- Ash's Pokedex Menu --
+1. Add Pokemon
+2. Display Pokedex
+3. Release Pokemon (by ID)
+4. Pokemon Fight!
+5. Evolve Pokemon
+6. Back to Main
+Your choice: Display:
+1. BFS (Level-Order)
+2. Pre-Order
+3. In-Order
+4. Post-Order
+5. Alphabetical (by name)
+Your choice: ID: 65, Name: Alakazam, Type: PSYCHIC, HP: 55, Attack: 50, Can Evolve: No
+ID: 60, Name: Poliwag, Type: WATER, HP: 40, Attack: 50, Can Evolve: Yes
+ID: 45, Name: Vileplume, Type: GRASS, HP: 75, Attack: 80, Can Evolve: No
+ID: 35, Name: Clefairy, Type: FAIRY, HP: 70, Attack: 45, Can Evolve: Yes
+ID: 130, Name: Gyarados, Type: WATER, HP: 95, Attack: 125, Can Evolve: No
+ID: 151, Name: Mew, Type: PSYCHIC, HP: 100, Attack: 100, Can Evolve: No
+ID: 105, Name: Marowak, Type: GROUND, HP: 60, Attack: 80, Can Evolve: No
+ID: 70, Name: Weepinbell, Type: GRASS, HP: 65, Attack: 90, Can Evolve: Yes
+-- Ash's Pokedex Menu --
+1. Add Pokemon
+2. Display Pokedex
+3. Release Pokemon (by ID)
+4. Pokemon Fight!
+5. Evolve Pokemon
+6. Back to Main
+Your choice: Display:
+1. BFS (Level-Order)
+2. Pre-Order
+3. In-Order
+4. Post-Order
+5. Alphabetical (by name)
+Your choice: ID: 65, Name: Alakazam, Type: PSYCHIC, HP: 55, Attack: 50, Can Evolve: No
+ID: 35, Name: Clefairy, Type: FAIRY, HP: 70, Attack: 45, Can Evolve: Yes
+ID: 130, Name: Gyarados, Type: WATER, HP: 95, Attack: 125, Can Evolve: No
+ID: 105, Name: Marowak, Type: GROUND, HP: 60, Attack: 80, Can Evolve: No
+ID: 151, Name: Mew, Type: PSYCHIC, HP: 100, Attack: 100, Can Evolve: No
+ID: 60, Name: Poliwag, Type: WATER, HP: 40, Attack: 50, Can Evolve: Yes
+ID: 45, Name: Vileplume, Type: GRASS, HP: 75, Attack: 80, Can Evolve: No
+ID: 70, Name: Weepinbell, Type: GRASS, HP: 65, Attack: 90, Can Evolve: Yes
+-- Ash's Pokedex Menu --
+1. Add Pokemon
+2. Display Pokedex
+3. Release Pokemon (by ID)
+4. Pokemon Fight!
+5. Evolve Pokemon
+6. Back to Main
+Your choice: Back to Main Menu.
+=== Main Menu ===
+1. New Pokedex
+2. Existing Pokedex
+3. Delete a Pokedex
+4. Merge Pokedexes
+5. Sort Owners by Name
+6. Print Owners in a direction X times
+7. Exit
+Your choice:
+=== Merge Pokedexes ===
+Enter name of first owner: Enter name of second owner: Merging Misty and Ash...
+Merge completed.
+Owner 'Ash' has been removed after merging.
+=== Main Menu ===
+1. New Pokedex
+2. Existing Pokedex
+3. Delete a Pokedex
+4. Merge Pokedexes
+5. Sort Owners by Name
+6. Print Owners in a direction X times
+7. Exit
+Your choice: Enter direction (F or B): How many prints? [1] Misty
+[2] Brook
+[3] Officer Jenny
+[4] Misty
+[5] Brook
+=== Main Menu ===
+1. New Pokedex
+2. Existing Pokedex
+3. Delete a Pokedex
+4. Merge Pokedexes
+5. Sort Owners by Name
+6. Print Owners in a direction X times
+7. Exit
+Your choice: Owners sorted by name.
+=== Main Menu ===
+1. New Pokedex
+2. Existing Pokedex
+3. Delete a Pokedex
+4. Merge Pokedexes
+5. Sort Owners by Name
+6. Print Owners in a direction X times
+7. Exit
+Your choice: Enter direction (F or B): How many prints? [1] Brook
+[2] Officer Jenny
+[3] Misty
+[4] Brook
+=== Main Menu ===
+1. New Pokedex
+2. Existing Pokedex
+3. Delete a Pokedex
+4. Merge Pokedexes
+5. Sort Owners by Name
+6. Print Owners in a direction X times
+7. Exit
+Your choice:
+=== Delete a Pokedex ===
+1. Brook
+2. Misty
+3. Officer Jenny
+Choose a Pokedex to delete by number: Deleting Brook's entire Pokedex...
+Pokedex deleted.
+=== Main Menu ===
+1. New Pokedex
+2. Existing Pokedex
+3. Delete a Pokedex
+4. Merge Pokedexes
+5. Sort Owners by Name
+6. Print Owners in a direction X times
+7. Exit
+Your choice: Goodbye!

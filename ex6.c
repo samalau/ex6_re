@@ -1,3 +1,9 @@
+/*
+Samantha Newmark
+346587629
+Ex 6
+*/
+
 #include "ex6.h"
 #include <ctype.h>
 #include <stdio.h>

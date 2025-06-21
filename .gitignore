@@ -1,0 +1,20 @@
+# macOS system files
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# macOS folder attributes
+Icon?
+._*
+
+# macOS metadata
+.Spotlight-V100
+.Trashes
+VolumeIcon.icns
+
+# macOS disk image metadata
+*.dmg
+*.sparseimage
+
+# macOS Finder tags
+.fseventsd
