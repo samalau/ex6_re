@@ -975,7 +975,7 @@ void addPokemon(OwnerNode *owner) {
 }
 
 
-void *insertPokemonNode(PokemonNode **root, PokemonNode *newNode) {
+void  insertPokemonNode(PokemonNode **root, PokemonNode *newNode) {
 	if (!(*root)) {
 		newNode->left = newNode->right = newNode;
 		*root = newNode;
