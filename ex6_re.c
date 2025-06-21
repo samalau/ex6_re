@@ -785,11 +785,6 @@ void ownerByNumber(OwnerNode **owner, int ifDelete) {
 	} while (*owner != ownerHead);
 	if (ifDelete) select = readIntSafe("Choose a Pokedex to delete by number: ");
 	else select = readIntSafe("Choose a Pokedex by number: ");
-	if (select < 1 || select > ind) {
-		*owner = ownerHead;  // redundant
-		return;
-	}
-	if (*owner == ownerHead) printf("\nDEBUG: IS OWNERHEAD\n\n");
 	if (select >= 1 && select <= ind) {
 		ind = 0;
 		while (++ind != select) *owner = (*owner)->next;
@@ -893,11 +888,9 @@ void mergePokedexMenu(void) {
 		if (n->left) enqueue(&q, n->left);
 		if (n->right) enqueue(&q, n->right);
 	}
-	// printf("Merge completed.\n");
 	freeQueue(&q);
 	freePokemonTree(&srcTree);
 	freePokemonTree(&dstTree);
-	// printf("Owner '%s' has been removed after merging.\n", src->ownerName);
 	freeOwnerNode(src);
 	free(src);
 }
