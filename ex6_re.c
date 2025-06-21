@@ -588,9 +588,7 @@ void freePokemonNode(PokemonNode *node) {
 
 
 void displayBFS(PokemonNode *root) {
-	if (!root) {
-		return;
-	}
+	if (!root) return;
 	Queue q;
 	initQueue(&q);
 	enqueue(&q, root);
@@ -852,8 +850,6 @@ void mergePokedexMenu(void) {
 		freeOwnerNode(src);
 		free(src);
 		src = NULL;
-		free(dst);
-		dst = NULL;
 		return;
 	}
 	PokemonNode *dstTree = pokemonCircleToTree(dst->pokedexRoot);
